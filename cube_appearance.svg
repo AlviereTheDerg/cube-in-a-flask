@@ -1,0 +1,254 @@
+<svg width="700" height="600" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Blue Flat Face -->
+    <rect x="10" y="150" width="140" height="140" fill="black" />
+    <rect x="15" y="155" width="40" height="40" fill="blue" />
+    <text fill="white" x="31" y="183.5">0</text>
+    <rect x="60" y="155" width="40" height="40" fill="blue" />
+    <text fill="white" x="76" y="183.5">1</text>
+    <rect x="105" y="155" width="40" height="40" fill="blue" />
+    <text fill="white" x="121" y="183.5">2</text>
+    <rect x="15" y="200" width="40" height="40" fill="blue" />
+    <text fill="white" x="31" y="228.5">3</text>
+    <rect x="60" y="200" width="40" height="40" fill="blue" />
+    <text fill="white" x="76" y="228.5">4</text>
+    <rect x="105" y="200" width="40" height="40" fill="blue" />
+    <text fill="white" x="121" y="228.5">5</text>
+    <rect x="15" y="245" width="40" height="40" fill="blue" />
+    <text fill="white" x="31" y="273.5">6</text>
+    <rect x="60" y="245" width="40" height="40" fill="blue" />
+    <text fill="white" x="76" y="273.5">7</text>
+    <rect x="105" y="245" width="40" height="40" fill="blue" />
+    <text fill="white" x="121" y="273.5">8</text>
+
+    <!-- Orange Flat Face -->
+    <rect x="150" y="150" width="140" height="140" fill="black" />
+    <rect x="155" y="155" width="40" height="40" fill="orange" />
+    <text fill="black" x="171" y="183.5">9</text>
+    <rect x="200" y="155" width="40" height="40" fill="orange" />
+    <text fill="black" x="212" y="183.5">10</text>
+    <rect x="245" y="155" width="40" height="40" fill="orange" />
+    <text fill="black" x="257.296875" y="183.5">11</text>
+    <rect x="155" y="200" width="40" height="40" fill="orange" />
+    <text fill="black" x="167" y="228.5">12</text>
+    <rect x="200" y="200" width="40" height="40" fill="orange" />
+    <text fill="black" x="212" y="228.5">13</text>
+    <rect x="245" y="200" width="40" height="40" fill="orange" />
+    <text fill="black" x="257" y="228.5">14</text>
+    <rect x="155" y="245" width="40" height="40" fill="orange" />
+    <text fill="black" x="167" y="273.5">15</text>
+    <rect x="200" y="245" width="40" height="40" fill="orange" />
+    <text fill="black" x="212" y="273.5">16</text>
+    <rect x="245" y="245" width="40" height="40" fill="orange" />
+    <text fill="black" x="257" y="273.5">17</text>
+
+    <!-- White Flat Face -->
+    <rect x="10" y="10" width="140" height="140" fill="black" />
+    <rect x="15" y="15" width="40" height="40" fill="white" />
+    <text fill="black" x="27" y="43.5">36</text>
+    <rect x="60" y="15" width="40" height="40" fill="white" />
+    <text fill="black" x="72" y="43.5">37</text>
+    <rect x="105" y="15" width="40" height="40" fill="white" />
+    <text fill="black" x="117" y="43.5">38</text>
+    <rect x="15" y="60" width="40" height="40" fill="white" />
+    <text fill="black" x="27" y="88.5">39</text>
+    <rect x="60" y="60" width="40" height="40" fill="white" />
+    <text fill="black" x="72" y="88.5">40</text>
+    <rect x="105" y="60" width="40" height="40" fill="white" />
+    <text fill="black" x="117" y="88.5">41</text>
+    <rect x="15" y="105" width="40" height="40" fill="white" />
+    <text fill="black" x="27" y="133.5">42</text>
+    <rect x="60" y="105" width="40" height="40" fill="white" />
+    <text fill="black" x="72" y="133.5">43</text>
+    <rect x="105" y="105" width="40" height="40" fill="white" />
+    <text fill="black" x="117" y="133.5">44</text>
+
+    <!-- Green Flat Face -->
+    <rect x="290" y="150" width="140" height="140" fill="black" />
+    <rect x="295" y="155" width="40" height="40" fill="green" />
+    <text fill="black" x="307" y="183.5">18</text>
+    <rect x="340" y="155" width="40" height="40" fill="green" />
+    <text fill="black" x="352" y="183.5">19</text>
+    <rect x="385" y="155" width="40" height="40" fill="green" />
+    <text fill="black" x="397" y="183.5">20</text>
+    <rect x="295" y="200" width="40" height="40" fill="green" />
+    <text fill="black" x="307" y="228.5">21</text>
+    <rect x="340" y="200" width="40" height="40" fill="green" />
+    <text fill="black" x="352" y="228.5">22</text>
+    <rect x="385" y="200" width="40" height="40" fill="green" />
+    <text fill="black" x="397" y="228.5">23</text>
+    <rect x="295" y="245" width="40" height="40" fill="green" />
+    <text fill="black" x="307" y="273.5">24</text>
+    <rect x="340" y="245" width="40" height="40" fill="green" />
+    <text fill="black" x="352" y="273.5">25</text>
+    <rect x="385" y="245" width="40" height="40" fill="green" />
+    <text fill="black" x="397" y="273.5">26</text>
+
+    <!-- Red Flat Face -->
+    <rect x="430" y="150" width="140" height="140" fill="black" />
+    <rect x="435" y="155" width="40" height="40" fill="red" />
+    <text fill="black" x="447" y="183.5">27</text>
+    <rect x="480" y="155" width="40" height="40" fill="red" />
+    <text fill="black" x="492" y="183.5">28</text>
+    <rect x="525" y="155" width="40" height="40" fill="red" />
+    <text fill="black" x="537" y="183.5">29</text>
+    <rect x="435" y="200" width="40" height="40" fill="red" />
+    <text fill="black" x="447" y="228.5">30</text>
+    <rect x="480" y="200" width="40" height="40" fill="red" />
+    <text fill="black" x="492" y="228.5">31</text>
+    <rect x="525" y="200" width="40" height="40" fill="red" />
+    <text fill="black" x="537" y="228.5">32</text>
+    <rect x="435" y="245" width="40" height="40" fill="red" />
+    <text fill="black" x="447" y="273.5">33</text>
+    <rect x="480" y="245" width="40" height="40" fill="red" />
+    <text fill="black" x="492" y="273.5">34</text>
+    <rect x="525" y="245" width="40" height="40" fill="red" />
+    <text fill="black" x="537" y="273.5">35</text>
+
+    <!-- Yellow Flat Face -->
+    <rect x="10" y="290" width="140" height="140" fill="black" />
+    <rect x="15" y="295" width="40" height="40" fill="yellow" />
+    <text fill="black" x="27" y="323.5">45</text>
+    <rect x="60" y="295" width="40" height="40" fill="yellow" />
+    <text fill="black" x="72" y="323.5">46</text>
+    <rect x="105" y="295" width="40" height="40" fill="yellow" />
+    <text fill="black" x="117" y="323.5">47</text>
+    <rect x="15" y="340" width="40" height="40" fill="yellow" />
+    <text fill="black" x="27" y="368.5">48</text>
+    <rect x="60" y="340" width="40" height="40" fill="yellow" />
+    <text fill="black" x="72" y="368.5">49</text>
+    <rect x="105" y="340" width="40" height="40" fill="yellow" />
+    <text fill="black" x="117" y="368.5">50</text>
+    <rect x="15" y="385" width="40" height="40" fill="yellow" />
+    <text fill="black" x="27" y="413.5">51</text>
+    <rect x="60" y="385" width="40" height="40" fill="yellow" />
+    <text fill="black" x="72" y="413.5">52</text>
+    <rect x="105" y="385" width="40" height="40" fill="yellow" />
+    <text fill="black" x="117" y="413.5">53</text>
+
+    <!-- Blue Isometric Face -->
+    <rect x="280" y="450" width="140" height="120.4868" fill="black" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <rect x="285" y="454.3031" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="254.4844970703125" y="471.07801818847656">2</text>
+    <rect x="330" y="454.3031" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="254.4844970703125" y="516.0780334472656">5</text>
+    <rect x="375" y="454.3031" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="254.4844970703125" y="561.0780334472656">8</text>
+    <rect x="285" y="493.031" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="215.756591796875" y="448.71844482421875">1</text>
+    <rect x="330" y="493.031" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="215.756591796875" y="493.7184600830078">4</text>
+    <rect x="375" y="493.031" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="215.756591796875" y="538.7184600830078">7</text>
+    <rect x="285" y="531.7589" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="177.0286865234375" y="426.35888671875">0</text>
+    <rect x="330" y="531.7589" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="177.0286865234375" y="471.35888671875">3</text>
+    <rect x="375" y="531.7589" width="40" height="34.424800000000005" fill="blue" transform-origin="280 450" transform="rotate(90) skewX(-30)" />
+    <text fill="white" x="177.0286865234375" y="516.3588714599609">6</text>
+
+    <!-- Orange Isometric Face -->
+    <rect x="280" y="450" width="140" height="120.4868" fill="black" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <rect x="285" y="454.3031" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="297.650634765625" y="470.8439636230469">9</text>
+    <rect x="330" y="454.3031" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="332.6217803955078" y="448.3439636230469">10</text>
+    <rect x="375" y="454.3031" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="371.88978576660156" y="425.8439636230469">11</text>
+    <rect x="285" y="493.031" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="293.650634765625" y="515.5631103515625">12</text>
+    <rect x="330" y="493.031" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="332.6217803955078" y="493.0631103515625">13</text>
+    <rect x="375" y="493.031" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="371.59291076660156" y="470.56309509277344">14</text>
+    <rect x="285" y="531.7589" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="293.650634765625" y="560.2822265625">15</text>
+    <rect x="330" y="531.7589" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="332.6217803955078" y="537.7822265625">16</text>
+    <rect x="375" y="531.7589" width="40" height="34.424800000000005" fill="orange" transform-origin="280 450" transform="rotate(-30) skewX(-30)" />
+    <text fill="black" x="371.59291076660156" y="515.2822265625">17</text>
+
+    <!-- White Isometric Face -->
+    <rect x="280" y="450" width="140" height="120.4868" fill="black" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <rect x="285" y="454.3031" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="271.86486053466797" y="433.57801818847656">44</text>
+    <rect x="330" y="454.3031" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="232.8937225341797" y="411.07801818847656">43</text>
+    <rect x="375" y="454.3031" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="193.92257690429688" y="388.57801818847656">42</text>
+    <rect x="285" y="493.031" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="310.5927734375" y="411.21844482421875">41</text>
+    <rect x="330" y="493.031" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="271.6216278076172" y="388.71844482421875">40</text>
+    <rect x="375" y="493.031" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="232.6504898071289" y="366.21844482421875">39</text>
+    <rect x="285" y="531.7589" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="349.3206787109375" y="388.85888671875">38</text>
+    <rect x="330" y="531.7589" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="310.3495330810547" y="366.35888671875">37</text>
+    <rect x="375" y="531.7589" width="40" height="34.424800000000005" fill="white" transform-origin="280 450" transform="rotate(-150) skewX(-30)" />
+    <text fill="black" x="271.3783950805664" y="343.85888671875">36</text>
+
+    <!-- Green Isometric Face -->
+    <rect x="530" y="450" width="140" height="120.4868" fill="black" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <rect x="535" y="454.3031" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="500.349365234375" y="446.1560363769531">26</text>
+    <rect x="580" y="454.3031" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="461.3782196044922" y="468.6560363769531">25</text>
+    <rect x="625" y="454.3031" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="422.40708923339844" y="491.15602111816406">24</text>
+    <rect x="535" y="493.031" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="500.349365234375" y="401.43690490722656">23</text>
+    <rect x="580" y="493.031" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="461.3782196044922" y="423.93690490722656">22</text>
+    <rect x="625" y="493.031" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="422.40708923339844" y="446.43690490722656">21</text>
+    <rect x="535" y="531.7589" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="500.349365234375" y="356.7177734375">20</text>
+    <rect x="580" y="531.7589" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="461.3782196044922" y="379.2177734375">19</text>
+    <rect x="625" y="531.7589" width="40" height="34.424800000000005" fill="green" transform-origin="530 450" transform="rotate(150) skewX(-30)" />
+    <text fill="black" x="422.40708923339844" y="401.7177734375">18</text>
+
+    <!-- Red Isometric Face -->
+    <rect x="530" y="450" width="140" height="120.4868" fill="black" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <rect x="535" y="454.3031" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="543.5155029296875" y="445.92198181152344">33</text>
+    <rect x="580" y="454.3031" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="543.5155029296875" y="400.92198181152344">30</text>
+    <rect x="625" y="454.3031" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="543.5155029296875" y="355.92198181152344">27</text>
+    <rect x="535" y="493.031" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="582.243408203125" y="468.28155517578125">34</text>
+    <rect x="580" y="493.031" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="582.243408203125" y="423.28155517578125">31</text>
+    <rect x="625" y="493.031" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="582.243408203125" y="378.28155517578125">28</text>
+    <rect x="535" y="531.7589" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="620.9713134765625" y="490.64109802246094">35</text>
+    <rect x="580" y="531.7589" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="620.9713134765625" y="445.64111328125">32</text>
+    <rect x="625" y="531.7589" width="40" height="34.424800000000005" fill="red" transform-origin="530 450" transform="rotate(270) skewX(-30)" />
+    <text fill="black" x="620.9713134765625" y="400.64111328125">29</text>
+
+    <!-- Yellow Isometric Face -->
+    <rect x="530" y="450" width="140" height="120.4868" fill="black" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <rect x="535" y="454.3031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="522.1351318359375" y="483.42198181152344">53</text>
+    <rect x="580" y="454.3031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="561.1062622070312" y="505.92198181152344">52</text>
+    <rect x="625" y="454.3031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="600.0774230957031" y="528.4219818115234">51</text>
+    <rect x="535" y="493.031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="483.4072265625" y="505.7815399169922">50</text>
+    <rect x="580" y="493.031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="522.3783569335938" y="528.2815399169922">49</text>
+    <rect x="625" y="493.031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="561.3495178222656" y="550.7815246582031">48</text>
+    <rect x="535" y="531.7589" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="444.6793212890625" y="528.1410980224609">47</text>
+    <rect x="580" y="531.7589" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="483.65045166015625" y="550.64111328125">46</text>
+    <rect x="625" y="531.7589" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
+    <text fill="black" x="522.6216125488281" y="573.14111328125">45</text>
+</svg>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <body style="margin:0px">
+        <script type="text/javascript">
+            var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", "700");
+            svg.setAttribute("height", "600");
+            document.body.appendChild(svg);
+
+            function make_and_append_rect(attributes, label_data) {
+                var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                for (var name in attributes)
+                    rect.setAttribute(name, attributes[name]);
+                svg.appendChild(rect);
+
+                if (label_data == undefined)
+                    return;
+
+                var bbox = rect.getBoundingClientRect();
+                var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.innerHTML = label_data[0];
+                text.setAttribute("fill", label_data[1]);
+                svg.appendChild(text);
+                var bbox_2 = text.getBBox();
+                text.setAttribute("x", bbox.x + bbox.width / 2 - bbox_2.width / 2);
+                text.setAttribute("y", bbox.y + bbox.height / 2 + bbox_2.height / 2);
+            }
+
+            // Generating flatmap layout
+            function construct_flat_face(x, y, size, colour, border, face_count, text_colour) {
+                face_size = (size - 4 * border) / 3;
+                offsets = [border, 2 * border + face_size, 3 * border + 2 * face_size]
+
+                if (text_colour == undefined)
+                    text_colour = "black"
+                
+                make_and_append_rect({x:x, y:y, width:size, height:size, fill:"black"});
+                for (y_offset of offsets) {
+                    for (x_offset of offsets) {
+                        make_and_append_rect({x:x+x_offset, y:y+y_offset, width:face_size, height:face_size, fill:colour}, [face_count, text_colour]);
+                        face_count++;
+                    }
+                }
+            }
+
+            construct_flat_face( 10, 150, 140, "blue", 5, 0, "white");
+            construct_flat_face(150, 150, 140, "orange", 5, 9);
+            construct_flat_face( 10,  10, 140, "white", 5, 36);
+            construct_flat_face(290, 150, 140, "green", 5, 18);
+            construct_flat_face(430, 150, 140, "red", 5, 27);
+            construct_flat_face( 10, 290, 140, "yellow", 5, 45);
+            
+            // Generating isometric views
+            function construct_iso_face(x, y, size, colour, dir, border, face_count, text_colour) {
+                transform_origin = `${x} ${y}`;
+                if (0 <= dir && dir <= 2) {
+                    transform = `rotate(${-150 + 120*dir}) skewX(-30)`;
+                } else if (3 <= dir && dir <= 5) {
+                    transform = `rotate(${-210 + 120*dir}) skewX(-30)`
+                }
+
+                face_size = (size - 4 * border) / 3;
+                offsets = [border, 2 * border + face_size, 3 * border + 2 * face_size]
+
+                if (text_colour == undefined)
+                    text_colour = "black"
+
+                // Correct label order
+                switch (dir) {
+                    case 0: case 3: case 5:
+                        face_counts = [8,7,6,5,4,3,2,1,0]
+                        break;
+                    case 1:
+                        face_counts = [0,1,2,3,4,5,6,7,8]
+                        break;
+                    case 2:
+                        face_counts = [2,5,8,1,4,7,0,3,6]
+                        break;
+                    case 4:
+                        face_counts = [6,3,0,7,4,1,8,5,2]
+                        break;
+                }
+                for (let i = 0; i < face_counts.length; i++)
+                    face_counts[i] += face_count
+
+                make_and_append_rect({x:x, y:y, width:size, height:size*0.86062, fill:"black", "transform-origin":transform_origin, transform:transform});
+                face_count_id = 0;
+                for (y_offset of offsets) {
+                    for (x_offset of offsets) {
+                        make_and_append_rect({x:x+x_offset, y:y+y_offset*0.86062, width:face_size, height:face_size*0.86062, fill:colour, "transform-origin":transform_origin, transform:transform}, [face_counts[face_count_id], text_colour]);
+                        face_count_id++;
+                    }
+                }
+            }
+
+            construct_iso_face(280, 450, 140, "blue", 2, 5, 0, "white");
+            construct_iso_face(280, 450, 140, "orange", 1, 5, 9);
+            construct_iso_face(280, 450, 140, "white", 0, 5, 36);
+            construct_iso_face(530, 450, 140, "green", 3, 5, 18);
+            construct_iso_face(530, 450, 140, "red", 4, 5, 27);
+            construct_iso_face(530, 450, 140, "yellow", 5, 5, 45);
+        </script>
+    </body>
+</html>
