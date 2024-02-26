@@ -15,7 +15,7 @@ class CubeTest(unittest.TestCase):
 
     def test_invalid_input_type_none(self):
         with self.assertRaises(TypeError) as result:
-            Cube(3241)
+            Cube(None)
         self.assertEqual(f"Error: Input type: Expected string but recieved {type(None)}", str(result.exception))
 
     def test_invalid_character_count_low(self):
@@ -49,8 +49,10 @@ class CubeTest(unittest.TestCase):
         self.assertEqual('Error: Cube string contents: Require 9 pieces of each symbol', str(result.exception))
 
     def test_valid_cube_creation(self):
-        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
+        cube = Cube(cube_string)
         self.assertTrue(isinstance(cube, Cube))
+        self.assertEqual(cube_string, "".join(cube.cube_data))
 
 if __name__ == '__main__':
     unittest.main()
