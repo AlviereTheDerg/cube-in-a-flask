@@ -3,7 +3,7 @@ on:
   push:
     paths:
     - '**/test/'
-  workflow_dispatch
+  workflow_dispatch:
 jobs:
   Python-Tests:
     runs-on: ubuntu-latest
