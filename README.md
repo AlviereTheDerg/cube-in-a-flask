@@ -13,6 +13,7 @@ When app.py is run, Flask binds to port 8080 and ties multiple paths to differen
     - Allowed characters: lowercase a-z, uppercase A-Z, digits 0-9
     - Center points must be unique
     - Pieces have to match one of the center points
+    - There has to be 9 of each piece
     - Cube string is laid out to correspond to the following (character at position X corresponds to piece labeled X)
     - ex: solved cube can be bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy, or aaaaaaaaa000000000ZZZZZZZZZlllllllllFFFFFFFFFjjjjjjjjj
 ![Cube Layout image](cube_appearance.svg)
