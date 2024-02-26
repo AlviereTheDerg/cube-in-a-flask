@@ -119,3 +119,9 @@ EDGES   = {FTM,FML,FMR,FBM, RTM,RML,RMR,RBM, BTM,BML,BMR,BBM,
            LTM,LML,LMR,LBM, UTM,UML,UMR,UBM, DTM,DML,DMR,DBM}
 CORNERS = {FTL,FTR,FBL,FBR, RTL,RTR,RBL,RBR, BTL,BTR,BBL,BBR,
            LTL,LTR,LBL,LBR, UTL,UTR,UBL,UBR, DTL,DTR,DBL,DBR}
+
+# Pre-calculated mappings
+FACES = ['f','r','b','l','u','d']
+FACE_OF = {piece:FACES[piece // PIECES_PER_FACE] for piece in range(PIECES_PER_FACE * FACES_PER_CUBE)}
+CYCLE_OF = {'f':FRONT, 'r':RIGHT, 'b':BACK, 'l':LEFT, 'u':UP, 'd':DOWN}
+CENTER_OF = {'f':FMM, 'r':RMM, 'b':BMM, 'l':LMM, 'u':UMM, 'd':DMM}
