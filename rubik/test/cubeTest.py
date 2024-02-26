@@ -3,12 +3,12 @@ Created on Jan 31, 2023
 
 @author: Alviere
 '''
-from unittest import TestCase
+import unittest
 from rubik.model.cube import Cube
 from rubik.model.constants import *
 
 
-class Test(TestCase):
+class Test(unittest.TestCase):
     
     def setUp(self):
         self.scrambledCube = Cube('ogyobwbrbgryroyrgwboobgwrggwwwbrbrrybyrowygyoobwgyoywg')
@@ -18,7 +18,7 @@ class Test(TestCase):
         self.solvedCube = Cube('bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy')
         # Used to test multi-face rotations, once it is known that single-face turns work
     
-#    Individual face turns
+    #    Individual face turns
     def test_100_turnFrontClock(self):
         self.scrambledCube._turn('F')
         self.assertEqual('boorbgbwygryyoyogwboobgwrggwwobrbrrwbyrowyybwrrggyoywg', self.scrambledCube.get())
