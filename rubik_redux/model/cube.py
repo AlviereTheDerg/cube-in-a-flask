@@ -34,3 +34,4 @@ class Cube:
             raise ValueError(f"Error: Cube string contents: Require {constants.PIECES_PER_FACE} pieces of each symbol")
 
         self.cube_data = [char for char in cube_string]
+        self.colours = {face:self.cube_data[constants.CENTER_OF[face]] for face in constants.FACES}
