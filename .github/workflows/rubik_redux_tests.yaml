@@ -2,7 +2,7 @@ name: Python unittests
 on: 
   push:
     paths:
-    - '**/test/'
+    - '**/test/**'
   workflow_dispatch:
 jobs:
   Python-Tests:
