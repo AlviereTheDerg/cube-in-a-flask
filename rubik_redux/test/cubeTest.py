@@ -53,6 +53,7 @@ class CubeTest(unittest.TestCase):
         cube = Cube(cube_string)
         self.assertTrue(isinstance(cube, Cube))
         self.assertEqual(cube_string, "".join(cube.cube_data))
+        self.assertEqual({'f':'b', 'r':'o', 'b':'g', 'l':'r', 'u':'w', 'd':'y'}, cube.colours)
 
 if __name__ == '__main__':
     unittest.main()
