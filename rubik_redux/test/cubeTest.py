@@ -5,6 +5,7 @@ Created on Feb 24 2024
 """
 import unittest
 from rubik_redux.model.cube import Cube
+import rubik_redux.model.constants as constants
 
 class CubeTest(unittest.TestCase):
     # Initializer tests
@@ -48,12 +49,48 @@ class CubeTest(unittest.TestCase):
             Cube("aaaaaaaaabbbbbbbbbcccccccccdddddddddeeeeeeeeeffffffffa")
         self.assertEqual('Error: Cube string contents: Require 9 pieces of each symbol', str(result.exception))
 
-    def test_valid_cube_creation(self):
-        cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
+    def valid_cube_test(self, cube_string):
         cube = Cube(cube_string)
         self.assertTrue(isinstance(cube, Cube))
         self.assertEqual(cube_string, "".join(cube.cube_data))
-        self.assertEqual({'f':'b', 'r':'o', 'b':'g', 'l':'r', 'u':'w', 'd':'y'}, cube.colours)
+        self.assertEqual({'f':cube_string[constants.FMM], 'r':cube_string[constants.RMM], 
+                          'b':cube_string[constants.BMM], 'l':cube_string[constants.LMM], 
+                          'u':cube_string[constants.UMM], 'd':cube_string[constants.DMM]}, 
+                          cube.colours)
+
+    # TODO: add more valid cube creation tests
+    def test_valid_cube_creation_1(self):
+        self.valid_cube_test("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+    def test_valid_cube_creation_1(self):
+        self.valid_cube_test("wyrybrbwggoyyooyywbowgggrwbbbgrrorryowrrwbobyogowygwbg")
+
+    
+    # Tests for unsolvable cubes
+    def unsolvable_edge_parity_test(self, cube_string):
+        with self.assertRaises(ValueError) as result:
+            Cube(cube_string)
+        self.assertEqual('Error: Cube unsolvable: Edge parity', str(result.exception))
+
+    def test_unsolvable_edge_parity_1(self):
+        self.unsolvable_edge_parity_test("bwbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwbwyyyyyyyyy")
+    def test_unsolvable_edge_parity_2(self):
+        self.unsolvable_edge_parity_test("wbrybrbwggoyyooyywbowgggrwbbbgrrorryowrrwboyyogowygwbg")
+    def test_unsolvable_edge_parity_3(self):
+        self.unsolvable_edge_parity_test("wyrybybwggoyrooyywbowgggrwbbbgrrorryowrrwbobyogowygwbg")
+    
+    """ TODO: include multiple corner parity conditions:
+        1 corner cw (parity=1)
+        1 corner ccw (parity=2)
+        2 corner cw (parity=2)
+        2 corner ccw (parity=4)
+    """ 
+    def test_unsolvable_corner_parity(self):
+        pass
+    
+
+    # TODO: re-implement 'where will [piece] go' first
+    def test_unsolvable_permutation_parity(self):
+        pass 
 
 if __name__ == '__main__':
     unittest.main()
