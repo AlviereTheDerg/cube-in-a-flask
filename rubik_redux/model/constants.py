@@ -81,32 +81,32 @@ FRONT = [[FTL,FTR,FBR,FBL], #Corners of the face
          [FTM,FMR,FBM,FML], #Edges of the face
          [UBL,RTL,DTR,LBR],
          [UBM,RML,DTM,LMR],
-         [UBR,RBL,DTL,LTR]]
+         [LTR,UBR,RBL,DTL]]
 RIGHT = [[RTL,RTR,RBR,RBL],
          [RTM,RMR,RBM,RML],
          [UBR,BTL,DBR,FBR],
          [UMR,BML,DMR,FMR],
-         [UTR,BBL,DTR,FTR]]
+         [FTR,UTR,BBL,DTR]]
 BACK =  [[BTL,BTR,BBR,BBL],
          [BTM,BMR,BBM,BML],
          [UTR,LTL,DBL,RBR],
          [UTM,LML,DBM,RMR],
-         [UTL,LBL,DBR,RTR]]
+         [RTR,UTL,LBL,DBR]]
 LEFT =  [[LTL,LTR,LBR,LBL],
          [LTM,LMR,LBM,LML],
          [UTL,FTL,DTL,BBR],
          [UML,FML,DML,BMR],
-         [UBL,FBL,DBL,BTR]]
+         [BTR,UBL,FBL,DBL]]
 UP =    [[UTL,UTR,UBR,UBL],
          [UTM,UMR,UBM,UML],
          [BTR,RTR,FTR,LTR],
          [BTM,RTM,FTM,LTM],
-         [BTL,RTL,FTL,LTL]]
+         [LTL,BTL,RTL,FTL]]
 DOWN =  [[DTL,DTR,DBR,DBL],
          [DTM,DMR,DBM,DML],
          [FBL,RBL,BBL,LBL],
          [FBM,RBM,BBM,LBM],
-         [FBR,RBR,BBR,LBR]]
+         [LBR,FBR,RBR,BBR]]
 
 #Cube specifications
 PIECES_PER_FACE = 9
@@ -122,6 +122,13 @@ CORNERS = {FTL,FTR,FBL,FBR, RTL,RTR,RBL,RBR, BTL,BTR,BBL,BBR,
 
 # Pre-calculated mappings
 FACES = ['f','r','b','l','u','d']
-FACE_OF = {piece:FACES[piece // PIECES_PER_FACE] for piece in range(PIECES_PER_FACE * FACES_PER_CUBE)}
+FACE_OF = {piece:FACES[piece // PIECES_PER_FACE] for piece in CENTERS | EDGES | CORNERS}
 CYCLE_OF = {'f':FRONT, 'r':RIGHT, 'b':BACK, 'l':LEFT, 'u':UP, 'd':DOWN}
+CYCLE_OF_FACE_OF = {piece:CYCLE_OF[FACE_OF[piece]] for piece in FACE_OF.keys()}
 CENTER_OF = {'f':FMM, 'r':RMM, 'b':BMM, 'l':LMM, 'u':UMM, 'd':DMM}
+OTHER_SIDE_OF = ({center:None for center in CENTERS} # Centers map to None
+    | {edge:CYCLE_OF_FACE_OF[edge][3][CYCLE_OF_FACE_OF[edge][1].index(edge)] for edge in EDGES} # Edges map to the other piece touching them
+    | {corner:( # Corners have 2 'other sides', if looking at the face the current piece is on:
+            CYCLE_OF_FACE_OF[corner][4][CYCLE_OF_FACE_OF[corner][0].index(corner)], # 0 is more counter-clockwise
+            CYCLE_OF_FACE_OF[corner][2][CYCLE_OF_FACE_OF[corner][0].index(corner)]  # 1 is more clockwise of the pair
+        ) for corner in CORNERS})
