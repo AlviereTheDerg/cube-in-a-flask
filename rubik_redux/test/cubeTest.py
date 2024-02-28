@@ -61,8 +61,10 @@ class CubeTest(unittest.TestCase):
     # TODO: add more valid cube creation tests
     def test_valid_cube_creation_1(self):
         self.valid_cube_test("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
-    def test_valid_cube_creation_1(self):
+    def test_valid_cube_creation_2(self):
         self.valid_cube_test("wyrybrbwggoyyooyywbowgggrwbbbgrrorryowrrwbobyogowygwbg")
+    def test_valid_cube_creation_3(self):
+        self.valid_cube_test("owoybbbgrgboyoygbowoyrgygowrgyorgbwrggbwwwbrwyrwoyrrby")
 
     
     # Tests for unsolvable cubes
@@ -78,14 +80,27 @@ class CubeTest(unittest.TestCase):
     def test_unsolvable_edge_parity_3(self):
         self.unsolvable_edge_parity_test("wyrybybwggoyrooyywbowgggrwbbbgrrorryowrrwbobyogowygwbg")
     
-    """ TODO: include multiple corner parity conditions:
-        1 corner cw (parity=1)
-        1 corner ccw (parity=2)
-        2 corner cw (parity=2)
-        2 corner ccw (parity=4)
-    """ 
-    def test_unsolvable_corner_parity(self):
-        pass
+    def unsolvable_corner_parity_test(self, cube_string):
+        with self.assertRaises(ValueError) as result:
+            Cube(cube_string)
+        self.assertEqual('Error: Cube unsolvable: Corner parity', str(result.exception))
+
+    def test_unsolvable_corner_parity_1(self):
+        self.unsolvable_corner_parity_test("bbobbbbbbwoooooooogggggggggrrrrrrrrrwwwwwwwwbyyyyyyyyy")
+    def test_unsolvable_corner_parity_2(self):
+        self.unsolvable_corner_parity_test("bbwbbbbbbboooooooogggggggggrrrrrrrrrwwwwwwwwoyyyyyyyyy")
+    def test_unsolvable_corner_parity_3(self):
+        self.unsolvable_corner_parity_test("wbobbbbbbwoooooooogggggggggrrbrrrrrrwwwwwwrwbyyyyyyyyy")
+    def test_unsolvable_corner_parity_4(self):
+        self.unsolvable_corner_parity_test("rbwbbbbbbboooooooogggggggggrrwrrrrrrwwwwwwbwoyyyyyyyyy")
+    def test_unsolvable_corner_parity_5(self):
+        self.unsolvable_corner_parity_test("owgybbbgrwboyoygbowoyrgygowrgyorgbwrggbwwwbroyrwoyrrby")
+    def test_unsolvable_corner_parity_6(self):
+        self.unsolvable_corner_parity_test("owwybbbgroboyoygbowoyrgygowrgyorgbwrggbwwwbrgyrwoyrrby")
+    def test_unsolvable_corner_parity_7(self):
+        self.unsolvable_corner_parity_test("bwgybbbgrwboyoygbowoyrgygowrgoorgbwrggbwwwyroyrwoyrrby")
+    def test_unsolvable_corner_parity_8(self):
+        self.unsolvable_corner_parity_test("ywwybbbgroboyoygbowoyrgygowrgborgbwrggbwwworgyrwoyrrby")
     
 
     # TODO: re-implement 'where will [piece] go' first
