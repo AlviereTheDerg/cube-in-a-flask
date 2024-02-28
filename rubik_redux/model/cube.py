@@ -35,3 +35,11 @@ class Cube:
 
         self.cube_data = [char for char in cube_string]
         self.colours = {face:self.cube_data[constants.CENTER_OF[face]] for face in constants.FACES}
+    
+        # Edge parity
+        if sum(1 for piece in (constants.UP[1] + constants.DOWN[1] + [constants.FML, constants.FMR, constants.BML, constants.BMR]) if 
+                (self.cube_data[piece] in {self.colours[face] for face in {'u','d'}}) or 
+                ((self.cube_data[piece] in {self.colours[face] for face in {'l','r'}}) and 
+                    (self.cube_data[constants.OTHER_SIDE_OF[piece]] not in {self.colours[face] for face in {'u','d'}}))
+               ) % 2 != 0:
+            raise ValueError('Error: Cube unsolvable: Edge parity')
