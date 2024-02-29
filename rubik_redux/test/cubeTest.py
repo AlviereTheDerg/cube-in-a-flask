@@ -6,6 +6,7 @@ Created on Feb 24 2024
 import unittest
 from rubik_redux.model.cube import Cube
 import rubik_redux.model.constants as constants
+from rubik_redux.model.constants import *
 
 class CubeTest(unittest.TestCase):
     # Initializer tests
@@ -106,6 +107,24 @@ class CubeTest(unittest.TestCase):
     # TODO: re-implement 'where will [piece] go' first
     def test_unsolvable_permutation_parity(self):
         pass 
+
+
+    # Test 'where does [piece] go'
+    def test_where_does_piece_go_solved(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        for piece in constants.CENTERS | constants.EDGES | constants.CORNERS:
+            self.assertEqual(piece, cube.where_does_piece_go(piece))
+    
+    def test_where_does_piece_go_scrambled(self):
+        cube = Cube("bwgrbyggbwbbrogyybywgygowggrgrbrbywywoowwywrororbyooro")
+        expected = {FTL:FTL, FTM:UML, FTR:BTL, FML:LMR, FMM:FMM, FMR:DML, FBL:BBR, FBM:BML, FBR:FBL,
+                    RTL:UTR, RTM:FBM, RTR:FBR, RML:LBM, RMM:RMM, RMR:BBM, RBL:DTL, RBM:DMR, RBR:FTR,
+                    BTL:DTR, BTM:UMR, BTR:BTR, BML:DBM, BMM:BMM, BMR:RML, BBL:UBR, BBM:BMR, BBR:BBL,
+                    LTL:LTL, LTM:BTM, LTR:LTR, LML:FMR, LMM:LMM, LMR:FML, LBL:DBR, LBM:UBM, LBR:DBL,
+                    UTL:UTL, UTM:RTM, UTR:RBL, UML:UTM, UMM:UMM, UMR:DTM, UBL:UBL, UBM:LTM, UBR:RTR,
+                    DTL:LBL, DTM:RMR, DTR:LBR, DML:FTM, DMM:DMM, DMR:RBM, DBL:RBR, DBM:LML, DBR:RTL}
+        self.assertEqual(expected, {piece:cube.where_does_piece_go(piece) for piece in constants.CENTERS | constants.EDGES | constants.CORNERS})
+        
 
 if __name__ == '__main__':
     unittest.main()
