@@ -125,6 +125,18 @@ class CubeTest(unittest.TestCase):
                     DTL:LBL, DTM:RMR, DTR:LBR, DML:FTM, DMM:DMM, DMR:RBM, DBL:RBR, DBM:LML, DBR:RTL}
         self.assertEqual(expected, {piece:cube.where_does_piece_go(piece) for piece in constants.CENTERS | constants.EDGES | constants.CORNERS})
         
+    
+    # Test finding face from colour
+    def test_find_face_from_colour_solved(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        expected_map = {'b':'f', 'o':'r', 'g':'b', 'r':'l', 'w':'u', 'y':'d'}
+        self.assertEqual("".join(expected_map[piece] for piece in cube.cube_data), "".join(cube.find_face_from_colour(piece) for piece in cube.cube_data))
+    
+    def test_find_face_from_colour_scrambled(self):
+        cube = Cube("bwgrbyggbwbbrogyybywgygowggrgrbrbywywoowwywrororbyooro")
+        expected_map = {'b':'f', 'o':'r', 'g':'b', 'r':'l', 'w':'u', 'y':'d'}
+        self.assertEqual("".join(expected_map[piece] for piece in cube.cube_data), "".join(cube.find_face_from_colour(piece) for piece in cube.cube_data))
+
 
 if __name__ == '__main__':
     unittest.main()

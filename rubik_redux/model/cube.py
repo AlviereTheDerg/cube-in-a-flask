@@ -50,5 +50,8 @@ class Cube:
             + sum(2 for piece in (constants.UP[2] + constants.DOWN[2]) if self.cube_data[piece] in {self.colours[face] for face in {'u','d'}})) % 3 != 0:
             raise ValueError("Error: Cube unsolvable: Corner parity")
 
+    def find_face_from_colour(self, piece):
+        pass
+
     def where_does_piece_go(self, piece):
         pass
