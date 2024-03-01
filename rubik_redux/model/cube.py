@@ -57,8 +57,8 @@ class Cube:
         if piece in constants.CENTERS:
             return piece
         cycle_subset = 1 if piece in constants.EDGES else 0
-        here_colours = {self.cube_data[pos] for pos in ({piece} | ({constants.OTHER_SIDE_OF[piece]} if cycle_subset == 1 else set(constants.OTHER_SIDE_OF[piece])))}
+        here_colours = {self.cube_data[pos] for pos in constants.ALL_SIDES_OF[piece]}
         for slot in constants.CYCLE_OF[self.find_face_from_colour(self.cube_data[piece])][cycle_subset]:
-            there_colours = {self.colours[constants.FACE_OF[pos]] for pos in ({slot} | ({constants.OTHER_SIDE_OF[slot]} if cycle_subset == 1 else set(constants.OTHER_SIDE_OF[slot])))}
+            there_colours = {self.colours[constants.FACE_OF[pos]] for pos in constants.ALL_SIDES_OF[slot]}
             if here_colours == there_colours:
                 return slot
