@@ -66,6 +66,8 @@ class CubeTest(unittest.TestCase):
         self.valid_cube_test("wyrybrbwggoyyooyywbowgggrwbbbgrrorryowrrwbobyogowygwbg")
     def test_valid_cube_creation_3(self):
         self.valid_cube_test("owoybbbgrgboyoygbowoyrgygowrgyorgbwrggbwwwbrwyrwoyrrby")
+    def test_valid_cube_creation_4(self):
+        self.valid_cube_test("ogroboogrwbbwowbbyowwrgrgrorbwyryggbbbwowrgwgyoyyyyygr")
 
     
     # Tests for unsolvable cubes
@@ -104,9 +106,27 @@ class CubeTest(unittest.TestCase):
         self.unsolvable_corner_parity_test("ywwybbbgroboyoygbowoyrgygowrgborgbwrggbwwworgyrwoyrrby")
     
 
-    # TODO: re-implement 'where will [piece] go' first
-    def test_unsolvable_permutation_parity(self):
-        pass 
+    def unsolvable_permutation_parity_test(self, cube_string):
+        with self.assertRaises(ValueError) as result:
+            Cube(cube_string)
+        self.assertEqual('Error: Cube unsolvable: Permutation parity', str(result.exception))
+    
+    def test_unsolvable_permutation_parity_1(self):
+        self.unsolvable_permutation_parity_test("bgbbbbbbbooooooooogbgggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+    def test_unsolvable_permutation_parity_2(self):
+        self.unsolvable_permutation_parity_test("obrbbbbbbboooooooogggggggggrrbrrrrrrwwwwwwwwwyyyyyyyyy")
+    def test_unsolvable_permutation_parity_3(self):
+        self.unsolvable_permutation_parity_test("brbbbbbbbobooooooogogggggggrgrrrrrrrwwwwwwwwwyyyyyyyyy")
+    def test_unsolvable_permutation_parity_4(self):
+        self.unsolvable_permutation_parity_test("oorbbbbbbbgooooooogbgggggggrrbrrrrrrwwwwwwwwwyyyyyyyyy")
+    def test_unsolvable_permutation_parity_5(self):
+        self.unsolvable_permutation_parity_test("obroboogrwbbwowbbyowwrgrgrorbwyryggbbgwowrgwgyoyyyyygr")
+    def test_unsolvable_permutation_parity_6(self):
+        self.unsolvable_permutation_parity_test("wgwoboogrobbwowbbyowwrgrgrorbryryggbbbwowrgwgyoyyyyygr")
+    def test_unsolvable_permutation_parity_7(self):
+        self.unsolvable_permutation_parity_test("obroboogrwgbwowbbyobwrgrgrorwwyryggbbrwbwwgogyoyyyyygr")
+    def test_unsolvable_permutation_parity_8(self):
+        self.unsolvable_permutation_parity_test("wbwoboogrobbwowbbyowwrgrgrorbryryggbbgwrwogwgyoyyyyygr")
 
 
     # Test 'where does [piece] go'
