@@ -51,7 +51,7 @@ class Cube:
             raise ValueError("Error: Cube unsolvable: Corner parity")
 
     def find_face_from_colour(self, piece):
-        pass
+        return {c:f for f,c in self.colours.items()}[piece]
 
     def where_does_piece_go(self, piece):
         pass
