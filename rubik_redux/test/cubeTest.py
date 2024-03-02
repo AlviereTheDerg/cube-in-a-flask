@@ -122,10 +122,9 @@ class CubeTest(unittest.TestCase):
     
 
     def unsolvable_permutation_parity_test(self, cube_string):
-        #with self.assertRaises(ValueError) as result:
-        #    Cube(cube_string)
-        #self.assertEqual('Error: Cube unsolvable: Permutation parity', str(result.exception))
-        pass
+        with self.assertRaises(ValueError) as result:
+            Cube(cube_string)
+        self.assertEqual('Error: Cube unsolvable: Permutation parity', str(result.exception))
     
     def test_unsolvable_permutation_parity_1(self): # swap edges 1x
         self.unsolvable_permutation_parity_test("bgbbbbbbbooooooooogbgggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
