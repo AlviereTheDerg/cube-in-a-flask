@@ -35,7 +35,13 @@ class Cube:
 
         self.cube_data = [char for char in cube_string]
         self.colours = {face:self.cube_data[constants.CENTER_OF[face]] for face in constants.FACES}
-    
+
+        # Impossible pieces
+        pieces = {frozenset(constants.ALL_SIDES_OF[piece]) for piece in (constants.CENTERS | set(constants.UP[0] + constants.UP[1] + constants.DOWN[0] + constants.DOWN[1] + [constants.FML, constants.FMR, constants.BML, constants.BMR]))}
+        if ({frozenset(   self.colours[constants.FACE_OF[slot]] for slot in piece) for piece in pieces}   # Expected colours of the piece
+            != {frozenset(self.cube_data[slot]                  for slot in piece) for piece in pieces}): # Actual colours of the piece
+            raise ValueError('Error: Cube unsolvable: Impossible pieces')
+
         # Edge parity
         if sum(1 for piece in (constants.UP[1] + constants.DOWN[1] + [constants.FML, constants.FMR, constants.BML, constants.BMR]) if 
                 (self.cube_data[piece] in {self.colours[face] for face in {'u','d'}}) or 
@@ -49,6 +55,9 @@ class Cube:
             + sum(1 for piece in (constants.UP[4] + constants.DOWN[4]) if self.cube_data[piece] in {self.colours[face] for face in {'u','d'}})
             + sum(2 for piece in (constants.UP[2] + constants.DOWN[2]) if self.cube_data[piece] in {self.colours[face] for face in {'u','d'}})) % 3 != 0:
             raise ValueError("Error: Cube unsolvable: Corner parity")
+        
+        # Permutation parity
+
 
     def find_face_from_colour(self, piece):
         return {c:f for f,c in self.colours.items()}[piece]
