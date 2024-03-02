@@ -57,6 +57,18 @@ class Cube:
             raise ValueError("Error: Cube unsolvable: Corner parity")
         
         # Permutation parity
+        visited = set()
+        swaps = 0
+        while visited != pieces:
+            cycle = [list(pieces - visited)[0]]
+            next_position = self.where_does_piece_go(list(cycle[0])[0])
+            while cycle[0] != constants.ALL_SIDES_OF[next_position]:
+                cycle.append(frozenset(constants.ALL_SIDES_OF[next_position]))
+                next_position = self.where_does_piece_go(next_position)
+            visited.update(cycle)
+            swaps += len(cycle) - 1
+        if swaps % 2 != 0:
+            raise ValueError("Error: Cube unsolvable: Permutation parity")
 
 
     def find_face_from_colour(self, piece):
