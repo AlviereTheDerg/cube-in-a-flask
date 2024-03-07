@@ -94,8 +94,4 @@ class Cube:
         if rotation not in constants.VALID_ROTATE_SYMBOLS:
             raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotation}\"")
         
-        cycles = constants.CYCLE_OF[rotation.lower()]
-        cycle_map = {cycle[index]:cycle[(index + 1) % len(cycle)] for cycle in cycles for index in range(len(cycle))}
-        if rotation.upper() == rotation:
-            cycle_map = {v:k for k,v in cycle_map.items()}
-        self.cube_data = [self.cube_data[cycle_map.get(piece, piece)] for piece in range(len(self.cube_data))]
+        self.cube_data = [self.cube_data[constants.ROTATION_TRANSFERS.get(rotation).get(piece, piece)] for piece in range(len(self.cube_data))]

@@ -112,6 +112,7 @@ DOWN =  [[DTL,DTR,DBR,DBL],
 PIECES_PER_FACE = 9
 FACES_PER_CUBE = 6
 VALID_CUBE_SYMBOLS = r"[a-zA-z0-9]+"
+FACES = ['f','r','b','l','u','d']
 VALID_ROTATE_SYMBOLS = set("FfRrBbLlUuDd")
 
 #Piece classses
@@ -122,7 +123,6 @@ CORNERS = {FTL,FTR,FBL,FBR, RTL,RTR,RBL,RBR, BTL,BTR,BBL,BBR,
            LTL,LTR,LBL,LBR, UTL,UTR,UBL,UBR, DTL,DTR,DBL,DBR}
 
 # Pre-calculated mappings
-FACES = ['f','r','b','l','u','d']
 FACE_OF = {piece:FACES[piece // PIECES_PER_FACE] for piece in CENTERS | EDGES | CORNERS}
 CYCLE_OF = {'f':FRONT, 'r':RIGHT, 'b':BACK, 'l':LEFT, 'u':UP, 'd':DOWN}
 CYCLE_OF_FACE_OF = {piece:CYCLE_OF[FACE_OF[piece]] for piece in FACE_OF.keys()}
@@ -134,3 +134,12 @@ OTHER_SIDE_OF = ({center:None for center in CENTERS} # Centers map to None
             CYCLE_OF_FACE_OF[corner][2][CYCLE_OF_FACE_OF[corner][0].index(corner)]  # 1 is more clockwise of the pair
         ) for corner in CORNERS})
 ALL_SIDES_OF = {piece:{piece} for piece in CENTERS} | {piece:{piece, OTHER_SIDE_OF[piece]} for piece in EDGES} | {piece:({piece} | set(OTHER_SIDE_OF[piece])) for piece in CORNERS}
+
+# Map how pieces move with rotations
+ROTATION_TRANSFERS = (
+    # CCW / lowercase rotations
+    {face:{cycle[index]:cycle[(index + 1) % len(cycle)] for cycle in CYCLE_OF[face] for index in range(len(cycle))} for face in FACES}
+    |
+    # CW / uppercase rotations
+    {face.upper():{cycle[index]:cycle[(index - 1) % len(cycle)] for cycle in CYCLE_OF[face] for index in range(len(cycle))} for face in FACES}
+)
