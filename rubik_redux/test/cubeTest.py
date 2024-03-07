@@ -241,6 +241,81 @@ class CubeTest(unittest.TestCase):
     def test_turn_4(self):
         self.turn_test_all_turns_of_cube("ogroboogrwbbwowbbyowwrgrgrorbwyryggbbbwowrgwgyoyyyyygr")
 
+    
+    def test_rotate_invalid_characters(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        for char in r"aceghijkmnopqstvwxyzACEGHIJKMNOPQSTVWXYZ1234567890!@#$%^&*()`-=~_+[]\{}|":
+            # checking that an error happened
+            with self.assertRaises(ValueError) as result:
+                cube.rotate(char)
+            self.assertEqual(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{char}\"", str(result.exception))
+
+            # checking that cube doesn't get corrupted
+            self.assertEqual("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "".join(cube.cube_data))
+    
+    def rotate_changes_correctly_test(self, input_cube_string: str, turn_input: str, expected_cube_string_changes: dict[int, int]):
+        cube = Cube(input_cube_string)
+        cube.rotate(turn_input)
+        expected_cube_string = "".join(input_cube_string[expected_cube_string_changes.get(piece, piece)] for piece in range(len(input_cube_string)))
+        self.assertEqual(expected_cube_string, "".join(cube.cube_data))
+
+    def rotate_test_all_turns_of_cube(self, base_cube):
+        fronts = {FTL:FBL, FTR:FTL, FBR:FTR, FBL:FBR, FTM:FML, FMR:FTM, FBM:FMR, FML:FBM, 
+                  UBL:LBR, UBM:LMR, UBR:LTR, RTL:UBL, RML:UBM, RBL:UBR, DTR:RTL, DTM:RML, DTL:RBL, LBR:DTR, LMR:DTM, LTR:DTL}
+        self.rotate_changes_correctly_test(base_cube, 'F', fronts)
+        self.rotate_changes_correctly_test(base_cube, 'f', {v:k for k,v in fronts.items()})
+
+        rights = {RTL:RBL, RTR:RTL, RBR:RTR, RBL:RBR, RTM:RML, RMR:RTM, RBM:RMR, RML:RBM,
+                  UBR:FBR, UMR:FMR, UTR:FTR, BTL:UBR, BML:UMR, BBL:UTR, DBR:BTL, DMR:BML, DTR:BBL, FBR:DBR, FMR:DMR, FTR:DTR}
+        self.rotate_changes_correctly_test(base_cube, 'R', rights)
+        self.rotate_changes_correctly_test(base_cube, 'r', {v:k for k,v in rights.items()})
+
+        backs =  {BTL:BBL, BTR:BTL, BBR:BTR, BBL:BBR, BTM:BML, BMR:BTM, BBM:BMR, BML:BBM,
+                  UTR:RBR, UTM:RMR, UTL:RTR, LTL:UTR, LML:UTM, LBL:UTL, DBL:LTL, DBM:LML, DBR:LBL, RBR:DBL, RMR:DBM, RTR:DBR}
+        self.rotate_changes_correctly_test(base_cube, 'B', backs)
+        self.rotate_changes_correctly_test(base_cube, 'b', {v:k for k,v in backs.items()})
+
+        lefts =  {LTL:LBL, LTR:LTL, LBR:LTR, LBL:LBR, LTM:LML, LMR:LTM, LBM:LMR, LML:LBM,
+                  UTL: BBR, UML:BMR, UBL:BTR, FTL:UTL, FML:UML, FBL:UBL, DTL:FTL, DML:FML, DBL:FBL, BBR:DTL, BMR:DML, BTR:DBL}
+        self.rotate_changes_correctly_test(base_cube, 'L', lefts)
+        self.rotate_changes_correctly_test(base_cube, 'l', {v:k for k,v in lefts.items()})
+
+        ups =    {UTL:UBL, UTR:UTL, UBR:UTR, UBL:UBR, UTM:UML, UMR:UTM, UBM:UMR, UML:UBM,
+                  BTR:LTR, BTM:LTM, BTL:LTL, RTR:BTR, RTM:BTM, RTL:BTL, FTR:RTR, FTM:RTM, FTL:RTL, LTR:FTR, LTM:FTM, LTL:FTL}
+        self.rotate_changes_correctly_test(base_cube, 'U', ups)
+        self.rotate_changes_correctly_test(base_cube, 'u', {v:k for k,v in ups.items()})
+
+        downs =  {DTL:DBL, DTR:DTL, DBR:DTR, DBL:DBR, DTM:DML, DMR:DTM, DBM:DMR, DML:DBM,
+                  FBL:LBL, FBM:LBM, FBR:LBR, RBL:FBL, RBM:FBM, RBR:FBR, BBL:RBL, BBM:RBM, BBR:RBR, LBL:BBL, LBM:BBM, LBR:BBR}
+        self.rotate_changes_correctly_test(base_cube, 'D', downs)
+        self.rotate_changes_correctly_test(base_cube, 'd', {v:k for k,v in downs.items()})
+    
+    def test_rotate_single_turns_1(self):
+        self.rotate_test_all_turns_of_cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+    def test_rotate_single_turns_2(self):
+        self.rotate_test_all_turns_of_cube("wyrybrbwggoyyooyywbowgggrwbbbgrrorryowrrwbobyogowygwbg")
+    def test_rotate_single_turns_3(self):
+        self.rotate_test_all_turns_of_cube("owoybbbgrgboyoygbowoyrgygowrgyorgbwrggbwwwbrwyrwoyrrby")
+    def test_rotate_single_turns_4(self):
+        self.rotate_test_all_turns_of_cube("ogroboogrwbbwowbbyowwrgrgrorbwyryggbbbwowrgwgyoyyyyygr")
+
+    def test_rotate_no_turns_1(self):
+        self.rotate_changes_correctly_test("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "", {})
+    def test_rotate_no_turns_2(self):
+        self.rotate_changes_correctly_test("wyrybrbwggoyyooyywbowgggrwbbbgrrorryowrrwbobyogowygwbg", "", {})
+    def test_rotate_no_turns_3(self):
+        self.rotate_changes_correctly_test("owoybbbgrgboyoygbowoyrgygowrgyorgbwrggbwwwbrwyrwoyrrby", "", {})
+    def test_rotate_no_turns_4(self):
+        self.rotate_changes_correctly_test("ogroboogrwbbwowbbyowwrgrgrorbwyryggbbbwowrgwgyoyyyyygr", "", {})
+
+    def test_rotate_multiple_turns_1(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube.rotate("FRBLUD")
+        self.assertEqual("wwgwbyyyywwrooyrbywwbggyooywborrrggorggrwobbobbbryorgg", "".join(cube.cube_data))
+    def test_rotate_multiple_turns_2(self):
+        cube = Cube("bbwbbybboboooooygyggggggooyrrrrrrgrrwwwwwwwwoyybyyyrbg")
+        cube.rotate("drDRdrDR")
+        self.assertEqual("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "".join(cube.cube_data))
 
 if __name__ == '__main__':
     unittest.main()

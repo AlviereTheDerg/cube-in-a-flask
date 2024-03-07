@@ -95,3 +95,6 @@ class Cube:
             raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotation}\"")
         
         self.cube_data = [self.cube_data[constants.ROTATION_TRANSFERS.get(rotation).get(piece, piece)] for piece in range(len(self.cube_data))]
+    
+    def rotate(self, rotations):
+        pass
