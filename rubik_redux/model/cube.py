@@ -83,3 +83,12 @@ class Cube:
             there_colours = {self.colours[constants.FACE_OF[pos]] for pos in constants.ALL_SIDES_OF[slot]}
             if here_colours == there_colours:
                 return slot
+    
+    def _turn(self, rotation):
+        """
+        Performs a single face rotation of the cube
+        Accepts a face identifier, character case determines rotation direction
+        Uppercase -> CW rotation
+        Lowercase -> CCW rotation
+        """
+        pass
