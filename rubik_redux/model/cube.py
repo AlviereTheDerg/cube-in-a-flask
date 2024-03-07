@@ -97,4 +97,15 @@ class Cube:
         self.cube_data = [self.cube_data[constants.ROTATION_TRANSFERS.get(rotation).get(piece, piece)] for piece in range(len(self.cube_data))]
     
     def rotate(self, rotations):
-        pass
+        """
+        Performs a series of face rotations of the cube
+        Accepts a string of face identifiers, character case determines rotation direction
+        Uppercase -> CW rotation
+        Lowercase -> CCW rotation
+        """
+
+        if len(set(rotations) - constants.VALID_ROTATE_SYMBOLS) != 0:
+            raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotations}\"")
+        
+        for char in rotations:
+            self._turn(char)
