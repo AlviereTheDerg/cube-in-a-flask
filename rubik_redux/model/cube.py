@@ -91,4 +91,16 @@ class Cube:
         Uppercase -> CW rotation
         Lowercase -> CCW rotation
         """
-        pass
+        if rotation not in constants.VALID_ROTATE_SYMBOLS:
+            raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotation}\"")
+        
+        for cycle in constants.CYCLE_OF[rotation.lower()]:
+            for i in range(1, len(cycle)):
+                if (rotation.isupper()):
+                    buffer = cycle[0]
+                    final = cycle[i]
+                else:
+                    buffer = cycle[i]
+                    final = cycle[i - 1]
+                
+                self.cube_data[buffer],self.cube_data[final] = self.cube_data[final],self.cube_data[buffer]
