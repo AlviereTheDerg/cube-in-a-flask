@@ -316,6 +316,35 @@ class CubeTest(unittest.TestCase):
         cube = Cube("bbwbbybboboooooygyggggggooyrrrrrrgrrwwwwwwwwoyybyyyrbg")
         cube.rotate("drDRdrDR")
         self.assertEqual("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "".join(cube.cube_data))
+    def test_rotate_multiple_turns_3(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube.rotate("frblud")
+        self.assertEqual("wwwybwyygrbwoowyyroowggwyybggorrryborggrwobbbbboryorgg", "".join(cube.cube_data))
+    
+    def test_rotate_multiple_turns_incremental_1(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube.rotate("F")
+        self.assertEqual("bbbbbbbbbwoowoowoogggggggggrryrryrrywwwwwwrrroooyyyyyy", "".join(cube.cube_data))
+    def test_rotate_multiple_turns_incremental_2(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube.rotate("FR")
+        self.assertEqual("bbobbybbywwwoooooorggwggwggrryrryrrywwbwwbrrboogyygyyg", "".join(cube.cube_data))
+    def test_rotate_multiple_turns_incremental_3(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube.rotate("FRB")
+        self.assertEqual("bbobbybbywwgooyooywwrggggggbrywrywrywoowwbrrboogyygrrr", "".join(cube.cube_data))
+    def test_rotate_multiple_turns_incremental_4(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube.rotate("FRBL")
+        self.assertEqual("wbowbyrbywwgooyooywwrggyggowwbrrryyygoogwbrrbbogbygbrr", "".join(cube.cube_data))
+    def test_rotate_multiple_turns_incremental_5(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube.rotate("FRBLU")
+        self.assertEqual("wwgwbyrbywwrooyooywwbggyggowborrryyyrggrwobbobogbygbrr", "".join(cube.cube_data))
+    def test_rotate_multiple_turns_incremental_6(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        cube.rotate("FRBLUD")
+        self.assertEqual("wwgwbyyyywwrooyrbywwbggyooywborrrggorggrwobbobbbryorgg", "".join(cube.cube_data))
 
 if __name__ == '__main__':
     unittest.main()
