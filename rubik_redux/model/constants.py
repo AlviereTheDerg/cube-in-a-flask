@@ -136,10 +136,11 @@ OTHER_SIDE_OF = ({center:None for center in CENTERS} # Centers map to None
 ALL_SIDES_OF = {piece:{piece} for piece in CENTERS} | {piece:{piece, OTHER_SIDE_OF[piece]} for piece in EDGES} | {piece:({piece} | set(OTHER_SIDE_OF[piece])) for piece in CORNERS}
 
 # Map how pieces move with rotations
+# ROTATION_TRANSFERS[rotation].get(piece, piece) -> location that piece will be after applying rotation
 ROTATION_TRANSFERS = (
     # CCW / lowercase rotations
-    {face:{cycle[index]:cycle[(index + 1) % len(cycle)] for cycle in CYCLE_OF[face] for index in range(len(cycle))} for face in FACES}
+    {face:{cycle[index]:cycle[(index - 1) % len(cycle)] for cycle in CYCLE_OF[face] for index in range(len(cycle))} for face in FACES}
     |
     # CW / uppercase rotations
-    {face.upper():{cycle[index]:cycle[(index - 1) % len(cycle)] for cycle in CYCLE_OF[face] for index in range(len(cycle))} for face in FACES}
+    {face.upper():{cycle[index]:cycle[(index + 1) % len(cycle)] for cycle in CYCLE_OF[face] for index in range(len(cycle))} for face in FACES}
 )
