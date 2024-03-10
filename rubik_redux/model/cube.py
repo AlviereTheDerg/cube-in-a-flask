@@ -110,5 +110,8 @@ class Cube:
         if len(set(rotations) - constants.VALID_ROTATE_SYMBOLS) != 0:
             raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotations}\"")
         
-        for char in rotations:
-            self._turn(char)
+        destinations = range(len(self.cube_data))
+        for rotation in rotations:
+            destinations = [constants.ROTATION_TRANSFERS.get(rotation).get(piece, piece) for piece in destinations]
+        destinations = {piece:index for index,piece in enumerate(destinations)}
+        self.cube_data = [self.cube_data[destinations.get(piece, piece)] for piece in range(len(self.cube_data))]
