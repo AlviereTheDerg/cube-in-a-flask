@@ -84,21 +84,6 @@ class Cube:
             if here_colours == there_colours:
                 return slot
     
-    def _turn(self, rotation):
-        """
-        Performs a single face rotation of the cube
-        Accepts a face identifier, character case determines rotation direction
-        Uppercase -> CW rotation
-        Lowercase -> CCW rotation
-        """
-        if rotation not in constants.VALID_ROTATE_SYMBOLS:
-            raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotation}\"")
-        
-        destinations = range(len(self.cube_data))
-        destinations = (constants.ROTATION_TRANSFERS.get(rotation).get(piece, piece) for piece in destinations)
-        destinations = {piece:index for index,piece in enumerate(destinations)}
-        self.cube_data = [self.cube_data[destinations.get(piece, piece)] for piece in range(len(self.cube_data))]
-    
     def rotate(self, rotations):
         """
         Performs a series of face rotations of the cube
