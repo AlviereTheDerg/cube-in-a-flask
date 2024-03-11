@@ -84,6 +84,14 @@ class Cube:
             if here_colours == there_colours:
                 return slot
     
+    def rotation_validation(func):
+        def rotation_validator(self, rotations, *args, **kwargs):
+            if len(set(rotations) - constants.VALID_ROTATE_SYMBOLS) != 0:
+                raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotations}\"")
+            return func(self, rotations, *args, **kwargs)
+        return rotation_validator
+    
+    @rotation_validation
     def rotate(self, rotations):
         """
         Performs a series of face rotations of the cube
@@ -91,12 +99,9 @@ class Cube:
         Uppercase -> CW rotation
         Lowercase -> CCW rotation
         """
-
-        if len(set(rotations) - constants.VALID_ROTATE_SYMBOLS) != 0:
-            raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotations}\"")
-        
         destinations = range(len(self.cube_data))
         for rotation in rotations:
             destinations = [constants.ROTATION_TRANSFERS.get(rotation).get(piece, piece) for piece in destinations]
         destinations = {piece:index for index,piece in enumerate(destinations)}
+
         self.cube_data = [self.cube_data[destinations.get(piece, piece)] for piece in range(len(self.cube_data))]
