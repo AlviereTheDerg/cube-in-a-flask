@@ -53,7 +53,7 @@ class CubeTest(unittest.TestCase):
     def valid_cube_test(self, cube_string):
         cube = Cube(cube_string)
         self.assertTrue(isinstance(cube, Cube))
-        self.assertEqual(cube_string, "".join(cube.cube_data))
+        self.assertEqual(cube_string, str(cube))
         self.assertEqual({'f':cube_string[constants.FMM], 'r':cube_string[constants.RMM], 
                           'b':cube_string[constants.BMM], 'l':cube_string[constants.LMM], 
                           'u':cube_string[constants.UMM], 'd':cube_string[constants.DMM]}, 
@@ -183,13 +183,13 @@ class CubeTest(unittest.TestCase):
             self.assertEqual(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{char}\"", str(result.exception))
 
             # checking that cube doesn't get corrupted
-            self.assertEqual("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "".join(cube.cube_data))
+            self.assertEqual("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", str(cube))
     
     def rotate_changes_correctly_test(self, input_cube_string: str, turn_input: str, expected_cube_string_changes: dict[int, int]):
         cube = Cube(input_cube_string)
         cube.rotate(turn_input)
         expected_cube_string = "".join(input_cube_string[expected_cube_string_changes.get(piece, piece)] for piece in range(len(input_cube_string)))
-        self.assertEqual(expected_cube_string, "".join(cube.cube_data))
+        self.assertEqual(expected_cube_string, str(cube))
 
     def rotate_test_all_turns_of_cube(self, base_cube):
         fronts = {FTL:FBL, FTR:FTL, FBR:FTR, FBL:FBR, FTM:FML, FMR:FTM, FBM:FMR, FML:FBM, 
@@ -243,40 +243,40 @@ class CubeTest(unittest.TestCase):
     def test_rotate_multiple_turns_1(self):
         cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
         cube.rotate("FRBLUD")
-        self.assertEqual("wwgwbyyyywwrooyrbywwbggyooywborrrggorggrwobbobbbryorgg", "".join(cube.cube_data))
+        self.assertEqual("wwgwbyyyywwrooyrbywwbggyooywborrrggorggrwobbobbbryorgg", str(cube))
     def test_rotate_multiple_turns_2(self):
         cube = Cube("bbwbbybboboooooygyggggggooyrrrrrrgrrwwwwwwwwoyybyyyrbg")
         cube.rotate("drDRdrDR")
-        self.assertEqual("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "".join(cube.cube_data))
+        self.assertEqual("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", str(cube))
     def test_rotate_multiple_turns_3(self):
         cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
         cube.rotate("frblud")
-        self.assertEqual("wwwybwyygrbwoowyyroowggwyybggorrryborggrwobbbbboryorgg", "".join(cube.cube_data))
+        self.assertEqual("wwwybwyygrbwoowyyroowggwyybggorrryborggrwobbbbboryorgg", str(cube))
     
     def test_rotate_multiple_turns_incremental_1(self):
         cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
         cube.rotate("F")
-        self.assertEqual("bbbbbbbbbwoowoowoogggggggggrryrryrrywwwwwwrrroooyyyyyy", "".join(cube.cube_data))
+        self.assertEqual("bbbbbbbbbwoowoowoogggggggggrryrryrrywwwwwwrrroooyyyyyy", str(cube))
     def test_rotate_multiple_turns_incremental_2(self):
         cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
         cube.rotate("FR")
-        self.assertEqual("bbobbybbywwwoooooorggwggwggrryrryrrywwbwwbrrboogyygyyg", "".join(cube.cube_data))
+        self.assertEqual("bbobbybbywwwoooooorggwggwggrryrryrrywwbwwbrrboogyygyyg", str(cube))
     def test_rotate_multiple_turns_incremental_3(self):
         cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
         cube.rotate("FRB")
-        self.assertEqual("bbobbybbywwgooyooywwrggggggbrywrywrywoowwbrrboogyygrrr", "".join(cube.cube_data))
+        self.assertEqual("bbobbybbywwgooyooywwrggggggbrywrywrywoowwbrrboogyygrrr", str(cube))
     def test_rotate_multiple_turns_incremental_4(self):
         cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
         cube.rotate("FRBL")
-        self.assertEqual("wbowbyrbywwgooyooywwrggyggowwbrrryyygoogwbrrbbogbygbrr", "".join(cube.cube_data))
+        self.assertEqual("wbowbyrbywwgooyooywwrggyggowwbrrryyygoogwbrrbbogbygbrr", str(cube))
     def test_rotate_multiple_turns_incremental_5(self):
         cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
         cube.rotate("FRBLU")
-        self.assertEqual("wwgwbyrbywwrooyooywwbggyggowborrryyyrggrwobbobogbygbrr", "".join(cube.cube_data))
+        self.assertEqual("wwgwbyrbywwrooyooywwbggyggowborrryyyrggrwobbobogbygbrr", str(cube))
     def test_rotate_multiple_turns_incremental_6(self):
         cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
         cube.rotate("FRBLUD")
-        self.assertEqual("wwgwbyyyywwrooyrbywwbggyooywborrrggorggrwobbobbbryorgg", "".join(cube.cube_data))
+        self.assertEqual("wwgwbyyyywwrooyrbywwbggyooywborrrggorggrwobbobbbryorgg", str(cube))
 
 if __name__ == '__main__':
     unittest.main()
