@@ -1,4 +1,6 @@
 from rubik_redux.model.cube import Cube
 
 def rotate(cube=None, dir=""):
-    pass
+    if cube is None:
+        raise ValueError("Error: Input data: Expected parameter \"cube\"")
+    cube = Cube(cube)
