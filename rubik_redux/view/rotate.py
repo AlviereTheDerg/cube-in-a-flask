@@ -1,4 +1,4 @@
 from rubik_redux.model.cube import Cube
 
-def rotate(parameters: dict):
+def rotate(cube=None, dir=""):
     pass
