@@ -105,3 +105,6 @@ class Cube:
         destinations = {piece:index for index,piece in enumerate(destinations)}
 
         self.cube_data = [self.cube_data[destinations.get(piece, piece)] for piece in range(len(self.cube_data))]
+
+    def __repr__(self):
+        return "".join(self.cube_data)
