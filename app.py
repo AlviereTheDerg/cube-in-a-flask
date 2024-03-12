@@ -10,6 +10,8 @@ from flask import Flask, request
 from rubik.view.solve import solve
 from rubik.view.rotate import rotate
 
+from rubik_redux.view.rotate import rotate as rotate_redux
+
 app = Flask(__name__)
 
 #-----------------------------------
@@ -63,6 +65,17 @@ def rotateServer():
     try:
         userParms = _parseParms(request.args)
         result = rotate(userParms)
+        print("Response -->", str(result))
+        return str(result)
+    except Exception as anyException:
+        return str(anyException)
+    
+@app.route('/rubik_redux/rotate')
+def rotateServerRedux():
+    '''Return rotated cube'''
+    try:
+        userParms = _parseParms(request.args)
+        result = rotate_redux(userParms)
         print("Response -->", str(result))
         return str(result)
     except Exception as anyException:
