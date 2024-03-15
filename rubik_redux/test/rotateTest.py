@@ -217,6 +217,24 @@ class RotateTest(unittest.TestCase):
     def test_rotate_multiple_turns_incremental_6(self):
         self.rotate_matches_expected_test("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "FRBLUD",
                                           "wwgwbyyyywwrooyrbywwbggyooywborrrggorggrwobbobbbryorgg")
+    
+    # Key quantities
+    def test_no_keys(self):
+        with self.assertRaises(ValueError):
+            rotate(**{})
+    def test_no_cube(self):
+        with self.assertRaises(ValueError):
+            rotate(**{"dir":"FRBLUD"})
+    def test_just_cube(self):
+        rotate(**{"cube":"bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"})
+    def test_cube_dir(self):
+        rotate(**{"cube":"bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "dir":"FRBLUD"})
+    def test_non_dir_extra_keys(self):
+        with self.assertRaises(TypeError):
+            rotate(**{"cube":"bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "hehehe":"hohoho"})
+    def test_dir_present_extra_keys(self):
+        with self.assertRaises(TypeError):
+            rotate(**{"cube":"bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy", "dir":"FRBLUD", "hehehe":"hohoho"})
 
 if __name__ == '__main__':
     unittest.main()
