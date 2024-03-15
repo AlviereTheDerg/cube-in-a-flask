@@ -6,16 +6,26 @@ This is a small microservice designed to simulate a Rubik's Cube and either solv
 When app.py is run, Flask binds to port 8080 and ties multiple paths to different functions:
 - '/' (root): displays welcome information
 - '/about': displays author name (me!)
-- '/rubik': subdirectory for actual Rubik's Cube processes
-  - '/rotate': supplied with 2 parameters, 'cube' and 'dir'
-  - 'cube' specification:
-    - 54 character long string
-    - Allowed characters: lowercase a-z, uppercase A-Z, digits 0-9
-    - Center points must be unique
-    - Pieces have to match one of the center points
-    - There has to be 9 of each piece
-    - Cube string is laid out to correspond to the following (character at position X corresponds to piece labeled X)
-    - ex: solved cube can be bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy, or aaaaaaaaa000000000ZZZZZZZZZlllllllllFFFFFFFFFjjjjjjjjj
+- '/rubik': subdirectory for original Rubik's Cube processes
+  - '/rotate': supplied with up to 2 parameters, 'cube' (required) and 'dir' (optional)
+    - extraneous keys, missing or invalid-formatted cube, or invalid dir result in error returned to user
+    - if not supplied with 'dir', will treat it as if a single 'F' rotation
+    - displays a dict featuring a status code and the resultant cube string if status is 'ok', otherwise a dict with status detailing the error
+  - '/solve': supplied with 1 parameter, 'cube'
+- '/rubik_redux': subdirectory for revamped Rubik's Cube processes
+  - '/rotate': supplied with up to 2 parameters, 'cube' (required) and 'dir' (optional)
+    - extraneous keys, a missing, invalid, or unsolvable cube, or an invalid dir results in error returned to user
+    - will perform no rotations if not supplied with 'dir' parameter
+    - displays errors in string form, or if no error then will display a dict with status of 'ok' and the resultant cube string
+
+'cube' specification:
+- 54 character long string
+- Allowed characters: lowercase a-z, uppercase A-Z, digits 0-9
+- Center points must be unique
+- Pieces have to match one of the center points
+- There has to be 9 of each piece
+- Cube string is laid out to correspond to the following (character at position X corresponds to piece labeled X)
+- ex: solved cube can be bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy, or aaaaaaaaa000000000ZZZZZZZZZlllllllllFFFFFFFFFjjjjjjjjj
 ![Cube Layout image](cube_appearance.svg)
 
 # Why and How this was made
