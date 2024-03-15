@@ -75,7 +75,7 @@ def rotateServerRedux():
     '''Return rotated cube'''
     try:
         userParms = _parseParms(request.args)
-        result = rotate_redux(userParms)
+        result = rotate_redux(**userParms)
         print("Response -->", str(result))
         return str(result)
     except Exception as anyException:
