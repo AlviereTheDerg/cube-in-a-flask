@@ -109,5 +109,18 @@ class Cube:
     def __repr__(self):
         return "".join(self.cube_data)
     
-    def where_is(self, piece):
-        pass
+    def where_is(self, search_piece):
+        if search_piece not in range(len(self.cube_data)):
+            raise ValueError("Error: Attempting to locate an out of bounds piece")
+        
+        search_zone = (
+            constants.CENTERS.copy() if search_piece in constants.CENTERS else 
+            constants.EDGES.copy() if search_piece in constants.EDGES else
+            constants.CORNERS.copy())
+        search_zone &= {piece for piece in search_zone if self.cube_data[piece] == self.colours[constants.FACE_OF[search_piece]]}
+        
+        expected_piece = {self.colours[constants.FACE_OF[piece]] for piece in constants.ALL_SIDES_OF[search_piece]}
+        
+        for search_piece in search_zone:
+            if {self.cube_data[piece] for piece in constants.ALL_SIDES_OF[search_piece]} == expected_piece:
+                return search_piece
