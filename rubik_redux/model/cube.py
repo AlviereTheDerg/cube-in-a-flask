@@ -108,3 +108,6 @@ class Cube:
 
     def __repr__(self):
         return "".join(self.cube_data)
+    
+    def where_is(self, piece):
+        pass

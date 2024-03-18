@@ -278,5 +278,36 @@ class CubeTest(unittest.TestCase):
         cube.rotate("FRBLUD")
         self.assertEqual("wwgwbyyyywwrooyrbywwbggyooywborrrggorggrwobbobbbryorgg", str(cube))
 
+
+    def test_whereis_OOB_checks(self):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+        for value in [FTL-1, DBR+1, float('nan'), float('inf')]:
+            with self.assertRaises(ValueError) as result:
+                cube.where_is(value)
+            self.assertEqual("Error: Attempting to locate an out of bounds piece", str(result.exception))
+    
+    def whereis_helper_test(self, directions):
+        cube = Cube("bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy")
+
+        # Same logic as in rotate
+        expecteds = [piece for piece in range(len(cube.cube_data))]
+        for rotation in directions:
+            expecteds = [ROTATION_TRANSFERS.get(rotation, {}).get(piece, piece) for piece in expecteds]
+            
+        cube.rotate(directions)
+        results = [cube.where_is(piece) for piece in range(len(cube.cube_data))]
+
+        self.assertEqual(results, expecteds)
+    
+    def test_whereis_no_changes(self):
+        self.whereis_helper_test("")
+    def test_whereis_single_rotations(self):
+        for key in ROTATION_TRANSFERS:
+            self.whereis_helper_test(key)
+    def test_whereis_multiple_rotations_1(self):
+        self.whereis_helper_test("RUrurFRRuruRUrf")
+    def test_whereis_multiple_rotations_2(self):
+        self.whereis_helper_test("FR")
+
 if __name__ == '__main__':
     unittest.main()
