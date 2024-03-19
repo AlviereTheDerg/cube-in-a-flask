@@ -309,5 +309,35 @@ class CubeTest(unittest.TestCase):
     def test_whereis_multiple_rotations_2(self):
         self.whereis_helper_test("FR")
 
+
+    def match_pattern_test_helper(self, base_pattern, expected_matches, expected_not_matches):
+        for translation in [{'f':'b', 'r':'o', 'b':'g', 'l':'r', 'u':'w', 'd':'y'},
+                            {'f':'1', 'r':'2', 'b':'3', 'l':'4', 'u':'5', 'd':'6'},
+                            {},
+                            {'f':'4', 'r':'a', 'b':'b', 'l':'d', 'u':'2', 'd':'l'}]:
+            cube = Cube("".join(translation.get(piece, piece) for piece in base_pattern))
+            for positive in expected_matches:
+                self.assertTrue(cube.match_pattern(positive))
+            for negative in expected_not_matches:
+                self.assertFalse(cube.match_pattern(negative))
+    
+    def test_match_pattern_1(self):
+        self.match_pattern_test_helper( "fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd",
+                                       ["fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", #solved
+                                        ".f..f.....r..r.....b..b.....l..l.....u.uuu.u.....d....", #topcross
+                                        "......................................................"],#all wildcards
+                                       ["....b.................................................", #incorrect face center
+                                        "fffffffffrrrrrrrrrbbbbbbbbblllllllllddddddddduuuuuuuuu"])#switched faces
+        
+    def test_match_pattern_2(self): 
+        self.match_pattern_test_helper( "rfbbffubdrrldrfbblfbdrbdfdbrlurldulffuuuuubudrrlfdllld",
+                                       [".f..f.....r..r.....b..b.....l..l.....u.uuu.u.....d....", #topcross
+                                        "......................................................"],#all wildcards
+                                       ["fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", #solved
+                                        "....b.................................................", #incorrect face center
+                                        "....f........r........b........l........d........u...."])#switched faces
+        
+
+
 if __name__ == '__main__':
     unittest.main()

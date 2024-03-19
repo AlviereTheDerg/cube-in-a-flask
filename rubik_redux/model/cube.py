@@ -124,3 +124,6 @@ class Cube:
         for search_piece in search_zone:
             if {self.cube_data[piece] for piece in constants.ALL_SIDES_OF[search_piece]} == expected_piece:
                 return search_piece
+            
+    def match_pattern(self, pattern):
+        pass
