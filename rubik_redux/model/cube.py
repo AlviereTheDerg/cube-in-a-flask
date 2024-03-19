@@ -126,4 +126,15 @@ class Cube:
                 return search_piece
             
     def match_pattern(self, pattern):
-        pass
+        if not isinstance(pattern, str):
+            raise ValueError(f"Error: Input type: Expected string but recieved {type(pattern)}")
+        if len(pattern) != len(self.cube_data):
+            raise ValueError(f"Error: Invalid pattern length: Expected {len(self.cube_data)} characters but recieved {len(pattern)}")
+        if len(set(pattern) - set(constants.FACES) - set('.')) != 0:
+            raise ValueError("Error: Invalid pattern contents: Only use face characters \"frblud\" and wildcard \".\"")
+        
+        for index,char in enumerate(pattern):
+            if char != '.' and self.cube_data[index] != self.colours[char]:
+                return False
+        else:
+            return True
