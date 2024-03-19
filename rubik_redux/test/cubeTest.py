@@ -310,6 +310,30 @@ class CubeTest(unittest.TestCase):
         self.whereis_helper_test("FR")
 
 
+    def test_match_pattern_invalid_input_type(self):
+        cube = Cube("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+        with self.assertRaises(ValueError) as result:
+            cube.match_pattern(213)
+        self.assertEqual(f"Error: Input type: Expected string but recieved {type(1)}", str(result.exception))
+
+    def test_match_pattern_invalid_input_length_short(self):
+        cube = Cube("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+        with self.assertRaises(ValueError) as result:
+            cube.match_pattern("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuudddddddd")
+        self.assertEqual("Error: Invalid pattern length: Expected 54 characters but recieved 53", str(result.exception))
+
+    def test_match_pattern_invalid_input_length_long(self):
+        cube = Cube("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+        with self.assertRaises(ValueError) as result:
+            cube.match_pattern("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuudddddddddd")
+        self.assertEqual("Error: Invalid pattern length: Expected 54 characters but recieved 55", str(result.exception))
+
+    def test_match_pattern_invalid_input_characters_present(self):
+        cube = Cube("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+        with self.assertRaises(ValueError) as result:
+            cube.match_pattern(".f..f.....r..r.....b..b.....l..l..k..u.uuu.u.....d....")
+        self.assertEqual("Error: Invalid pattern contents: Only use face characters \"frblud\" and wildcard \".\"", str(result.exception))
+
     def match_pattern_test_helper(self, base_pattern, expected_matches, expected_not_matches):
         for translation in [{'f':'b', 'r':'o', 'b':'g', 'l':'r', 'u':'w', 'd':'y'},
                             {'f':'1', 'r':'2', 'b':'3', 'l':'4', 'u':'5', 'd':'6'},
