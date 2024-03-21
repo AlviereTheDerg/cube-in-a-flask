@@ -396,7 +396,7 @@ class CubeTest(unittest.TestCase):
         self.align_edge_test(FBM,'l',1)
         self.align_edge_test(FML,'f',1)
         
-    def test_191_alignPiece_Right(self):
+    def test_align_edge_right(self):
         self.align_edge_test(RTM,'b',0)
         self.align_edge_test(RMR,'f',0)
         self.align_edge_test(RBM,'b',0)
@@ -407,7 +407,7 @@ class CubeTest(unittest.TestCase):
         self.align_edge_test(RBM,'f',1)
         self.align_edge_test(RML,'r',1)
 
-    def test_192_alignPiece_Back(self):
+    def test_align_edge_back(self):
         self.align_edge_test(BTM,'d',0)
         self.align_edge_test(BMR,'d',0)
         self.align_edge_test(BBM,'d',0)
@@ -418,7 +418,7 @@ class CubeTest(unittest.TestCase):
         self.align_edge_test(BBM,'r',1)
         self.align_edge_test(BML,'b',1)
         
-    def test_193_alignPiece_Left(self):
+    def test_align_edge_left(self):
         self.align_edge_test(LTM,'b',0)
         self.align_edge_test(LMR,'f',0)
         self.align_edge_test(LBM,'b',0)
@@ -429,7 +429,7 @@ class CubeTest(unittest.TestCase):
         self.align_edge_test(LBM,'b',1)
         self.align_edge_test(LML,'l',1)
         
-    def test_194_alignPiece_Up(self):
+    def test_align_edge_up(self):
         self.align_edge_test(UTM,'r',0)
         self.align_edge_test(UMR,'l',0)
         self.align_edge_test(UBM,'r',0)
@@ -440,7 +440,7 @@ class CubeTest(unittest.TestCase):
         self.align_edge_test(UBM,'l',1)
         self.align_edge_test(UML,'u',1)
         
-    def test_195_alignPiece_Down(self):
+    def test_align_edge_down(self):
         self.align_edge_test(DTM,'r',0)
         self.align_edge_test(DMR,'l',0)
         self.align_edge_test(DBM,'r',0)
