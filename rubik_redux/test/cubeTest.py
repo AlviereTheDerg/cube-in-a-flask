@@ -362,6 +362,94 @@ class CubeTest(unittest.TestCase):
                                         "....f........r........b........l........d........u...."])#switched faces
         
 
+    def align_edge_test(self, piece, face, variant=0):
+        cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
+        cube = Cube(cube_string)
+        result = cube.align_edge(piece, face, variant)
+
+        # effects test
+        where_is = cube.where_is(piece)
+        match variant:
+            case 0:
+                self.assertEqual(constants.FACE_OF[piece], constants.FACE_OF[where_is])
+                self.assertEqual(face, constants.FACE_OF[constants.OTHER_SIDE_OF[where_is]])
+            case 1:
+                self.assertEqual(face, constants.FACE_OF[where_is])
+                self.assertEqual(constants.FACE_OF[constants.OTHER_SIDE_OF[piece]], constants.FACE_OF[constants.OTHER_SIDE_OF[where_is]])
+
+        # 2 turns or less, only turns 1 face at a time
+        self.assertTrue(len(result) <= 2 and len(set(result)) <= 1) 
+
+        # reproducability test
+        second_cube = Cube(cube_string)
+        second_cube.rotate(result)
+        self.assertEqual(str(cube), str(second_cube))
+
+    def test_align_edge_front(self):
+        self.align_edge_test(FTM,'r',0)
+        self.align_edge_test(FMR,'l',0)
+        self.align_edge_test(FBM,'r',0)
+        self.align_edge_test(FML,'l',0)
+        
+        self.align_edge_test(FTM,'r',1)
+        self.align_edge_test(FMR,'b',1)
+        self.align_edge_test(FBM,'l',1)
+        self.align_edge_test(FML,'f',1)
+        
+    def test_191_alignPiece_Right(self):
+        self.align_edge_test(RTM,'b',0)
+        self.align_edge_test(RMR,'f',0)
+        self.align_edge_test(RBM,'b',0)
+        self.align_edge_test(RML,'f',0)
+
+        self.align_edge_test(RTM,'b',1)
+        self.align_edge_test(RMR,'l',1)
+        self.align_edge_test(RBM,'f',1)
+        self.align_edge_test(RML,'r',1)
+
+    def test_192_alignPiece_Back(self):
+        self.align_edge_test(BTM,'d',0)
+        self.align_edge_test(BMR,'d',0)
+        self.align_edge_test(BBM,'d',0)
+        self.align_edge_test(BML,'d',0)
+
+        self.align_edge_test(BTM,'l',1)
+        self.align_edge_test(BMR,'f',1)
+        self.align_edge_test(BBM,'r',1)
+        self.align_edge_test(BML,'b',1)
+        
+    def test_193_alignPiece_Left(self):
+        self.align_edge_test(LTM,'b',0)
+        self.align_edge_test(LMR,'f',0)
+        self.align_edge_test(LBM,'b',0)
+        self.align_edge_test(LML,'f',0)
+        
+        self.align_edge_test(LTM,'f',1)
+        self.align_edge_test(LMR,'r',1)
+        self.align_edge_test(LBM,'b',1)
+        self.align_edge_test(LML,'l',1)
+        
+    def test_194_alignPiece_Up(self):
+        self.align_edge_test(UTM,'r',0)
+        self.align_edge_test(UMR,'l',0)
+        self.align_edge_test(UBM,'r',0)
+        self.align_edge_test(UML,'l',0)
+        
+        self.align_edge_test(UTM,'r',1)
+        self.align_edge_test(UMR,'d',1)
+        self.align_edge_test(UBM,'l',1)
+        self.align_edge_test(UML,'u',1)
+        
+    def test_195_alignPiece_Down(self):
+        self.align_edge_test(DTM,'r',0)
+        self.align_edge_test(DMR,'l',0)
+        self.align_edge_test(DBM,'r',0)
+        self.align_edge_test(DML,'l',0)
+        
+        self.align_edge_test(DTM,'r',1)
+        self.align_edge_test(DMR,'u',1)
+        self.align_edge_test(DBM,'l',1)
+        self.align_edge_test(DML,'d',1)
 
 if __name__ == '__main__':
     unittest.main()

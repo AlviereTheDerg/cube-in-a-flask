@@ -138,3 +138,6 @@ class Cube:
                 return False
         else:
             return True
+        
+    def align_edge(self, piece, face, variant=0):
+        pass
