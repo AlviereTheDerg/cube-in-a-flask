@@ -140,4 +140,20 @@ class Cube:
             return True
         
     def align_edge(self, piece, face, variant=0):
-        pass
+        if (variant == 1):
+            return self.align_edge(constants.OTHER_SIDE_OF[piece], face)
+        
+        cycle = [constants.FACE_OF[constants.OTHER_SIDE_OF[slot]] for slot in constants.CYCLE_OF_FACE_OF[piece][1]]
+        offset = cycle.index(face) - cycle.index(constants.FACE_OF[constants.OTHER_SIDE_OF[piece]])
+        
+        match offset % len(cycle):
+            case 0:
+                result = ""
+            case 1:
+                result = constants.FACE_OF[piece].upper()
+            case 2:
+                result = 2 * constants.FACE_OF[piece].upper()
+            case 3:
+                result = constants.FACE_OF[piece]
+        self.rotate(result)
+        return result
