@@ -158,5 +158,38 @@ class Cube:
         self.rotate(result)
         return result
     
+    @rotation_validation
     def move_algorithm(self, algorithm, new_front, new_up='u'):
-        pass
+        if {new_front,new_up} in ({'u','d'}, {'l','r'}, {'f','b'}):
+            raise ValueError("Error: Invalid faces specified: Cannot assign front and up to opposing faces")
+        
+        static_middle = 'frbl'
+        match new_up:
+            case 'u':
+                transform = {'u':'u', 'd':'d'}
+                middle = 'frbl'
+            case 'd':
+                transform = {'d':'u', 'u':'d'}
+                middle = 'flbr'
+            case 'f':
+                transform = {'f':'u', 'b':'d'}
+                middle = 'uldr'
+            case 'b':
+                transform = {'b':'u', 'f':'d'}
+                middle = 'urdl'
+            case 'l':
+                transform = {'l':'u', 'r':'d'}
+                middle = 'fubd'
+            case 'r':
+                transform = {'r':'u', 'l':'d'}
+                middle = 'fdbu'
+        
+        begin = middle.index(new_front)
+        for index in range(len(middle)):
+            transform[middle[(index+begin)%len(middle)]] = static_middle[index]
+        
+        transform |= {key.upper():value.upper() for key,value in transform.items()}
+
+        algorithm = "".join(transform[step] for step in algorithm)
+        self.rotate(algorithm)
+        return algorithm
