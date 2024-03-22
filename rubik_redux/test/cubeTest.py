@@ -479,6 +479,7 @@ class CubeTest(unittest.TestCase):
         cube = Cube(cube_string)
         result = cube.move_algorithm(algorithm, new_front, new_up)
         self.assertEqual(expected, result) # matches expectation
+        self.assertNotEqual(cube_string, str(cube)) # should rotate the cube in the process
         second_cube = Cube(cube_string)
         second_cube.rotate(result)
         self.assertEqual(str(cube), str(second_cube)) # reproducability
