@@ -490,41 +490,41 @@ class CubeTest(unittest.TestCase):
     def test_move_algorithm_front(self):
         algorithm = "FRBLUDfrblud"
         for front,expected in [('u','ULDRFBuldrfb'),
-                               ('l','UBDFLRubdflr'),
-                               ('d','URDLBFurdlbf'),
-                               ('r','UFDBRLufdbrl')]:
+                               ('l','LDRUFBldrufb'),
+                               ('d','DRULFBdrulfb'),
+                               ('r','RULDFBruldfb')]:
             self.move_algorithm_effects_test(algorithm, front, 'f', expected)
     
     def test_move_algorithm_right(self):
         algorithm = "FRBLUDfrblud"
-        for front,expected in [('f','FUBDLRfubdlr'),
-                               ('d','LURDBFlurdbf'),
+        for front,expected in [('f','FDBURLfdburl'),
+                               ('d','DBUFRLdbufrl'),
                                ('b','BUFDRLbufdrl'),
-                               ('u','RULDFBruldfb')]:
+                               ('u','UFDBRLufdbrl')]:
             self.move_algorithm_effects_test(algorithm, front, 'r', expected)
     
     def test_move_algorithm_back(self):
         algorithm = "FRBLUDfrblud"
-        for front,expected in [('u','DRULFBdrulfb'),
-                               ('r','DFUBLRdfublr'),
+        for front,expected in [('u','URDLBFurdlbf'),
+                               ('r','RDLUBFrdlubf'),
                                ('d','DLURBFdlurbf'),
-                               ('l','DBUFRLdbufrl')]:
+                               ('l','LURDBFlurdbf')]:
             self.move_algorithm_effects_test(algorithm, front, 'b', expected)
     
     def test_move_algorithm_left(self):
         algorithm = "FRBLUDfrblud"
-        for front,expected in [('f','FDBURLfdburl'),
-                               ('u','LDRUFBldrufb'),
+        for front,expected in [('f','FUBDLRfubdlr'),
+                               ('u','UBDFLRubdflr'),
                                ('b','BDFULRbdfulr'),
-                               ('d','RDLUBFrdlubf')]:
+                               ('d','DFUBLRdfublr')]:
             self.move_algorithm_effects_test(algorithm, front, 'l', expected)
 
     def test_move_algorithm_up(self):
         algorithm = "FRBLUDfrblud"
         for front,expected in [('f','FRBLUDfrblud'),
-                               ('r','LFRBUDlfrbud'),
+                               ('r','RBLFUDrblfud'),
                                ('b','BLFRUDblfrud'),
-                               ('l','RBLFUDrblfud')]:
+                               ('l','LFRBUDlfrbud')]:
             self.move_algorithm_effects_test(algorithm, front, 'u', expected)
 
     def test_move_algorithm_down(self):
