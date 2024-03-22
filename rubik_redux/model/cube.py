@@ -160,9 +160,6 @@ class Cube:
     
     @rotation_validation
     def move_algorithm(self, algorithm, new_front, new_up='u'):
-        if {new_front,new_up} in ({'u','d'}, {'l','r'}, {'f','b'}):
-            raise ValueError("Error: Invalid faces specified: Cannot assign front and up to opposing faces")
-        
         static_middle = 'frbl'
         match new_up:
             case 'u':
@@ -183,6 +180,9 @@ class Cube:
             case 'r':
                 transform = {'r':'u', 'l':'d'}
                 middle = 'fdbu'
+
+        if new_front in transform.keys():
+            raise ValueError("Error: Invalid faces specified: Cannot assign front and up to non-adjacent faces")
         
         begin = middle.index(new_front)
         for index in range(len(middle)):
