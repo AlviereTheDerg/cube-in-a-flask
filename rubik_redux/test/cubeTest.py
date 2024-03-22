@@ -455,12 +455,11 @@ class CubeTest(unittest.TestCase):
     def test_move_algorithm_invalid_faces(self):
         cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
         cube = Cube(cube_string)
-        for new_front,new_up in [('f','b'),('b','f'),
-                                 ('u','d'),('d','u'),
-                                 ('l','r'),('r','l')]:
+        for new_front,new_up in [('f','b'),('b','f'), ('u','d'),('d','u'), ('l','r'),('r','l'),
+                                 ('f','f'),('b','b'), ('u','u'),('d','d'), ('l','l'),('r','r')]:
             with self.assertRaises(ValueError) as result:
                 cube.move_algorithm("FRBLUDfrblud", new_front, new_up)
-            self.assertEqual("Error: Invalid faces specified: Cannot assign front and up to opposing faces", str(result.exception))
+            self.assertEqual("Error: Invalid faces specified: Cannot assign front and up to non-adjacent faces", str(result.exception))
 
             self.assertEqual(cube_string, str(cube))
 
