@@ -19,15 +19,7 @@ def _bottom_cross(cube: Cube):
                 cube.rotate(constants.FACE_OF[current_location])
                 current_location = cube.where_is(target)
             case 'u': # needs to fix the -BM
-                # move -TM to -ML, but moves -BM to -MR
-                motions.append(constants.FACE_OF[current_location])
-                cube.rotate(constants.FACE_OF[current_location])
-                current_location = cube.where_is(target)
-
-                # move -MR back to -BM without messing up other pieces of bottom cross
-                holder = constants.FACE_OF[constants.OTHER_SIDE_OF[current_location]].upper() + constants.FACE_OF[current_location].upper() + constants.FACE_OF[constants.OTHER_SIDE_OF[current_location]]
-                motions.append(holder)
-                cube.rotate(holder)
+                motions.append(cube.move_algorithm('fLFl', constants.FACE_OF[current_location]))
                 current_location = cube.where_is(target)
         
         # if a piece is ringing a (non-up/down) face other than the one it needs to go to
