@@ -160,33 +160,33 @@ class Cube:
     
     @rotation_validation
     def move_algorithm(self, algorithm, new_front, new_up='u'):
+        if {new_front,new_up} in ({'f','b'},{'u','d'},{'l','r'}) or len({new_front,new_up}) == 1:
+            raise ValueError("Error: Invalid faces specified: Cannot assign front and up to non-adjacent faces")
+        
         static_middle = 'frbl'
         match new_up:
             case 'u':
                 transform = {'u':'u', 'd':'d'}
                 middle = 'frbl'
             case 'd':
-                transform = {'d':'u', 'u':'d'}
-                middle = 'flbr'
+                transform = {'u':'d', 'd':'u'}
+                middle = 'lbrf'
             case 'f':
-                transform = {'f':'u', 'b':'d'}
+                transform = {'u':'f', 'd':'b'}
                 middle = 'uldr'
             case 'b':
-                transform = {'b':'u', 'f':'d'}
-                middle = 'urdl'
+                transform = {'u':'b', 'd':'f'}
+                middle = 'rdlu'
             case 'l':
-                transform = {'l':'u', 'r':'d'}
+                transform = {'u':'l', 'd':'r'}
                 middle = 'fubd'
             case 'r':
-                transform = {'r':'u', 'l':'d'}
-                middle = 'fdbu'
+                transform = {'u':'r', 'd':'l'}
+                middle = 'dbuf'
 
-        if new_front in transform.keys():
-            raise ValueError("Error: Invalid faces specified: Cannot assign front and up to non-adjacent faces")
-        
         begin = middle.index(new_front)
         for index in range(len(middle)):
-            transform[middle[(index+begin)%len(middle)]] = static_middle[index]
+            transform[static_middle[index]] = middle[(index+begin)%len(middle)]
         
         transform |= {key.upper():value.upper() for key,value in transform.items()}
 
