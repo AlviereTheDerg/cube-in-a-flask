@@ -451,5 +451,89 @@ class CubeTest(unittest.TestCase):
         self.align_edge_test(DBM,'l',1)
         self.align_edge_test(DML,'d',1)
 
+
+    def test_move_algorithm_invalid_faces(self):
+        cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
+        cube = Cube(cube_string)
+        for new_front,new_up in [('f','b'),('b','f'),
+                                 ('u','d'),('d','u'),
+                                 ('l','r'),('r','l')]:
+            with self.assertRaises(ValueError) as result:
+                cube.move_algorithm("FRBLUDfrblud", new_front, new_up)
+            self.assertEqual("Error: Invalid faces specified: Cannot assign front and up to opposing faces", str(result.exception))
+
+            self.assertEqual(cube_string, str(cube))
+
+    def test_move_algorithm_default_functionality(self):
+        cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
+        algorithm = "FRBLUDfrblud"
+        for new_front in 'frbl':
+            up_cube = Cube(cube_string)
+            default_cube = Cube(cube_string)
+            up_result = up_cube.move_algorithm(algorithm, new_front, new_up='u')
+            default_result = default_cube.move_algorithm(algorithm, new_front)
+            self.assertEqual(up_result, default_result)
+            self.assertEqual(str(up_cube), str(default_cube))
+    
+    def move_algorithm_effects_test(self, algorithm, new_front, new_up, expected):
+        cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
+        cube = Cube(cube_string)
+        result = cube.move_algorithm(algorithm, new_front, new_up)
+        self.assertEqual(expected, result) # matches expectation
+        second_cube = Cube(cube_string)
+        second_cube.rotate(result)
+        self.assertEqual(str(cube), str(second_cube)) # reproducability
+
+        counter_result = cube.move_algorithm(algorithm, 'f', 'u')
+        self.assertEqual(algorithm, counter_result) # algorithm should be the same if 'moved back' to normal reference
+    
+    def test_move_algorithm_front(self):
+        algorithm = "FRBLUDfrblud"
+        for front,expected in [('u','ULDRFBuldrfb'),
+                               ('l','UBDFLRubdflr'),
+                               ('d','URDLBFurdlbf'),
+                               ('r','UFDBRLufdbrl')]:
+            self.move_algorithm_effects_test(algorithm, front, 'f', expected)
+    
+    def test_move_algorithm_right(self):
+        algorithm = "FRBLUDfrblud"
+        for front,expected in [('f','FUBDLRfubdlr'),
+                               ('d','LURDBFlurdbf'),
+                               ('b','BUFDRLbufdrl'),
+                               ('u','RULDFBruldfb')]:
+            self.move_algorithm_effects_test(algorithm, front, 'r', expected)
+    
+    def test_move_algorithm_back(self):
+        algorithm = "FRBLUDfrblud"
+        for front,expected in [('u','DRULFBdrulfb'),
+                               ('r','DFUBLRdfublr'),
+                               ('d','DLURBFdlurbf'),
+                               ('l','DBUFRLdbufrl')]:
+            self.move_algorithm_effects_test(algorithm, front, 'b', expected)
+    
+    def test_move_algorithm_left(self):
+        algorithm = "FRBLUDfrblud"
+        for front,expected in [('f','FDBURLfdburl'),
+                               ('u','LDRUFBldrufb'),
+                               ('b','BDFULRbdfulr'),
+                               ('d','RDLUBFrdlubf')]:
+            self.move_algorithm_effects_test(algorithm, front, 'l', expected)
+
+    def test_move_algorithm_up(self):
+        algorithm = "FRBLUDfrblud"
+        for front,expected in [('f','FRBLUDfrblud'),
+                               ('r','LFRBUDlfrbud'),
+                               ('b','BLFRUDblfrud'),
+                               ('l','RBLFUDrblfud')]:
+            self.move_algorithm_effects_test(algorithm, front, 'u', expected)
+
+    def test_move_algorithm_down(self):
+        algorithm = "FRBLUDfrblud"
+        for front,expected in [('f','FLBRDUflbrdu'),
+                               ('l','LBRFDUlbrfdu'),
+                               ('b','BRFLDUbrfldu'),
+                               ('r','RFLBDUrflbdu')]:
+            self.move_algorithm_effects_test(algorithm, front, 'd', expected)
+
 if __name__ == '__main__':
     unittest.main()

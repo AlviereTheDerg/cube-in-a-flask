@@ -157,3 +157,6 @@ class Cube:
                 result = constants.FACE_OF[piece]
         self.rotate(result)
         return result
+    
+    def move_algorithm(self, algorithm, new_front, new_up='u'):
+        pass
