@@ -146,15 +146,7 @@ class Cube:
         cycle = [constants.FACE_OF[constants.OTHER_SIDE_OF[slot]] for slot in constants.CYCLE_OF_FACE_OF[piece][1]]
         offset = cycle.index(face) - cycle.index(constants.FACE_OF[constants.OTHER_SIDE_OF[piece]])
         
-        match offset % len(cycle):
-            case 0:
-                result = ""
-            case 1:
-                result = constants.FACE_OF[piece].upper()
-            case 2:
-                result = 2 * constants.FACE_OF[piece].upper()
-            case 3:
-                result = constants.FACE_OF[piece]
+        result = constants.ROTATION_TOKENS[constants.FACE_OF[piece]][offset % len(cycle)]
         self.rotate(result)
         return result
     
