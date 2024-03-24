@@ -134,6 +134,7 @@ OTHER_SIDE_OF = ({center:None for center in CENTERS} # Centers map to None
             CYCLE_OF_FACE_OF[corner][2][CYCLE_OF_FACE_OF[corner][0].index(corner)]  # 1 is more clockwise of the pair
         ) for corner in CORNERS})
 ALL_SIDES_OF = {piece:{piece} for piece in CENTERS} | {piece:{piece, OTHER_SIDE_OF[piece]} for piece in EDGES} | {piece:({piece} | set(OTHER_SIDE_OF[piece])) for piece in CORNERS}
+ROTATION_TOKENS = {face:{index:entry for index,entry in enumerate(["", face.upper(), 2*face.upper(), face])} for face in FACES}
 
 # Map how pieces move with rotations
 # ROTATION_TRANSFERS[rotation].get(piece, piece) -> location that piece will be after applying rotation
