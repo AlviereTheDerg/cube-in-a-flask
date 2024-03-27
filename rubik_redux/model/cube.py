@@ -151,7 +151,21 @@ class Cube:
         return result
     
     def align_corner(self, piece_to_move, destination_piece, face_to_rotate):
-        pass
+        # flatten to face_to_rotate
+        # get all pieces of the corner, union with corners of the face to rotate
+        piece_to_move = constants.ALL_SIDES_OF[piece_to_move] & set(constants.CYCLE_OF[face_to_rotate][0])
+        destination_piece = constants.ALL_SIDES_OF[destination_piece] & set(constants.CYCLE_OF[face_to_rotate][0])
+        if len(piece_to_move) == 0 or len(destination_piece) == 0:
+            raise ValueError("Error: Invalid corner to align: Corner not on target face")
+        piece_to_move = piece_to_move.pop()
+        destination_piece = destination_piece.pop()
+
+        start = constants.CYCLE_OF[face_to_rotate][0].index(piece_to_move)
+        end = constants.CYCLE_OF[face_to_rotate][0].index(destination_piece)
+        offset = (end - start) % len(constants.CYCLE_OF[face_to_rotate][0])
+        result = constants.ROTATION_TOKENS[face_to_rotate][offset]
+        self.rotate(result)
+        return result
     
     @rotation_validation
     def move_algorithm(self, algorithm, new_front, new_up='u'):
