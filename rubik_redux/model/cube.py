@@ -150,6 +150,9 @@ class Cube:
         self.rotate(result)
         return result
     
+    def align_corner(self, piece_to_move, destination_piece, face_to_rotate):
+        pass
+    
     @rotation_validation
     def move_algorithm(self, algorithm, new_front, new_up='u'):
         static_middle = 'frbl'

@@ -451,6 +451,57 @@ class CubeTest(unittest.TestCase):
         self.align_edge_test(DBM,'l',1)
         self.align_edge_test(DML,'d',1)
 
+    
+    def align_corner_face_test(self, face):
+        sum_of_corners = set(constants.CYCLE_OF[face][0] + constants.CYCLE_OF[face][2] + constants.CYCLE_OF[face][4])
+        cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
+
+        # Valid corners
+        for start_corner in sum_of_corners:
+            for end_corner in sum_of_corners:
+                cube = Cube(cube_string)
+                result = cube.align_corner(start_corner, end_corner, face)
+                self.assertIn(result, constants.ROTATION_TOKENS[face].values()) # result within expected parameters
+                self.assertIn(end_corner, constants.ALL_SIDES_OF[cube.where_is(start_corner)]) # piece moved to expected position
+                second_cube = Cube(cube_string)
+                second_cube.rotate(result)
+                self.assertEqual(str(cube), str(second_cube)) # reproducability
+        
+        # One invalid corner
+        for valid_corner in sum_of_corners:
+            for invalid_corner in (constants.CORNERS - sum_of_corners):
+                cube = Cube(cube_string)
+                with self.assertRaises(ValueError) as result:
+                    cube.align_corner(valid_corner, invalid_corner, face)
+                self.assertEqual("Error: Invalid corner to align: Corner not on target face", str(result.exception))
+
+                self.assertEqual(cube_string, str(cube)) # don't corrupt cube
+                with self.assertRaises(ValueError) as result:
+                    cube.align_corner(invalid_corner, valid_corner, face)
+                self.assertEqual("Error: Invalid corner to align: Corner not on target face", str(result.exception))
+        
+        # Two invalid corners
+        for start_corner in (constants.CORNERS - sum_of_corners):
+            for end_corner in (constants.CORNERS - sum_of_corners):
+                cube = Cube(cube_string)
+                with self.assertRaises(ValueError) as result:
+                    cube.align_corner(valid_corner, invalid_corner, face)
+                self.assertEqual("Error: Invalid corner to align: Corner not on target face", str(result.exception))
+                self.assertEqual(cube_string, str(cube)) # don't corrupt cube
+    
+    def test_align_corner_front(self):
+        self.align_corner_face_test('f')
+    def test_align_corner_right(self):
+        self.align_corner_face_test('r')
+    def test_align_corner_back(self):
+        self.align_corner_face_test('b')
+    def test_align_corner_left(self):
+        self.align_corner_face_test('l')
+    def test_align_corner_up(self):
+        self.align_corner_face_test('u')
+    def test_align_corner_down(self):
+        self.align_corner_face_test('d')
+
 
     def test_move_algorithm_invalid_faces(self):
         cube_string = "bbbbbbbbbooooooooogggggggggrrrrrrrrrwwwwwwwwwyyyyyyyyy"
