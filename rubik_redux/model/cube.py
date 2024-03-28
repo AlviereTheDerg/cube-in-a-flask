@@ -151,19 +151,20 @@ class Cube:
         return result
     
     def align_corner(self, piece_to_move, destination_piece, face_to_rotate):
-        # flatten to face_to_rotate
-        # get all pieces of the corner, union with corners of the face to rotate
-        piece_to_move = constants.ALL_SIDES_OF[piece_to_move] & set(constants.CYCLE_OF[face_to_rotate][0])
-        destination_piece = constants.ALL_SIDES_OF[destination_piece] & set(constants.CYCLE_OF[face_to_rotate][0])
-        if len(piece_to_move) == 0 or len(destination_piece) == 0:
-            raise ValueError("Error: Invalid corner to align: Corner not on target face")
-        piece_to_move = piece_to_move.pop()
-        destination_piece = destination_piece.pop()
+        flattened = []
+        for piece in [piece_to_move, destination_piece]:
+            # if piece moves with the face_to_rotate, becomes set of length 1 holding the on-face corner
+            piece = constants.ALL_SIDES_OF[piece] & set(constants.CYCLE_OF[face_to_rotate][0])
 
-        start = constants.CYCLE_OF[face_to_rotate][0].index(piece_to_move)
-        end = constants.CYCLE_OF[face_to_rotate][0].index(destination_piece)
-        offset = (end - start) % len(constants.CYCLE_OF[face_to_rotate][0])
-        result = constants.ROTATION_TOKENS[face_to_rotate][offset]
+            # otherwise, becomes an empty set
+            if len(piece) == 0:
+                raise ValueError("Error: Invalid corner to align: Corner not on target face")
+            
+            # free piece from the set and flatten it to its position in the cycle
+            flattened.append(constants.CYCLE_OF[face_to_rotate][0].index(piece.pop()))
+
+        # get the relative offset between the pieces and translate it into the rotation token
+        result = constants.ROTATION_TOKENS[face_to_rotate][(flattened[1] - flattened[0]) % len(constants.CYCLE_OF[face_to_rotate][0])]
         self.rotate(result)
         return result
     
