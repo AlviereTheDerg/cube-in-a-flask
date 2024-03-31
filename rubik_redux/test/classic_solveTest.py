@@ -20,7 +20,7 @@ class solver_tests(unittest.TestCase):
         cube = Cube(cube_string)
         with self.assertRaises(ValueError) as result:
             solve_function(cube)
-        self.assertEqual(f"Error: Solving stage \"{solve_stage_name}\" missing prerequisite", str(result.exception))
+        self.assertEqual(f"Error: Solving stage \"{solve_stage_name}\": missing prerequisite", str(result.exception))
         self.assertEqual(cube_string, str(cube))
 
     @symbol_scramble_decorator

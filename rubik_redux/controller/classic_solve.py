@@ -46,4 +46,5 @@ def _bottom_cross(cube: Cube):
     return "".join(motions)
 
 def _bottom_layer(cube: Cube):
-    pass
+    if not cube.match_pattern("....f..f.....r..r.....b..b.....l..l.....u.....d.ddd.d."):
+        raise ValueError("Error: Solving stage \"bottom layer\": missing prerequisite")
