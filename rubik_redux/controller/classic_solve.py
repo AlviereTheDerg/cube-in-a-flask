@@ -48,3 +48,35 @@ def _bottom_cross(cube: Cube):
 def _bottom_layer(cube: Cube):
     if not cube.match_pattern("....f..f.....r..r.....b..b.....l..l.....u.....d.ddd.d."):
         raise ValueError("Error: Solving stage \"bottom layer\": missing prerequisite")
+    
+    motions = []
+    for target in [constants.DTL, constants.DTR, constants.DBR, constants.DBL]:
+        current_location = cube.where_is(target)
+        if target == current_location: # if the piece is already in location
+            continue
+        
+        # raise the piece to the up layer without disturbing remainder of bottom layer
+        if len(constants.ALL_SIDES_OF[current_location] & set(constants.UP[0])) == 0:
+            piece = (constants.ALL_SIDES_OF[current_location] & set(constants.DOWN[0])).pop() # flatten to down-face corner
+            face = constants.FACE_OF[constants.OTHER_SIDE_OF[piece][0]] # select face where the piece is the bottom-right
+            motions.append(cube.move_algorithm("RUr", face)) # flick it up to the top-left of that face without disturbing rest of bottom layer
+            current_location = cube.where_is(target) # piece moved so update current location
+        
+        # identify the corner piece 'above' the target, move the piece into that position
+        piece = constants.OTHER_SIDE_OF[target][0]
+        face = constants.FACE_OF[piece]
+        piece = constants.CYCLE_OF[face][0][constants.CYCLE_OF[face][0].index(piece) - 1]
+        motions.append(cube.align_corner(current_location, piece, 'u'))
+
+        # if the piece is facing the up face, flick it around to face a side
+        current_location = cube.where_is(target)
+        if constants.FACE_OF[current_location] == 'u':
+            motions.append(cube.move_algorithm("RurUU", face))
+            current_location = cube.where_is(target)
+        
+        # flick the piece down into place
+        if constants.FACE_OF[current_location] == face:
+            motions.append(cube.move_algorithm("fuF", face))
+        else:
+            motions.append(cube.move_algorithm("RUr", face))
+    return "".join(motions)
