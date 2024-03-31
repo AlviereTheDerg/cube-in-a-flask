@@ -44,3 +44,6 @@ def _bottom_cross(cube: Cube):
         # drop the target into place
         motions.append(cube.align_edge(current_location, 'd', 1))
     return "".join(motions)
+
+def _bottom_layer(cube: Cube):
+    pass
