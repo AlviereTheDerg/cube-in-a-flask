@@ -82,4 +82,34 @@ def _bottom_layer(cube: Cube):
     return "".join(motions)
 
 def _bottom_two_layers(cube: Cube):
-    pass
+    if not cube.match_pattern('....f.fff....r.rrr....b.bbb....l.lll....u....ddddddddd'):
+        raise ValueError("Error: Solving stage \"bottom two layers\": missing prerequisite")
+    
+    motions = []
+    targets = [constants.FMR, constants.RMR, constants.BMR, constants.LMR]
+    for target in targets:
+        current_location = cube.where_is(target)
+        if target == current_location:
+            continue
+
+        # if the piece is in the middle layer (not in the top layer), push it out
+        if len(constants.ALL_SIDES_OF[current_location] & set(constants.UP[1])) == 0:
+            if current_location not in targets: # flip so it's the -MR piece
+                current_location = constants.OTHER_SIDE_OF[current_location]
+            motions.append(cube.move_algorithm("dLDufUFdUlDu", 'u', constants.FACE_OF[current_location]))
+            current_location = cube.where_is(target)
+        
+        # line the piece up with the face it needs to fall into
+        flag = False # whether the LHS or RHS insertion needs to be done
+        if current_location in constants.UP[1]: # if it's on the up face, get the touching piece
+            flag = True
+            current_location = constants.OTHER_SIDE_OF[current_location]
+        
+        face = constants.FACE_OF[cube.where_does_piece_go(current_location)]
+        motions.append(cube.align_edge(current_location, face, 1))
+
+        if flag: # -ML piece, LHS insertion
+            motions.append(cube.move_algorithm("fDrdUFufDuRdU", 'u', face))
+        else:    # -MR piece, RHS insertion
+            motions.append(cube.move_algorithm("FdLDufUFdUlDu", 'u', face))
+    return "".join(motions)
