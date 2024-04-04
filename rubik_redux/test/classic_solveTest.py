@@ -168,5 +168,37 @@ class solver_tests(unittest.TestCase):
                      "fufffffffururrbrrrblblbfbbbubuulllllrulruurblddddddddd"]:
             self.solve_bottom_two_layers_test(cube)
 
+    
+    def test_top_cross_unmet_requisite_1(self): # scrambled
+        self.raise_unmet_requisite_stage_test("rdluffbbfubfurflrfluddbfuurlfullrdlrbbdrudbrbdluddbflr", solver._top_cross, "top cross")
+    def test_top_cross_unmet_requisite_2(self): # bottom cross
+        self.raise_unmet_requisite_stage_test("budbfbfffruurrflrlrudubffbulfdlllllrbbbrulrrfududddbdd", solver._top_cross, "top cross")
+    def test_top_cross_unmet_requisite_3(self): # bottom layer
+        self.raise_unmet_requisite_stage_test("flbrflffflllurrrrrfububfbbburuulflllrbubufrbuddddddddd", solver._top_cross, "top cross")
+    def test_top_cross_unmet_requisite_4(self): # bottom two layers incorrectly
+        self.raise_unmet_requisite_stage_test("fbblfffffuuurrrrrrflbbbbbbblrlllfllluuruufuurddddddddd", solver._top_cross, "top cross")
+    
+    def test_top_cross_change_nothing_top_cross_solved_1(self):
+        self.change_nothing_test("ufbffffffurlrrrrrrfblbbbbbbulrllllllbuuuuufurddddddddd", solver._top_cross)
+    def test_top_cross_change_nothing_top_cross_solved_2(self):
+        self.change_nothing_test("ufuffffffrrbrrrrrrlbfbbbbbbrlflllllluuuuuulubddddddddd", solver._top_cross)
+    def test_top_cross_change_nothing_solved(self):
+        self.change_nothing_test("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", solver._top_cross)
+    
+    def solve_top_cross_test(self, cube_string):
+        self.solve_successful_test(cube_string, solver._top_cross, ".f.ffffff.r.rrrrrr.b.bbbbbb.l.llllll.u.uuu.u.ddddddddd")
+    
+    def test_top_cross_1(self): # none facing correctly
+        self.solve_top_cross_test("rulffffffuuurrrrrrfufbbbbbbuuulllllllfrbulbrbddddddddd")
+    def test_top_cross_2(self): # L shape
+        self.solve_top_cross_test("ruuffffffbffrrrrrrulrbbbbbbbuflllllluulruuublddddddddd")
+    def test_top_cross_3(self): # bar shape
+        self.solve_top_cross_test("fluffffffrufrrrrrrrblbbbbbbuulllllllbuufuruubddddddddd")
+    def test_top_cross_4(self): # opposites in place
+        self.solve_top_cross_test("uffffffffulbrrrrrrlbrbbbbbburbllllllfuuuuurulddddddddd")
+    def test_top_cross_5(self): # adjacents in place
+        self.solve_top_cross_test("ufufffffffrbrrrrrrulubbbbbblblllllllfuruuuburddddddddd")
+
+
 if __name__ == '__main__':
     unittest.main()

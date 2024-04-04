@@ -113,3 +113,6 @@ def _bottom_two_layers(cube: Cube):
         else:    # -MR piece, RHS insertion
             motions.append(cube.move_algorithm("FdLDufUFdUlDu", 'u', face))
     return "".join(motions)
+
+def _top_cross(cube: Cube):
+    pass
