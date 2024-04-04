@@ -80,3 +80,6 @@ def _bottom_layer(cube: Cube):
         else:
             motions.append(cube.move_algorithm("RUr", face))
     return "".join(motions)
+
+def _bottom_two_layers(cube: Cube):
+    pass

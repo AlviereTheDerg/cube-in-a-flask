@@ -125,5 +125,48 @@ class solver_tests(unittest.TestCase):
                      "rflbffufldlflrrdruuurbburbbfrbfllulrdbluuudrfbdbdddldf"]:
             self.solve_bottom_layer_test(cube)
 
+    
+    def test_bottom_two_layers_unmet_requisite_1(self): # scrambled
+        self.raise_unmet_requisite_stage_test("dfdrfuluufrflrdlfbrrllbbddbfbfdldrbbuuurufruldbbldlufr", solver._bottom_two_layers, "bottom two layers")
+    def test_bottom_two_layers_unmet_requisite_2(self): # bottom cross
+        self.raise_unmet_requisite_stage_test("fuubfflfrrrllrubrlbbfrbrbbulurblurlfdldfufdlbudddddfdu", solver._bottom_two_layers, "bottom two layers")
+    def test_bottom_two_layers_unmet_requisite_3(self): # bottom layer solved incorrectly
+        self.raise_unmet_requisite_stage_test("bbrufblfluflrrlfrfubfubfrbrurrllfblblubuurulfddddddddd", solver._bottom_two_layers, "bottom two layers")
+    
+    def test_bottom_two_layers_change_nothing_bottom_two_layers_solved_1(self):
+        self.change_nothing_test("rulffffffffurrrrrrbrubbbbbbfuullllllrulbuubluddddddddd", solver._bottom_two_layers)
+    def test_bottom_two_layers_change_nothing_bottom_two_layers_solved_2(self):
+        self.change_nothing_test("buuffffffruurrrrrrfulbbbbbbfuullllllulrrublfbddddddddd", solver._bottom_two_layers)
+    def test_bottom_two_layers_change_nothing_top_cross_solved_1(self):
+        self.change_nothing_test("rffffffffurbrrrrrrlbubbbbbbrlfllllllbuuuuuuulddddddddd", solver._bottom_two_layers)
+    def test_bottom_two_layers_change_nothing_top_cross_solved_2(self):
+        self.change_nothing_test("bffffffffrrurrrrrrlbubbbbbbrlullllllbufuuuluuddddddddd", solver._bottom_two_layers)
+    def test_bottom_two_layers_change_nothing_solved(self):
+        self.change_nothing_test("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", solver._bottom_two_layers)
+    
+    def solve_bottom_two_layers_test(self, cube_string):
+        self.solve_successful_test(cube_string, solver._bottom_two_layers, "...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd")
+    
+    def test_bottom_two_layers_1(self): # no pieces in middle layer
+        self.solve_bottom_two_layers_test("fbfufffffubburrrrrufuubbbbbbfuullllllrrlurrllddddddddd")
+    def test_bottom_two_layers_2(self): # all but one solved - LHS
+        self.solve_bottom_two_layers_test("fufffufffurbfrrrrruuubbbbbbbbullllllllruufrrlddddddddd")
+    def test_bottom_two_layers_3(self): # all but one solved - RHS
+        self.solve_bottom_two_layers_test("ufbffffffuluurrrrrbbubbbbbbfrfllllllruluuulrrddddddddd")
+    def test_bottom_two_layers_4(self): # all but one solved - in place backwards
+        self.solve_bottom_two_layers_test("bbuffrfffflffrrrrrufbbbbbbbuuullllllrulruulurddddddddd")
+    def test_bottom_two_layers_5(self): # all but two solved - switched
+        self.solve_bottom_two_layers_test("buuffrffffbfbrrrrruubfbbbbbuuullllllrrlluulfrddddddddd")
+    
+    def test_bottom_two_layers_barrage(self):
+        for cube in ["frrbfbfffbuuururrrblrfbrbbburlflllllfflbuluuuddddddddd",
+                     "bfrbfbfffurlurrrrrffrbbubbbbuuflllllululuulrfddddddddd",
+                     "uflrflfffullururrrfrbbblbbburrblflllruubuffubddddddddd",
+                     "urrffffffuulrrurrrurlbblbbbfubbllllluubfulrbfddddddddd",
+                     "urlfffffffubrrrrrruurbbbbbbuflllllllfbruulbuuddddddddd",
+                     "uuuufrffffffurbrrrurulbfbbbbfbullllllbllurrbrddddddddd",
+                     "fufffffffururrbrrrblblbfbbbubuulllllrulruurblddddddddd"]:
+            self.solve_bottom_two_layers_test(cube)
+
 if __name__ == '__main__':
     unittest.main()
