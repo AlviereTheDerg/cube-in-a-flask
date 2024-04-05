@@ -227,8 +227,10 @@ class solver_tests(unittest.TestCase):
         self.solve_top_layer_test("lffffffffrrlrrrrrrfbrbbbbbbblblllllluuuuuuuuuddddddddd")
     def test_top_layer_5(self): # cycle 3 corners CCW
         self.solve_top_layer_test("bffffffffrrbrrrrrrlblbbbbbbflrlllllluuuuuuuuuddddddddd")
-    def test_top_layer_6(self): # align all 4 corners
+    def test_top_layer_6(self): # align all 4 corners: face-pairs swapped
         self.solve_top_layer_test("rflfffffffrbrrrrrrlbrbbbbbbblflllllluuuuuuuuuddddddddd")
+    def test_top_layer_7(self): # align all 4 corners: corners swapped
+        self.solve_top_layer_test("bfbfffffflrlrrrrrrfbfbbbbbbrlrlllllluuuuuuuuuddddddddd")
 
 if __name__ == '__main__':
     unittest.main()
