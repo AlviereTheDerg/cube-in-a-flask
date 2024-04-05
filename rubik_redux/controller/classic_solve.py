@@ -115,4 +115,41 @@ def _bottom_two_layers(cube: Cube):
     return "".join(motions)
 
 def _top_cross(cube: Cube):
-    pass
+    if not cube.match_pattern('...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd'):
+        raise ValueError("Error: Solving stage \"top cross\": missing prerequisite")
+    
+    motions = []
+    # flip pieces to make the top cross (colour-wise)
+    while (pieces := [cube.cube_data[piece] != cube.colours['u'] for piece in constants.UP[1]]) != [False, False, False, False]:
+        for index,here in enumerate(pieces):
+            # check adjacent (empty center, L-shape)
+            if here and pieces[index - 1]:
+                motions.append(cube.move_algorithm("FURurf", constants.FACE_OF[constants.OTHER_SIDE_OF[constants.UP[1][index]]]))
+                break
+
+            # check opposites
+            if here and pieces[index - 2]:
+                motions.append(cube.move_algorithm("FRUruf", constants.FACE_OF[constants.OTHER_SIDE_OF[constants.UP[1][index]]]))
+    
+    # cycle pieces to make the top cross correct
+    pieces = [constants.FTM, constants.RTM, constants.BTM, constants.LTM] # take the cycle of pieces FTM RTM BTM LTM
+    pieces = [constants.FACE_OF[cube.where_does_piece_go(piece)] for piece in pieces] # decompose to the face they need to go on
+    pieces = pieces[pieces.index('f'):] + pieces[:pieces.index('f')] # normalize list to start at should-be-front
+    match "".join(pieces): # identify which state the pieces are in, and solve accordingly
+        case "frbl": # solved
+            moves = ""
+        case "flbr": # l-r swap
+            moves = "RUrURUUrFUfUFUUf"
+        case "frlb": # l-b swap
+            moves = "FUfUFUUf"
+        case "fbrl": # r-b swap
+            moves = "fuFufuuF"
+        case "fblr": # CW rotation
+            moves = "RUrURUUr"
+        case "flrb": # CCW rotation
+            moves = "luLuluuL"
+        case _:
+            raise ValueError("if this is ever reached then I am an idiot and unable to deduce all the possible states that the upper layer could be in at this stage")
+    motions.append(cube.move_algorithm(moves, constants.FACE_OF[cube.where_is(constants.FTM)])) # enact moves
+    motions.append(cube.align_edge(cube.where_is(constants.FTM), 'f', 1)) # align the top face
+    return "".join(motions)
