@@ -160,6 +160,34 @@ def _top_layer(cube: Cube):
     
     motions = []
     # cycle the pieces around
+    pieces = [cube.where_is(piece) for piece in constants.UP[0]] # same order as constants.UP[0] (face corners), location of
+    pieces = [(constants.ALL_SIDES_OF[piece] & set(constants.UP[0])).pop() for piece in pieces] # flatten to the up face identifier
+    pieces = [constants.UP[0].index(piece) for piece in pieces] # replace with IDs of position in constants.UP[0]
+    # if there are no pieces in place (piece in place has index==entry): rotate CW as if anchored on FTR
+    if all(index!=entry for index,entry in enumerate(pieces)):
+        motions.append("lURuLUru")
+        cube.rotate(motions[-1])
+
+        # recalculate pieces
+        pieces = [constants.UP[0].index((constants.ALL_SIDES_OF[cube.where_is(piece)] & set(constants.UP[0])).pop()) for piece in constants.UP[0]]
+    
+    # determine if rotation needs to be done
+    if any(index!=entry for index,entry in enumerate(pieces)):
+        # determine anchor piece
+        anchor = constants.UP[0][next(piece for index,piece in enumerate(pieces) if index==piece)]
+
+        # determine rotation direction
+        loop = ((index,piece) for index,piece in enumerate(pieces) if index!=piece)
+        first = next(loop)
+        second = next(loop)
+        
+        # entry at index X is pointing at where the piece that should go there is
+        if first[1] == second[0]: # first entry points to second index -> second index should move to first index, CCW
+            motions.append(cube.move_algorithm("RulUruLU", constants.FACE_OF[constants.OTHER_SIDE_OF[anchor][0]]))
+        elif second[1] == first[0]: # second entry points to first index -> first index should move to second index, CW
+            motions.append(cube.move_algorithm("lURuLUru", constants.FACE_OF[constants.OTHER_SIDE_OF[anchor][1]]))
+        else:
+            raise ValueError("this should not be reachable but here's something to let me know I messed up")
 
     # rotate the pieces that aren't facing correctly
     pieces = [constants.UBR, constants.UTR, constants.UTL, constants.UBL] # the target pieces, CCW along top from FTR piece
