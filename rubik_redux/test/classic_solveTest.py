@@ -200,5 +200,35 @@ class solver_tests(unittest.TestCase):
         self.solve_top_cross_test("ufufffffffrbrrrrrrulubbbbbblblllllllfuruuuburddddddddd")
 
 
+    def test_top_layer_unmet_requisite_scrambled(self):
+        self.raise_unmet_requisite_stage_test("rddrflblrfrubrddbdllbbbdruulufflfbuduffbuuurlldffdrrlb", solver._top_layer, "top layer")
+    def test_top_layer_unmet_requisite_bottom_cross(self):
+        self.raise_unmet_requisite_stage_test("dbulfulflrfrrruurlfldlbfdbffurulbululfdburbrbbdfdddrdb", solver._top_layer, "top layer")
+    def test_top_layer_unmet_requisite_bottom_layer(self):
+        self.raise_unmet_requisite_stage_test("uflbflfffufuururrrfbubbrbbblfbulllllfrruulrrbddddddddd", solver._top_layer, "top layer")
+    def test_top_layer_unmet_requisite_bottom_two_layers(self):
+        self.raise_unmet_requisite_stage_test("urlffffffuuurrrrrrfuubbbbbbllbllllllfbruufrubddddddddd", solver._top_layer, "top layer")
+    def test_top_layer_unmet_requisite_top_cross_improper(self):
+        self.raise_unmet_requisite_stage_test("frrffffffublrrrrrrulbbbbbbbuflllllllrubuuuuufddddddddd", solver._top_layer, "top layer")
+
+    def test_top_layer_change_nothing_solved(self):
+        self.change_nothing_test("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", solver._top_layer)
+    
+    def solve_top_layer_test(self, cube_string):
+        self.solve_successful_test(cube_string, solver._top_layer, "fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+
+    def test_top_layer_1(self): # rotate two corners
+        self.solve_top_layer_test("ufufffffffrrrrrrrrbbbbbbbbbllflllllluuuuuulurddddddddd")
+    def test_top_layer_2(self): # rotate three corners
+        self.solve_top_layer_test("lfufffffffrurrrrrrrbbbbbbbbllulllllluubuuufurddddddddd")
+    def test_top_layer_3(self): # rotate four corners
+        self.solve_top_layer_test("lfrffffffurbrrrrrrububbbbbbblullllllluruuufufddddddddd")
+    def test_top_layer_4(self): # cycle 3 corners CW
+        self.solve_top_layer_test("lffffffffrrlrrrrrrfbrbbbbbbblblllllluuuuuuuuuddddddddd")
+    def test_top_layer_5(self): # cycle 3 corners CCW
+        self.solve_top_layer_test("bffffffffrrbrrrrrrlblbbbbbbflrlllllluuuuuuuuuddddddddd")
+    def test_top_layer_6(self): # align all 4 corners
+        self.solve_top_layer_test("rflfffffffrbrrrrrrlbrbbbbbbblflllllluuuuuuuuuddddddddd")
+
 if __name__ == '__main__':
     unittest.main()

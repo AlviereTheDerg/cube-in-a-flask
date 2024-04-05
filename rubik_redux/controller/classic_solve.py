@@ -153,3 +153,6 @@ def _top_cross(cube: Cube):
     motions.append(cube.move_algorithm(moves, constants.FACE_OF[cube.where_is(constants.FTM)])) # enact moves
     motions.append(cube.align_edge(cube.where_is(constants.FTM), 'f', 1)) # align the top face
     return "".join(motions)
+
+def _top_layer(cube: Cube):
+    pass
