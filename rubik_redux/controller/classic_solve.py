@@ -155,4 +155,33 @@ def _top_cross(cube: Cube):
     return "".join(motions)
 
 def _top_layer(cube: Cube):
-    pass
+    if not cube.match_pattern('.f.ffffff.r.rrrrrr.b.bbbbbb.l.llllll.u.uuu.u.ddddddddd'):
+        raise ValueError("Error: Solving stage \"top layer\": missing prerequisite")
+    
+    motions = []
+    # cycle the pieces around
+
+    # rotate the pieces that aren't facing correctly
+    pieces = [constants.UBR, constants.UTR, constants.UTL, constants.UBL] # the target pieces, CCW along top from FTR piece
+    pieces = [([piece] + list(constants.OTHER_SIDE_OF[piece])) for piece in pieces] # turn each into a list of top - CW - CCW piece IDs
+    pieces = [[cube.cube_data[piece] for piece in sub_list].index(cube.colours['u']) for sub_list in pieces] # convert to parity values (id of which side should be on top)
+    last_rot = 0
+    for rot_index,entry in enumerate(pieces):
+        if entry == 0:
+            continue # this piece doesn't need to be rotated
+
+        motions.append(constants.ROTATION_TOKENS['u'][rot_index - last_rot])
+        cube.rotate(motions[-1])
+        last_rot = rot_index
+
+        match entry:
+            case 1:
+                motions.append("rdRDrdRD")
+                cube.rotate(motions[-1])
+            case 2:
+                motions.append("drDRdrDR")
+                cube.rotate(motions[-1])
+    motions.append(constants.ROTATION_TOKENS['u'][-last_rot % len(pieces)])
+    cube.rotate(motions[-1])
+
+    return "".join(motions)
