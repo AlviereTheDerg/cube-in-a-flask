@@ -3,7 +3,13 @@ import rubik_redux.model.constants as constants
 from rubik_redux.model.cube import Cube
 
 def solve(cube: Cube):
-    pass
+    motions = []
+    motions.append(_bottom_cross(cube))
+    motions.append(_bottom_layer(cube))
+    motions.append(_bottom_two_layers(cube))
+    motions.append(_top_cross(cube))
+    motions.append(_top_layer(cube))
+    return "".join(motions)
 
 def _bottom_cross(cube: Cube):
     motions = []
