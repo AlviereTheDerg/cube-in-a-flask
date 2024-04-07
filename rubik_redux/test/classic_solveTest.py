@@ -128,7 +128,7 @@ class solver_tests(unittest.TestCase):
             self.assertTrue(Cube(cube).match_pattern("....f.fff....r.rrr....b.bbb....l.lll....u....ddddddddd")) # sanity check
             self.solve_full_cube_test(cube)
 
-    def test_solve_full_cube_bottom_two_layers_barrage(self):
+    def test_solve_full_cube_middle_layer_barrage(self):
         for cube in ["rrbffffffuflrrrrrruufbbbbbbuuflllllllbbluuuurddddddddd",
                      "uffffffffrrlrrrrrrfuubbbbbbrulllllllbbuluubuuddddddddd",
                      "luuffffffrfurrrrrrbufbbbbbbrlullllllurluuufbbddddddddd",
@@ -181,7 +181,7 @@ class solver_tests(unittest.TestCase):
         self.change_nothing_test("fuluflufldllbrrdrrulbfbubbrurlblfdlfrfbbuuurfrdbdddfdd", solver._bottom_cross)
     def test_bottom_cross_change_nothing_bottom_layer_solved(self):
         self.change_nothing_test("ruulfrfffrbubrrrrrbbufbubbblffrlflllfuluululbddddddddd", solver._bottom_cross)
-    def test_bottom_cross_change_nothing_bottom_two_layers_solved(self):
+    def test_bottom_cross_change_nothing_middle_layer_solved(self):
         self.change_nothing_test("ruuffffffbuurrrrrrlufbbbbbbruullllllurfbulbflddddddddd", solver._bottom_cross)
     def test_bottom_cross_change_nothing_top_cross_solved(self):
         self.change_nothing_test("ffufffffffrurrrrrrrbubbbbbbblllllllllubuuuuurddddddddd", solver._bottom_cross)
@@ -231,9 +231,9 @@ class solver_tests(unittest.TestCase):
         self.change_nothing_test("rurbfffffbfllrlrrrfbbbbubbblffrlullluruuuruluddddddddd", solver._bottom_layer)
     def test_bottom_layer_change_nothing_bottom_layer_solved_2(self):
         self.change_nothing_test("brurfufffllrbrrrrrulbfbfbbbuluululllrbfuuflbfddddddddd", solver._bottom_layer)
-    def test_bottom_layer_change_nothing_bottom_two_solved_1(self):
+    def test_bottom_layer_change_nothing_middle_layer_solved_1(self):
         self.change_nothing_test("ffbfffffflufrrrrrrrlrbbbbbbbullllllluuurubuuuddddddddd", solver._bottom_layer)
-    def test_bottom_layer_change_nothing_bottom_two_solved_2(self):
+    def test_bottom_layer_change_nothing_middle_layer_solved_2(self):
         self.change_nothing_test("uulffffffururrrrrrlbubbbbbbrurllllllbuffuuflbddddddddd", solver._bottom_layer)
     def test_bottom_layer_change_nothing_top_cross_solved(self):
         self.change_nothing_test("ufrffffffbrurrrrrrlbbbbbbbbllrlllllluufuuufuuddddddddd", solver._bottom_layer)
@@ -264,39 +264,39 @@ class solver_tests(unittest.TestCase):
             self.solve_bottom_layer_test(cube)
 
     
-    def test_bottom_two_layers_unmet_requisite_1(self): # scrambled
-        self.raise_unmet_requisite_stage_test("dfdrfuluufrflrdlfbrrllbbddbfbfdldrbbuuurufruldbbldlufr", solver._bottom_two_layers, "bottom two layers")
-    def test_bottom_two_layers_unmet_requisite_2(self): # bottom cross
-        self.raise_unmet_requisite_stage_test("fuubfflfrrrllrubrlbbfrbrbbulurblurlfdldfufdlbudddddfdu", solver._bottom_two_layers, "bottom two layers")
-    def test_bottom_two_layers_unmet_requisite_3(self): # bottom layer solved incorrectly
-        self.raise_unmet_requisite_stage_test("bbrufblfluflrrlfrfubfubfrbrurrllfblblubuurulfddddddddd", solver._bottom_two_layers, "bottom two layers")
+    def test_middle_layer_unmet_requisite_1(self): # scrambled
+        self.raise_unmet_requisite_stage_test("dfdrfuluufrflrdlfbrrllbbddbfbfdldrbbuuurufruldbbldlufr", solver._middle_layer, "middle layer")
+    def test_middle_layer_unmet_requisite_2(self): # bottom cross
+        self.raise_unmet_requisite_stage_test("fuubfflfrrrllrubrlbbfrbrbbulurblurlfdldfufdlbudddddfdu", solver._middle_layer, "middle layer")
+    def test_middle_layer_unmet_requisite_3(self): # bottom layer solved incorrectly
+        self.raise_unmet_requisite_stage_test("bbrufblfluflrrlfrfubfubfrbrurrllfblblubuurulfddddddddd", solver._middle_layer, "middle layer")
     
-    def test_bottom_two_layers_change_nothing_bottom_two_layers_solved_1(self):
-        self.change_nothing_test("rulffffffffurrrrrrbrubbbbbbfuullllllrulbuubluddddddddd", solver._bottom_two_layers)
-    def test_bottom_two_layers_change_nothing_bottom_two_layers_solved_2(self):
-        self.change_nothing_test("buuffffffruurrrrrrfulbbbbbbfuullllllulrrublfbddddddddd", solver._bottom_two_layers)
-    def test_bottom_two_layers_change_nothing_top_cross_solved_1(self):
-        self.change_nothing_test("rffffffffurbrrrrrrlbubbbbbbrlfllllllbuuuuuuulddddddddd", solver._bottom_two_layers)
-    def test_bottom_two_layers_change_nothing_top_cross_solved_2(self):
-        self.change_nothing_test("bffffffffrrurrrrrrlbubbbbbbrlullllllbufuuuluuddddddddd", solver._bottom_two_layers)
-    def test_bottom_two_layers_change_nothing_solved(self):
-        self.change_nothing_test("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", solver._bottom_two_layers)
+    def test_middle_layer_change_nothing_middle_layer_solved_1(self):
+        self.change_nothing_test("rulffffffffurrrrrrbrubbbbbbfuullllllrulbuubluddddddddd", solver._middle_layer)
+    def test_middle_layer_change_nothing_middle_layer_solved_2(self):
+        self.change_nothing_test("buuffffffruurrrrrrfulbbbbbbfuullllllulrrublfbddddddddd", solver._middle_layer)
+    def test_middle_layer_change_nothing_top_cross_solved_1(self):
+        self.change_nothing_test("rffffffffurbrrrrrrlbubbbbbbrlfllllllbuuuuuuulddddddddd", solver._middle_layer)
+    def test_middle_layer_change_nothing_top_cross_solved_2(self):
+        self.change_nothing_test("bffffffffrrurrrrrrlbubbbbbbrlullllllbufuuuluuddddddddd", solver._middle_layer)
+    def test_middle_layer_change_nothing_solved(self):
+        self.change_nothing_test("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", solver._middle_layer)
     
-    def solve_bottom_two_layers_test(self, cube_string):
-        self.solve_successful_test(cube_string, solver._bottom_two_layers, "...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd")
+    def solve_middle_layer_test(self, cube_string):
+        self.solve_successful_test(cube_string, solver._middle_layer, "...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd")
     
-    def test_bottom_two_layers_1(self): # no pieces in middle layer
-        self.solve_bottom_two_layers_test("fbfufffffubburrrrrufuubbbbbbfuullllllrrlurrllddddddddd")
-    def test_bottom_two_layers_2(self): # all but one solved - LHS
-        self.solve_bottom_two_layers_test("fufffufffurbfrrrrruuubbbbbbbbullllllllruufrrlddddddddd")
-    def test_bottom_two_layers_3(self): # all but one solved - RHS
-        self.solve_bottom_two_layers_test("ufbffffffuluurrrrrbbubbbbbbfrfllllllruluuulrrddddddddd")
-    def test_bottom_two_layers_4(self): # all but one solved - in place backwards
-        self.solve_bottom_two_layers_test("bbuffrfffflffrrrrrufbbbbbbbuuullllllrulruulurddddddddd")
-    def test_bottom_two_layers_5(self): # all but two solved - switched
-        self.solve_bottom_two_layers_test("buuffrffffbfbrrrrruubfbbbbbuuullllllrrlluulfrddddddddd")
+    def test_middle_layer_1(self): # no pieces in middle layer
+        self.solve_middle_layer_test("fbfufffffubburrrrrufuubbbbbbfuullllllrrlurrllddddddddd")
+    def test_middle_layer_2(self): # all but one solved - LHS
+        self.solve_middle_layer_test("fufffufffurbfrrrrruuubbbbbbbbullllllllruufrrlddddddddd")
+    def test_middle_layer_3(self): # all but one solved - RHS
+        self.solve_middle_layer_test("ufbffffffuluurrrrrbbubbbbbbfrfllllllruluuulrrddddddddd")
+    def test_middle_layer_4(self): # all but one solved - in place backwards
+        self.solve_middle_layer_test("bbuffrfffflffrrrrrufbbbbbbbuuullllllrulruulurddddddddd")
+    def test_middle_layer_5(self): # all but two solved - switched
+        self.solve_middle_layer_test("buuffrffffbfbrrrrruubfbbbbbuuullllllrrlluulfrddddddddd")
     
-    def test_bottom_two_layers_barrage(self):
+    def test_middle_layer_barrage(self):
         for cube in ["frrbfbfffbuuururrrblrfbrbbburlflllllfflbuluuuddddddddd",
                      "bfrbfbfffurlurrrrrffrbbubbbbuuflllllululuulrfddddddddd",
                      "uflrflfffullururrrfrbbblbbburrblflllruubuffubddddddddd",
@@ -304,7 +304,7 @@ class solver_tests(unittest.TestCase):
                      "urlfffffffubrrrrrruurbbbbbbuflllllllfbruulbuuddddddddd",
                      "uuuufrffffffurbrrrurulbfbbbbfbullllllbllurrbrddddddddd",
                      "fufffffffururrbrrrblblbfbbbubuulllllrulruurblddddddddd"]:
-            self.solve_bottom_two_layers_test(cube)
+            self.solve_middle_layer_test(cube)
 
     
     def test_top_cross_unmet_requisite_1(self): # scrambled
@@ -313,7 +313,7 @@ class solver_tests(unittest.TestCase):
         self.raise_unmet_requisite_stage_test("budbfbfffruurrflrlrudubffbulfdlllllrbbbrulrrfududddbdd", solver._top_cross, "top cross")
     def test_top_cross_unmet_requisite_3(self): # bottom layer
         self.raise_unmet_requisite_stage_test("flbrflffflllurrrrrfububfbbburuulflllrbubufrbuddddddddd", solver._top_cross, "top cross")
-    def test_top_cross_unmet_requisite_4(self): # bottom two layers incorrectly
+    def test_top_cross_unmet_requisite_4(self): # middle layer incorrectly
         self.raise_unmet_requisite_stage_test("fbblfffffuuurrrrrrflbbbbbbblrlllfllluuruufuurddddddddd", solver._top_cross, "top cross")
     
     def test_top_cross_change_nothing_top_cross_solved_1(self):
@@ -344,7 +344,7 @@ class solver_tests(unittest.TestCase):
         self.raise_unmet_requisite_stage_test("dbulfulflrfrrruurlfldlbfdbffurulbululfdburbrbbdfdddrdb", solver._top_layer, "top layer")
     def test_top_layer_unmet_requisite_bottom_layer(self):
         self.raise_unmet_requisite_stage_test("uflbflfffufuururrrfbubbrbbblfbulllllfrruulrrbddddddddd", solver._top_layer, "top layer")
-    def test_top_layer_unmet_requisite_bottom_two_layers(self):
+    def test_top_layer_unmet_requisite_middle_layer(self):
         self.raise_unmet_requisite_stage_test("urlffffffuuurrrrrrfuubbbbbbllbllllllfbruufrubddddddddd", solver._top_layer, "top layer")
     def test_top_layer_unmet_requisite_top_cross_improper(self):
         self.raise_unmet_requisite_stage_test("frrffffffublrrrrrrulbbbbbbbuflllllllrubuuuuufddddddddd", solver._top_layer, "top layer")

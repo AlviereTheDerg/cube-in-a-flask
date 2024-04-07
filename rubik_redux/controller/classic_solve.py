@@ -6,7 +6,7 @@ def solve(cube: Cube):
     motions = []
     motions.append(_bottom_cross(cube))
     motions.append(_bottom_layer(cube))
-    motions.append(_bottom_two_layers(cube))
+    motions.append(_middle_layer(cube))
     motions.append(_top_cross(cube))
     motions.append(_top_layer(cube))
     return "".join(motions)
@@ -87,9 +87,9 @@ def _bottom_layer(cube: Cube):
             motions.append(cube.move_algorithm("RUr", face))
     return "".join(motions)
 
-def _bottom_two_layers(cube: Cube):
+def _middle_layer(cube: Cube):
     if not cube.match_pattern('....f.fff....r.rrr....b.bbb....l.lll....u....ddddddddd'):
-        raise ValueError("Error: Solving stage \"bottom two layers\": missing prerequisite")
+        raise ValueError("Error: Solving stage \"middle layer\": missing prerequisite")
     
     motions = []
     targets = [constants.FMR, constants.RMR, constants.BMR, constants.LMR]
