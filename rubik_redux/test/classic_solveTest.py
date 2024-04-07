@@ -38,6 +38,144 @@ class solver_tests(unittest.TestCase):
         cube = Cube(cube_string)
         cube.rotate(result)
         self.assertTrue(output_cube, str(cube)) # using the result makes a matching cube
+    
+
+    def test_solve_full_cube_change_nothing(self):
+        self.change_nothing_test("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", solver.solve)
+
+    def solve_full_cube_test(self, cube_string):
+        self.solve_successful_test(cube_string, solver.solve, "fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+    
+    def test_solve_full_cube_top_layer_unsolved(self):
+        self.solve_full_cube_test("bfufffffffrlrrrrrrublbbbbbbflrlllllluubuuuuurddddddddd")
+    def test_solve_full_cube_top_cross_unsolved(self):
+        self.solve_full_cube_test("buufffffflfbrrrrrrlrrbbbbbbuurllllllfuubuuulfddddddddd")
+    def test_solve_full_cube_middle_layer_unsolved(self):
+        self.solve_full_cube_test("blubfbffflfblrrrrrlurubrbbbuurflrlllffubuluufddddddddd")
+    def test_solve_full_cube_bottom_layer_unsolved(self):
+        self.solve_full_cube_test("dubfflrfulufurlfrblubbbflbfurfllruldrfdbubrrubdldddrdd")
+    def test_solve_full_cube_bottom_cross_unsolved(self):
+        self.solve_full_cube_test("ddrlfdrfbfulrrulrrudfbbbbdrurlrlbululbbuulffdfudfdfbld")
+    
+    def test_solve_full_cube_scrambled_barrage(self):
+        for cube in ["bbdufdrfurllrrfrlffuudbrdllrbuflrdfdbbuduulrfblfuddbbl",
+                     "bbrffuflubldlrdfllbblbbrdurdrufldfddfrruufluurdlrdbufb",
+                     "ururffudrbbflrrburlbdbbddlrlrffldffrbudfullulbbdudludf",
+                     "dulrfbfbdufllrulurfrurbdbfdrfbbldflrbburudlfbuufddlrld",
+                     "lbfrfdddrllbrrrffbubbbbulluruulluldrdlrfuffudffubdrbdd",
+                     "bdbbfbfbdlullrdrulbffrbluufddrflrullrrdlubufuddbudfrrf",
+                     "rrrlfrldrudbbrbdrbdbdlblrllffbulfurululuubddfbfffdufdu",
+                     "rufbfdurdufrfruburfdbfbrubllbbullfffuldduldblrdlrdldrb",
+                     "rulrfllrbfdffrfrrlrulububdrdldlldbbbfbubuffrudfuddbdlu",
+                     "lddufflldbbrlrlfuburdbbdruffddflfluulffburbrrbdrbdrulu",
+                     "blulfrbbrlrfdrbdbllurrbfbffbfdrluubdufdluurdfllfddurdu",
+                     "uullfrlfbflrbrflrudlflbubbrlrrrludfuddbfubfbubdduddfdr",
+                     "ufbufurlbrrrbrrrrdfflfbrlbbfdlblllluuudludbddfbufduddf",
+                     "lfdufbrrrbburrbdffldulbdddlffdbllblbrlfduubrruuffduurl",
+                     "dfrdflbddubfbrrbubdllbbduuuddrblrfruffrfuubrfrlludflll",
+                     "ldfbfludldbdbrrbudbffububrrurflluulfllrfuddrrrfuddfbbl",
+                     "lrdlfbrfuffrrrrbludbrdbufbbuubllblfffubfuluuldrrdddddl",
+                     "frllffdbbbbrrrfufrbbfdblbllrrrfldubfuuududdudlllrdufud",
+                     "fdbbfubudulufrrrfulrdubblrfrrduldubdfbfdudlfrllbldlrfb",
+                     "dbldflrlrburbrffrbfbllbdurrfdlblfudduudluffrdbuurdfbul"]:
+            self.solve_full_cube_test(cube)
+
+    def test_solve_full_cube_bottom_cross_barrage(self):
+        for cube in ["dbuufbffdlrrrrllrrffbbbuubbllrrllllruudfufbufudfdddddb",
+                     "ulbufbufdlbdlrrfrdbbffbubbllubllrulfdrrfuurfurdrdddfdl",
+                     "rurrflfflbbrbrldruffufbulbuflbrlbfllrrduuudfuddbdddldb",
+                     "dbfufbffbdlbrrburbdfdubfrbubflllrrlurrluuuflrldldddfdu",
+                     "bllbfflfubrfrrubruuudfbflburbdlllrldfrluubrudfdrdddfdb",
+                     "ulblffffblufrrrrrflldubrrbbbufblbllrrudbuflfuududddddd",
+                     "dblufurfuurrlrffrdfluuburbfrbbrlbdlubfdrufllbfdldddldb",
+                     "blurfurfubfurrubrffflbbfdbdfblrlbfldulrluudulbdrdddrdl",
+                     "rfdrffffdludrrurruflllbfrblfuuulbbldublburblbrdbdddudf",
+                     "bluufrufbllufrblrrrudlbrdbrffublbblflrbuuulffrdddddddf",
+                     "flrufffflbulrrbdrbfbdrbudblfuublfbldllurulrfurdbdddudr",
+                     "dulffrufddulurlbrufurbbllbfdbfflrulrbburufrlfbdldddrdb",
+                     "rrffflufrrudbrburflurubudbudfdrllflbbfbrulfbuldbdddldl",
+                     "drfffbufddlflrulrbrbrfbbdbbbfbullullururuulurfdfdddldr",
+                     "dfblfllfdurrurrrrdubufbrlblbffblbulblufuuurlrddbdddfdf",
+                     "bbfffldfdurufrrlrrfbuubfbbdburulrblrlurlubullfdfdddldd",
+                     "rrfffufffufubrburbrrrlbulbudfdllllllbbbuurfulddrdddbdd",
+                     "luffflbfllfuurfdrffbrrbblbfdbbllurlubrruulurdrdbdddddu",
+                     "dfuuffrfrludrrburdfbllbffblurrulrdlubulbulblffdbdddbdr",
+                     "blfffubfdlbubrrrrrluuublfbfbulflrrlullffurdbdrdbdddddu"]:
+            self.assertTrue(Cube(cube).match_pattern("....f..f.....r..r.....b..b.....l..l.....u.....d.ddd.d.")) # sanity check
+            self.solve_full_cube_test(cube)
+
+    def test_solve_full_cube_bottom_layer_barrage(self):
+        for cube in ["rbrlfrfffbrbfrbrrrlllubfbbbflfulflllubuuuuuruddddddddd",
+                     "uurbfrfffuflbrfrrrfllubfbbbulbllulllbbuuurrrfddddddddd",
+                     "lubbfffffurflrlrrrrlbbbubbbluurlrllluuubufffrddddddddd",
+                     "lrrffffffbruurlrrrfbuububbbbrublllllllrbuuffuddddddddd",
+                     "uuuffbfffrbllrfrrrffbublbbblbrulllllururuufrbddddddddd",
+                     "fuuufffffrfurrlrrrbluubrbbbfulblflllrblrulubbddddddddd",
+                     "rluufrffffflbrbrrrulflbrbbbubuulfllllfbuurburddddddddd",
+                     "uffrfffffrfbururrruufrbbbbbublllblllllruurbluddddddddd",
+                     "ubruflfffullfrfrrruulrbbbbbfbbllflllurbruurufddddddddd",
+                     "blfufbfffurulrbrrrfrbrbubbbuuullblllrfrfuulflddddddddd",
+                     "ffulfffffbbuurfrrrruulbrbbbfllblulllrrbbuuurlddddddddd",
+                     "lruffffffllfurlrrrrfbubrbbbuubblrlllrlububuufddddddddd",
+                     "ufurfuffflurrrlrrrubuubbbbbrflrlflllblfuubblfddddddddd",
+                     "uuubflffffubfrlrrrlrlubrbbbfbbblulllufulurrfrddddddddd",
+                     "llubfbffffrrlrfrrrbbulbfbbbbruulullllruuuffurddddddddd",
+                     "ulfufbfffrrlurfrrrfburbubbbrblllflllbruluubfuddddddddd",
+                     "uuuuflfffrrrurfrrrubulbrbbblulblblllflffufbrbddddddddd",
+                     "rfubfffffbfurrbrrrllflbrbbbruuulrllluufbulbulddddddddd",
+                     "bblufuffffrulrfrrrfluubrbbbrruulblllbfrfublluddddddddd",
+                     "ubbffbfffuufurlrrrulfbbrbbbrflulullluflrulbrrddddddddd"]:
+            self.assertTrue(Cube(cube).match_pattern("....f.fff....r.rrr....b.bbb....l.lll....u....ddddddddd")) # sanity check
+            self.solve_full_cube_test(cube)
+
+    def test_solve_full_cube_bottom_two_layers_barrage(self):
+        for cube in ["rrbffffffuflrrrrrruufbbbbbbuuflllllllbbluuuurddddddddd",
+                     "uffffffffrrlrrrrrrfuubbbbbbrulllllllbbuluubuuddddddddd",
+                     "luuffffffrfurrrrrrbufbbbbbbrlullllllurluuufbbddddddddd",
+                     "rbfffffffrlbrrrrrrlufbbbbbbuuulllllllfuruubuuddddddddd",
+                     "rluffffffbrurrrrrrrfubbbbbblbfllllllfubuuuuulddddddddd",
+                     "ullffffffuburrrrrrfuubbbbbblubllllllffrruurubddddddddd",
+                     "uuuffffffrubrrrrrrlufbbbbbbrufllllllurufubllbddddddddd",
+                     "rfufffffffufrrrrrrullbbbbbbuuullllllbulburburddddddddd",
+                     "ubrffffffuuurrrrrrrfubbbbbbbuflllllllubrullufddddddddd",
+                     "ulrffffffubbrrrrrruflbbbbbbfrllllllluuruuubufddddddddd",
+                     "ublfffffffurrrrrrruulbbbbbburbllllllbffuulruuddddddddd",
+                     "luufffffflrrrrrrrrburbbbbbbufbllllllfluuuuubfddddddddd",
+                     "bulffffffubrrrrrrruufbbbbbbulrlllllllrfuuuufbddddddddd",
+                     "rulfffffffubrrrrrrububbbbbbbrfllllllluruulufuddddddddd",
+                     "urufffffflburrrrrrfulbbbbbbuubllllllbfrluurufddddddddd",
+                     "fuuffffffbubrrrrrruufbbbbbbuuullllllllrrubrflddddddddd",
+                     "brrffffffullrrrrrrffubbbbbbbbrllllllluuuuuuufddddddddd",
+                     "ulrffffffbblrrrrrrurrbbbbbbuffllllllfubuuuluuddddddddd",
+                     "fulfffffffubrrrrrruubbbbbbbluullllllubrfurrluddddddddd",
+                     "uurffffffurbrrrrrrlubbbbbbbubfllllllrluuuulffddddddddd"]:
+            self.assertTrue(Cube(cube).match_pattern("...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd")) # sanity check
+            self.solve_full_cube_test(cube)
+
+    def test_solve_full_cube_top_cross_barrage(self):
+        for cube in ["lfrffffffurrrrrrrrbbbbbbbbbllulllllluuuuuufufddddddddd",
+                     "lfbffffffurbrrrrrrlbfbbbbbbrlulllllluuuuuufurddddddddd",
+                     "uflfffffffrurrrrrrbbrbbbbbbblrlllllluuluuufuuddddddddd",
+                     "lffffffffurrrrrrrrbbubbbbbbflbllllllruuuuuuulddddddddd",
+                     "ufrffffffbrfrrrrrrrbubbbbbblllllllllfuuuuubuuddddddddd",
+                     "ffuffffffbrrrrrrrrubrbbbbbbblllllllluufuuuuulddddddddd",
+                     "ffuffffffrrlrrrrrrfbubbbbbbblullllllluuuuurubddddddddd",
+                     "ufbffffffururrrrrrbbubbbbbbflfllllllruluuulurddddddddd",
+                     "lfufffffffrbrrrrrrublbbbbbbulullllllburuuufurddddddddd",
+                     "ufrffffffurbrrrrrrlbfbbbbbbulbllllllluuuuurufddddddddd",
+                     "lflffffffurrrrrrrrububbbbbbrlullllllbufuuufubddddddddd",
+                     "uflffffffururrrrrrrbubbbbbbllrllllllfubuuufubddddddddd",
+                     "rflffffffurrrrrrrrbbubbbbbbllfllllllfuuuuuuubddddddddd",
+                     "uflffffffurbrrrrrrublbbbbbbflrlllllluuruuufubddddddddd",
+                     "fffffffffrrurrrrrrrblbbbbbbullllllllbubuuuuuuddddddddd",
+                     "ffrffffffbrurrrrrrlbubbbbbbblulllllllufuuuruuddddddddd",
+                     "rfbffffffururrrrrrlbbbbbbbbllflllllluufuuuuurddddddddd",
+                     "ufuffffffbrfrrrrrrrbrbbbbbbblflllllluuuuuululddddddddd",
+                     "rfrffffffbrurrrrrrlblbbbbbbulfllllllbufuuuuuuddddddddd",
+                     "ffuffffffrrbrrrrrrlbrbbbbbbullllllllfuuuuuuubddddddddd"]:
+            self.assertTrue(Cube(cube).match_pattern(".f.ffffff.r.rrrrrr.b.bbbbbb.l.llllll.u.uuu.u.ddddddddd")) # sanity check
+            self.solve_full_cube_test(cube)
+
 
     def test_bottom_cross_change_nothing_cross_solved(self):
         self.change_nothing_test("fuluflufldllbrrdrrulbfbubbrurlblfdlfrfbbuuurfrdbdddfdd", solver._bottom_cross)
