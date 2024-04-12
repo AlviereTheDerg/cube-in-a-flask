@@ -11,6 +11,7 @@ from rubik.view.solve import solve
 from rubik.view.rotate import rotate
 
 from rubik_redux.view.rotate import rotate as rotate_redux
+from rubik_redux.view.solve import solve as solve_redux
 
 app = Flask(__name__)
 
@@ -47,6 +48,17 @@ def solveServer():
     try:
         userParms = _parseParms(request.args)
         result = solve(userParms)
+        print("Response -->", str(result))
+        return str(result)
+    except Exception as anyException:
+        return str(anyException)
+
+@app.route('/rubik_redux/solve')
+def solveServerRedux():
+    '''Return face rotation solution set'''
+    try:
+        userParms = _parseParms(request.args)
+        result = solve_redux(**userParms)
         print("Response -->", str(result))
         return str(result)
     except Exception as anyException:
