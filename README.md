@@ -17,6 +17,11 @@ When app.py is run, Flask binds to port 8080 and ties multiple paths to differen
     - extraneous keys, a missing, invalid, or unsolvable cube, or an invalid dir results in error returned to user
     - will perform no rotations if not supplied with 'dir' parameter
     - displays errors in string form, or if no error then will display a dict with status of 'ok' and the resultant cube string
+  - '/solve': supplied with up to 2 parameters, 'cube' (required) and 'style' (optional)
+    - extraneous keys, a missing, invalid, or unsolvable cube, or an invalid style results in error returned to user
+    - style defaults to 'classic'
+    - all styles will result in a solved cube, and are differentiated by the 'method'
+      - 'classic': a 'traditional' solve performed in 5 stages: bottom cross, bottom layer, middle layer, top cross, top layer
 
 'cube' specification:
 - 54 character long string
