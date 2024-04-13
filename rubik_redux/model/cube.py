@@ -10,6 +10,7 @@ class Cube:
     '''
     Rubik's Cube representation object
     '''
+
     def __init__(self, cube_string: str):
         if not isinstance(cube_string, str):
             raise TypeError(f"Error: Input type: Expected string but recieved {type(cube_string)}")
@@ -71,10 +72,16 @@ class Cube:
             raise ValueError("Error: Cube unsolvable: Permutation parity")
 
 
-    def find_face_from_colour(self, piece):
-        return {c:f for f,c in self.colours.items()}[piece]
+    def find_face_from_colour(self, colour):
+        """
+        Returns the face that a given colour is associated with
+        """
+        return {c:f for f,c in self.colours.items()}[colour]
 
     def where_does_piece_go(self, piece):
+        """
+        Returns the location that a given piece (identified by location) would be at in the Cube's 'solved' state
+        """
         if piece in constants.CENTERS:
             return piece
         cycle_subset = 1 if piece in constants.EDGES else 0
@@ -85,6 +92,10 @@ class Cube:
                 return slot
     
     def rotation_validation(func):
+        """
+        Decorator to check and 'validate' a set of supplied rotations
+        Raises ValueError in the presence of an invalid rotation
+        """
         def rotation_validator(self, rotations, *args, **kwargs):
             if len(set(rotations) - constants.VALID_ROTATE_SYMBOLS) != 0:
                 raise ValueError(f"Error: Invalid Cube turn: Expected char in \"FfRrBbLlUuDd\", recieved \"{rotations}\"")
@@ -110,6 +121,10 @@ class Cube:
         return "".join(self.cube_data)
     
     def where_is(self, search_piece):
+        """
+        Given a target location, returns the location that the piece currently is
+        Raises ValueError if the target location is out of bounds
+        """
         if search_piece not in range(len(self.cube_data)):
             raise ValueError("Error: Attempting to locate an out of bounds piece")
         
@@ -126,6 +141,11 @@ class Cube:
                 return search_piece
             
     def match_pattern(self, pattern):
+        """
+        Returns whether the cube matches a regex-like pattern
+        Pattern accepts only lowercase face characters and wildcard '.'
+        Pattern must match length of the cube
+        """
         if not isinstance(pattern, str):
             raise ValueError(f"Error: Input type: Expected string but recieved {type(pattern)}")
         if len(pattern) != len(self.cube_data):
@@ -140,6 +160,13 @@ class Cube:
             return True
         
     def align_edge(self, piece, face, variant=0):
+        """
+        Aligns a given edge piece (identified by location) to the face specified
+            Edge will subsequently be located between the given face and the face of rotation
+        Variant determines the face of rotation
+        - variant=0 means piece is on the face of rotation
+        - variant=1 means piece is touching (and moving with) but not on the face of rotation
+        """
         if (variant == 1):
             return self.align_edge(constants.OTHER_SIDE_OF[piece], face)
         
@@ -151,6 +178,12 @@ class Cube:
         return result
     
     def align_corner(self, piece_to_move, destination_piece, face_to_rotate):
+        """
+        Aligns a corner piece to a specified location by rotating the specified face
+        Raises a value error if the selected corner or its destination are not on the specified face
+        Corner may not necessarily end as the same piece as the marked destination, but will be at the same location
+            s.t. the corner will have moved to one of ALL_SIDES_OF[destination]
+        """
         flattened = []
         for piece in [piece_to_move, destination_piece]:
             # if piece moves with the face_to_rotate, becomes set of length 1 holding the on-face corner
@@ -170,6 +203,10 @@ class Cube:
     
     @rotation_validation
     def move_algorithm(self, algorithm, new_front, new_up='u'):
+        """
+        Translate and apply an algorithm such as if one were performing the algorithm on the specified orientation
+        E.x. applying an algorithm written for the front face to the back instead while retaining the up as previous
+        """
         static_middle = 'frbl'
         match new_up:
             case 'u':
