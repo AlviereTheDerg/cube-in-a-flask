@@ -2,19 +2,9 @@
 import unittest
 import rubik_redux.controller.classic_solve as solver
 from rubik_redux.model.cube import Cube
-import functools
+from rubik_redux.test.symbol_scrambler import symbol_scramble_decorator
 
 class solver_tests(unittest.TestCase):
-    def symbol_scramble_decorator(func):
-        @functools.wraps(func)
-        def symbols_scrambled(self, cube_string, *args, **kwargs):
-            for translation in [{'f':'b', 'r':'o', 'b':'g', 'l':'r', 'u':'w', 'd':'y'},
-                                {'f':'1', 'r':'2', 'b':'3', 'l':'4', 'u':'5', 'd':'6'},
-                                {},
-                                {'f':'4', 'r':'a', 'b':'b', 'l':'d', 'u':'2', 'd':'l'}]:
-                return func(self, "".join(translation.get(piece, piece) for piece in cube_string), *args, **kwargs)
-        return symbols_scrambled
-    
     @symbol_scramble_decorator
     def raise_unmet_requisite_stage_test(self, cube_string, solve_function, solve_stage_name):
         cube = Cube(cube_string)
