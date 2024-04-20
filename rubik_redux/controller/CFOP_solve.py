@@ -23,25 +23,20 @@ def _first_two_layers_easy_cases(cube: Cube, target: int):
     # if the target edge is on the up face, it is a RHS solve
     RHS_flag = constants.FACE_OF[where_is_target_edge] == 'u'
 
-    # 'unwrap' the top face to determine if the corner and edge are together or not
-    # construct check set outside of loop to reduce where_is calls
-    targets = constants.ALL_SIDES_OF[where_is_target_corner] | constants.ALL_SIDES_OF[where_is_target_edge]
-    # clockwise around up face from TL to ML
-    positions = list(itertools.chain(*list(zip(constants.UP[0], constants.UP[1]))))
-    # identify the positions occupied by the target pieces
-    presence = [index for index,position in enumerate(positions) if position in targets]
-    # determine if they are consecutive values (together)
-    together_flag = presence[0] + 1 == presence[1] or (presence[1] + 1) % len(positions) == presence[0]
+    # determine if the corner and edge are together or not
+    targets = constants.ALL_SIDES_OF[where_is_target_corner] | constants.ALL_SIDES_OF[where_is_target_edge] # positions of our target pieces
+    # clockwise around up face from TL to ML, zip the up face corners and edges then flatten, add TL again to simplify adjacency check (ML->TL)
+    positions = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple] + [constants.UP[0][0]]
+    # identify the positions occupied by the target pieces and determine if they are consecutive values (together)
+    together_flag = any(x+1==y for x,y in itertools.pairwise(index for index,position in enumerate(positions) if position in targets))
     
     motions = []
-    # if pieces are apart, align corner with pillar
-    # if pieces are together: align corner 1 quarter turn from pillar, CW if RHS, CCW if LHS
-    offset = 0 if not together_flag else 1 if RHS_flag else -1
-    alignment = constants.CYCLE_OF_FACE_OF[target_corner][0][1] # [0] -> face corners, [1] -> TR of same face as target corner piece
-    alignment = constants.UP[2].index(alignment)
-    alignment += offset
-    alignment %= len(constants.UP[2])
-    motions.append(cube.align_corner(where_is_target_corner, constants.UP[2][alignment], 'u'))
+
+    alignment = constants.UP[2][ # selecting from UP face's corners
+        (constants.UP[2].index(constants.CYCLE_OF_FACE_OF[target_corner][0][1]) # [0] -> face corners, [1] -> TR of same face as target corner piece
+         + (0 if not together_flag else 1 if RHS_flag else -1) # relative top face offset (quarter turns) between pillar and corner to solve
+         ) % len(constants.UP[2])] # wrap to within bounds
+    motions.append(cube.align_corner(where_is_target_corner, alignment, 'u'))
     
     match RHS_flag, together_flag:
         case True, True:    # RHS together
@@ -61,7 +56,7 @@ def _first_two_layers(cube: Cube):
     #      2a: pieces are already solved: skip to next pillar
     #      2b: one or both pieces are in top layer: do nothing for now
     #      2c: no piece is in top layer, both pieces are in same pillar: do nothing for now
-    #      2d: no piece is in top layer, pieces are in different pillars: raise the corner to the top layer
+    #      2d: no piece is in top layer, pieces are in different pillars: raise the edge to the top layer
     # step 3: reduce cube entropy to an easy-to-solve state
     # step 4: solve
     pass
