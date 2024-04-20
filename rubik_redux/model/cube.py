@@ -110,9 +110,12 @@ class Cube:
         Uppercase -> CW rotation
         Lowercase -> CCW rotation
         """
+        def close(destinations, rotation):
+            yield from (constants.ROTATION_TRANSFERS.get(rotation).get(piece, piece) for piece in destinations)
+            
         destinations = range(len(self.cube_data))
         for rotation in rotations:
-            destinations = [constants.ROTATION_TRANSFERS.get(rotation).get(piece, piece) for piece in destinations]
+            destinations = close(destinations, rotation)
         destinations = {piece:index for index,piece in enumerate(destinations)}
 
         self.cube_data = [self.cube_data[destinations.get(piece, piece)] for piece in range(len(self.cube_data))]
