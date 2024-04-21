@@ -49,6 +49,15 @@ def _first_two_layers_easy_cases(cube: Cube, target: int):
             motions.append(cube.move_algorithm("fuF", constants.FACE_OF[target_corner]))
     return "".join(motions)
 
+def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
+    # case categories:
+    # 2nd: corner in bottom, edge in top
+    # 3rd: corner in top, edge in middle
+    # 4th: corner 'pointing outwards', edge in top
+    # 5th: corner 'pointing upwards', edge in top
+    # 6th: corner in bottom, edge in middle (includes pillar solved but in incorrect corner)
+    return ""
+
 def _first_two_layers(cube: Cube):
     # step 0: repeat following for each 'pillar' (corner of cube, bottom layer corner and middle layer edge)
     # step 1: locate desired pillar's pieces

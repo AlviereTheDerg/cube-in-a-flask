@@ -58,7 +58,7 @@ class CFOP_solve_tests(solver_test_skeleton):
             self.assertTrue(secondary_cube.match_pattern("...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd"), f"While solving target {target}") # solves stage
             confirm_cube = Cube(str(cube))
             confirm_cube.rotate(result)
-            self.assertEqual(str(secondary_cube), str(confirm_cube), f"While solving targer {target}") # reproducable
+            self.assertEqual(str(secondary_cube), str(confirm_cube), f"While solving target {target}") # reproducable
 
     # in order: FRONT RIGHT, BACK RIGHT, BACK LEFT, FRONT LEFT
     def test_first_two_layers_help_easy_case__RHS_together(self):
@@ -81,6 +81,113 @@ class CFOP_solve_tests(solver_test_skeleton):
         self.solve_first_two_layers_easy_cases_test("rrfffffffurdrrurrlburlbbbbbbbfllllllufruuuublddddddddu", constants.DBR)
         self.solve_first_two_layers_easy_cases_test("urbfffffflbrrrrrrruudbbubbrlbffllullblfuulluuddddddbdd", constants.DBL)
         self.solve_first_two_layers_easy_cases_test("frrufflffuuurrrrrrrllbbbbbbuudllbllfbfbfullufudddddddd", constants.DTL)
+
+    
+    @symbol_scramble_decorator
+    def reduce_to_first_two_layers_easy_case_test(self, cube_string, target):
+        cube = Cube(cube_string)
+        result = [solver._reduce_to_first_two_layers_easy_case(cube, target)] # reduce the target to an easy case
+        #result.append(solver._first_two_layers_easy_cases(cube, target)) # previous tests confirm this functioning
+        result = "".join(result) # combine motions to a single string
+
+        targets = [constants.OTHER_SIDE_OF[target][0]]
+        targets.append(constants.CYCLE_OF_FACE_OF[targets[0]][1][1]) # get the piece IDs of the target pillar pieces
+        actuals = [cube.where_is(piece) for piece in targets] # find where they are on the cube
+        self.assertEqual(targets, actuals, f"While solving target {target}") # check that they were moved into place correctly
+
+        confirm_cube = Cube(cube_string)
+        confirm_cube.rotate(result)
+        self.assertEqual(str(cube), str(confirm_cube), f"While solving target {target}") # test reproducability
+    
+    def all_permutations_reduce_to_first_two_layers_easy_case(self, solve_algorithm: str):
+        for faces, dest_target in zip(["frbl", "rblf", "blfr", "lfrb"], [constants.DTR, constants.DBR, constants.DBL, constants.DTL]):
+            cube = Cube("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+            for face in faces:
+                cube.move_algorithm(solve_algorithm[::-1].swapcase(), face)
+                self.reduce_to_first_two_layers_easy_case_test(str(cube), dest_target)
+                cube.move_algorithm(solve_algorithm, face)
+                cube.move_algorithm("RUrBuub", face)
+
+    def test_reduce_to_first_two_layers_easy_case_2nd_corner_down_LHS(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("URurufUF")
+    def test_reduce_to_first_two_layers_easy_case_2nd_corner_down_RHS(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("ufUFURur")
+    def test_reduce_to_first_two_layers_easy_case_2nd_corner_right_LHS(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("fUFufUF")
+    def test_reduce_to_first_two_layers_easy_case_2nd_corner_right_RHS(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RUruRUr")
+    def test_reduce_to_first_two_layers_easy_case_2nd_corner_left_LHS(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RurURur")
+    def test_reduce_to_first_two_layers_easy_case_2nd_corner_left_RHS(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("fuFUfuF")
+
+    def test_reduce_to_first_two_layers_easy_case_3rd_corner_up(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RUruRUruRUr")
+    def test_reduce_to_first_two_layers_easy_case_3rd_corner_up_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RurUfUF")
+    def test_reduce_to_first_two_layers_easy_case_3rd_corner_right(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UfUFUfUUF")
+    def test_reduce_to_first_two_layers_easy_case_3rd_corner_right_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UfuFuRUr")
+    def test_reduce_to_first_two_layers_easy_case_3rd_corner_left(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("uRuruRUUr")
+    def test_reduce_to_first_two_layers_easy_case_3rd_corner_left_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("uRUrUfuF")
+
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_right_RHS_together_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RurUUfuF")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_left_LHS_together_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("fUFuuRUr")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_right_RHS_apart_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UfUUFUfUUF")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_left_LHS_apart_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("uRUUruRUUr")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_right_LHS_apart(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UfuFUfUUF")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_left_RHS_apart(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("uRUruRUUr")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_right_RHS_together(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("uRurURUr")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_left_LHS_together(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UfUFufuF")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_right_LHS_apart_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("uRUrURUr")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_left_RHS_apart_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UfuFufuF")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_right_LHS_together_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UfUUFuRUr")
+    def test_reduce_to_first_two_layers_easy_case_4th_corner_left_RHS_together_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("uRUUrUfuF")
+    
+    def test_reduce_to_first_two_layers_easy_case_5th_LHS_together_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RUruuRUruRUr")
+    def test_reduce_to_first_two_layers_easy_case_5th_RHS_together_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("fuFUUfuFUfuF")
+    def test_reduce_to_first_two_layers_easy_case_5th_LHS_apart_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UURUrURur")
+    def test_reduce_to_first_two_layers_easy_case_5th_RHS_apart_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("UUfuFufUF")
+    def test_reduce_to_first_two_layers_easy_case_5th_RHS_apart(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("URUUrURur")
+    def test_reduce_to_first_two_layers_easy_case_5th_LHS_apart(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("ufUUFufUF")
+    def test_reduce_to_first_two_layers_easy_case_5th_RHS_together(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RUUruRUr")
+    def test_reduce_to_first_two_layers_easy_case_5th_LHS_together(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("fUUFUfuF")
+        
+    def test_reduce_to_first_two_layers_easy_case_6th_corner_down(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RUr")
+    def test_reduce_to_first_two_layers_easy_case_6th_corner_down_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RurUfUUFUfUUF")
+    def test_reduce_to_first_two_layers_easy_case_6th_corner_right(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RurURUUrURur")
+    def test_reduce_to_first_two_layers_easy_case_6th_corner_right_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RUruRurUUfuF")
+    def test_reduce_to_first_two_layers_easy_case_6th_corner_left(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RuruRUruRUUr")
+    def test_reduce_to_first_two_layers_easy_case_6th_corner_left_flip(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RurUfuFufuF")
     
     """
     def test_first_two_layers_unmet_requisite_1(self): # scrambled
