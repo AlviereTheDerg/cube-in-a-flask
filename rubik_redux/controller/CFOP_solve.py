@@ -52,8 +52,10 @@ def _first_two_layers_easy_cases(cube: Cube, target: int):
 def _reduce_2nd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge):
     motions = []
     flattened_corner = (constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.DOWN[0])).pop()
+    face_of_flattened = constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]]
 
     # read corner orientation: 0=>down, 1=>left, 2=>right
+    # list version of ALL_SIDES_OF => index of where the down-face would be => orientation
     corner_orientation = ([flattened_corner] + list(constants.OTHER_SIDE_OF[flattened_corner])).index(constants.OTHER_SIDE_OF[where_is_target_corner][1])
 
     # LHS or RHS solve (which side the edge should go on)
@@ -61,12 +63,9 @@ def _reduce_2nd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target
 
     # identify which face to align edge to
     cycle = [constants.FACE_OF[piece] for piece in constants.DOWN[3]] # construct 'loop' of faces
-    # construct offset: LHS=0, RHS=1, if corner is down then becomes LHS=-1, RHS=2
-    alignment = (2 if RHS else -1) if corner_orientation==0 else (1 if RHS else 0)
-    # base off of where the corner is
-    alignment += cycle.index(constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])
-    alignment %= len(cycle)
-    alignment = cycle[alignment]
+    alignment = cycle[(((2 if RHS else -1) if corner_orientation==0 else (1 if RHS else 0)) # offset
+                        + cycle.index(face_of_flattened) # shift by corner location
+                        ) % len(cycle)] # wrap to fit cycle
     
     motions.append(cube.align_edge(where_is_target_edge, alignment, variant=0 if RHS else 1))
     match corner_orientation, RHS:
@@ -82,7 +81,7 @@ def _reduce_2nd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target
             placement = "fUF"
         case 2, True:
             placement = "RUr"
-    motions.append(cube.move_algorithm(placement, constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]]))
+    motions.append(cube.move_algorithm(placement, face_of_flattened))
     return motions
 
 def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
