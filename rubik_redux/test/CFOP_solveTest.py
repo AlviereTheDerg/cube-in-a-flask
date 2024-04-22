@@ -117,9 +117,9 @@ class CFOP_solve_tests(solver_test_skeleton):
     def test_reduce_to_first_two_layers_easy_case_2nd_corner_right_RHS(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("RUruRUr")
     def test_reduce_to_first_two_layers_easy_case_2nd_corner_left_LHS(self):
-        self.all_permutations_reduce_to_first_two_layers_easy_case("RurURur")
-    def test_reduce_to_first_two_layers_easy_case_2nd_corner_left_RHS(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("fuFUfuF")
+    def test_reduce_to_first_two_layers_easy_case_2nd_corner_left_RHS(self):
+        self.all_permutations_reduce_to_first_two_layers_easy_case("RurURur")
 
     """
     def test_reduce_to_first_two_layers_easy_case_3rd_corner_up(self):
