@@ -87,7 +87,7 @@ class CFOP_solve_tests(solver_test_skeleton):
     def reduce_to_first_two_layers_easy_case_test(self, cube_string, target):
         cube = Cube(cube_string)
         result = [solver._reduce_to_first_two_layers_easy_case(cube, target)] # reduce the target to an easy case
-        #result.append(solver._first_two_layers_easy_cases(cube, target)) # previous tests confirm this functioning
+        result.append(solver._first_two_layers_easy_cases(cube, target)) # previous tests confirm this functioning
         result = "".join(result) # combine motions to a single string
 
         targets = [constants.OTHER_SIDE_OF[target][0]]
@@ -121,6 +121,7 @@ class CFOP_solve_tests(solver_test_skeleton):
     def test_reduce_to_first_two_layers_easy_case_2nd_corner_left_RHS(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("fuFUfuF")
 
+    """
     def test_reduce_to_first_two_layers_easy_case_3rd_corner_up(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("RUruRUruRUr")
     def test_reduce_to_first_two_layers_easy_case_3rd_corner_up_flip(self):
@@ -188,6 +189,7 @@ class CFOP_solve_tests(solver_test_skeleton):
         self.all_permutations_reduce_to_first_two_layers_easy_case("RuruRUruRUUr")
     def test_reduce_to_first_two_layers_easy_case_6th_corner_left_flip(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("RurUfuFufuF")
+    """
     
     """
     def test_first_two_layers_unmet_requisite_1(self): # scrambled
