@@ -117,7 +117,44 @@ def _reduce_3rd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target
     return motions
 
 def _reduce_4th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
-    pass
+    # construct list of positions around top face of cube
+    positions = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
+    # reorient positions list around corner position = 0
+    corner_index = next(index for index,position in enumerate(positions) if position in constants.ALL_SIDES_OF[where_is_target_corner])
+    positions = positions[corner_index:] + positions[:corner_index]
+    # identify edge index
+    edge_index = next(index for index,position in enumerate(positions) if position in constants.ALL_SIDES_OF[where_is_target_edge])
+
+    front_up = where_is_target_edge in constants.UP[1]
+
+    match corner_orientation, edge_index, front_up:
+        # corner facing right
+        case 1, 1, True:
+            return [cube.move_algorithm("fUUF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 1, 3, True:
+            return [cube.move_algorithm("LUl", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 1, 7, True:
+            return [cube.move_algorithm("Lul", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 1, 3, False:
+            return [cube.move_algorithm("fuF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 1, 5, False:
+            return [cube.move_algorithm("fUUF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 1, 7, False:
+            return [cube.move_algorithm("Fuf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        
+        # corner facing left
+        case 2, 1, True:
+            return [cube.move_algorithm("fUF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 2, 3, True:
+            return [cube.move_algorithm("FUUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 2, 5, True:
+            return [cube.move_algorithm("FUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 2, 1, False:
+            return [cube.move_algorithm("rUR", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 2, 5, False:
+            return [cube.move_algorithm("ruR", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        case 2, 7, False:
+            return [cube.move_algorithm("FUUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
 
 def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
     target_corner = constants.OTHER_SIDE_OF[target][0] # target is on the bottom face, OTHER_SIDE_OF->[0] -> most-clockwise of the other faces
@@ -128,11 +165,11 @@ def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
 
     corner_in_top = len(constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.UP[0])) != 0
     edge_in_top = len(constants.ALL_SIDES_OF[where_is_target_edge] & set(constants.UP[1])) != 0
-    fourth_not_fifth = where_is_target_corner in constants.UP[0]
 
     # flatten corner to up/down face, then ID orientation: 0=>on face, 1=>CW around, 2=>CCW around
     flattened_corner = (constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.UP[0] + constants.DOWN[0])).pop()
     corner_orientation = ([flattened_corner] + list(constants.OTHER_SIDE_OF[flattened_corner])).index(constants.OTHER_SIDE_OF[where_is_target_corner][1])
+    fourth_not_fifth = corner_orientation != 0
 
     match corner_in_top, edge_in_top, fourth_not_fifth:
         case False, True, _: # 2nd: corner in bottom, edge in top
