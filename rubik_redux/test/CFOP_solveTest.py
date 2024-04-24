@@ -159,7 +159,6 @@ class CFOP_solve_tests(solver_test_skeleton):
     def test_reduce_to_first_two_layers_easy_case_4th_corner_left_RHS_together_flip(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("uRUUrUfuF")
     
-    """
     def test_reduce_to_first_two_layers_easy_case_5th_LHS_together_flip(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("RUruuRUruRUr")
     def test_reduce_to_first_two_layers_easy_case_5th_RHS_together_flip(self):
@@ -177,6 +176,7 @@ class CFOP_solve_tests(solver_test_skeleton):
     def test_reduce_to_first_two_layers_easy_case_5th_LHS_together(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("fUUFUfuF")
         
+    """
     def test_reduce_to_first_two_layers_easy_case_6th_corner_down(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("RUr")
     def test_reduce_to_first_two_layers_easy_case_6th_corner_down_flip(self):

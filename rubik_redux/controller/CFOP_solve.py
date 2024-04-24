@@ -155,6 +155,9 @@ def _reduce_4th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target
             return [cube.move_algorithm("ruR", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
         case 2, 7, False:
             return [cube.move_algorithm("FUUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+        
+def _reduce_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
+    return []
 
 def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
     target_corner = constants.OTHER_SIDE_OF[target][0] # target is on the bottom face, OTHER_SIDE_OF->[0] -> most-clockwise of the other faces
@@ -179,7 +182,7 @@ def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
         case True, True, True: # 4th: corner 'pointing outwards', edge in top
             motions = _reduce_4th_case_to_easy(cube, where_is_target_corner, where_is_target_edge, corner_orientation)
         case True, True, False: # 5th: corner 'pointing upwards', edge in top
-            motions = []
+            motions = _reduce_5th_case_to_easy(cube, where_is_target_corner, where_is_target_edge, corner_orientation)
         case False, False, _: # 6th: corner in bottom, edge in middle (includes pillar solved but in incorrect corner)
             motions = []
     return "".join(motions)
