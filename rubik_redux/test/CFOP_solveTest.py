@@ -177,7 +177,7 @@ class CFOP_solve_tests(solver_test_skeleton):
         self.all_permutations_reduce_to_first_two_layers_easy_case("fUUFUfuF")
     
     def test_reduce_to_first_two_layers_easy_case_6th_corner_down(self):
-        self.all_permutations_reduce_to_first_two_layers_easy_case("RUUrFuf")
+        self.all_permutations_reduce_to_first_two_layers_easy_case("FUfRuur")
     def test_reduce_to_first_two_layers_easy_case_6th_corner_down_flip(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("RurUfUUFUfUUF")
     def test_reduce_to_first_two_layers_easy_case_6th_corner_right(self):
