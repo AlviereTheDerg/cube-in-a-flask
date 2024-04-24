@@ -157,6 +157,33 @@ def _reduce_4th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target
             return [cube.move_algorithm("FUUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
         
 def _reduce_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
+    # construct list of positions around top face of cube
+    positions = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
+    # reorient positions list around corner position = 0
+    corner_index = next(index for index,position in enumerate(positions) if position in constants.ALL_SIDES_OF[where_is_target_corner])
+    positions = positions[corner_index:] + positions[:corner_index]
+    # identify edge index
+    edge_index = next(index for index,position in enumerate(positions) if position in constants.ALL_SIDES_OF[where_is_target_edge])
+
+    front_up = where_is_target_edge in constants.UP[1]
+
+    match corner_orientation, edge_index, front_up:
+        case 0, 1, False:
+            return [cube.move_algorithm("fUUF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
+        case 0, 3, False:
+            return [cube.move_algorithm("lUUL", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
+        case 0, 5, False:
+            return [cube.move_algorithm("buB", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
+        case 0, 7, False:
+            return [cube.move_algorithm("fuFUUfuF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
+        case 0, 1, True:
+            return [cube.move_algorithm("RUruuRUr", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
+        case 0, 3, True:
+            return [cube.move_algorithm("LUl", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
+        case 0, 5, True:
+            return [cube.move_algorithm("BUUb", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
+        case 0, 7, True:
+            return [cube.move_algorithm("RUUr", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
     return []
 
 def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
