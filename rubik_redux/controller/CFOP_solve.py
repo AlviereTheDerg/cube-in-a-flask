@@ -155,6 +155,7 @@ def _reduce_4th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target
             return [cube.move_algorithm("ruR", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
         case 2, 7, False:
             return [cube.move_algorithm("FUUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
+    return []
         
 def _reduce_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
     # construct list of positions around top face of cube
@@ -232,6 +233,9 @@ def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
     return "".join(motions)
 
 def _first_two_layers(cube: Cube):
+    if not cube.match_pattern("....f..f.....r..r.....b..b.....l..l.....u.....d.ddd.d."):
+        raise ValueError("Error: Solving stage \"first two layers\": missing prerequisite")
+    
     # step 0: repeat following for each 'pillar' (corner of cube, bottom layer corner and middle layer edge)
     # step 1: locate desired pillar's pieces
     # step 2: reduce cube entropy:
@@ -241,4 +245,28 @@ def _first_two_layers(cube: Cube):
     #      2d: no piece is in top layer, pieces are in different pillars: raise the edge to the top layer
     # step 3: reduce cube entropy to an easy-to-solve state
     # step 4: solve
-    pass
+
+    motions = []
+    for target in constants.DOWN[0]:
+        target_corner = constants.OTHER_SIDE_OF[target][0]
+        target_edge = constants.CYCLE_OF_FACE_OF[target_corner][1][1]
+
+        where_is_target_corner = cube.where_is(target_corner)
+        where_is_target_edge = cube.where_is(target_edge)
+
+        if target_corner == where_is_target_corner and target_edge == where_is_target_edge:
+            continue
+
+        corner_in_top = len(constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.UP[0])) != 0
+        edge_in_top = len(constants.ALL_SIDES_OF[where_is_target_edge] & set(constants.UP[1])) != 0
+
+        if not (corner_in_top or edge_in_top):
+            flattened_corner = (constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.DOWN[0])).pop()
+            where_is_target_edge = where_is_target_edge if (where_is_target_edge % constants.PIECES_PER_FACE) == constants.FMR else constants.OTHER_SIDE_OF[where_is_target_edge]
+
+            if constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]] != constants.FACE_OF[where_is_target_edge]:
+                motions.append(cube.move_algorithm("RUr", constants.FACE_OF[where_is_target_edge]))
+        
+        motions.append(_reduce_to_first_two_layers_easy_case(cube, target))
+        motions.append(_first_two_layers_easy_cases(cube, target))
+    return "".join(motions)
