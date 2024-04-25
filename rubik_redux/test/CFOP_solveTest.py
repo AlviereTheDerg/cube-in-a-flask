@@ -189,7 +189,6 @@ class CFOP_solve_tests(solver_test_skeleton):
     def test_reduce_to_first_two_layers_easy_case_6th_corner_left_flip(self):
         self.all_permutations_reduce_to_first_two_layers_easy_case("RurUfuFufuF")
     
-    """
     def test_first_two_layers_unmet_requisite_1(self): # scrambled
         self.raise_unmet_requisite_stage_test("rbuffbllrlfldrbuurddrrbrdlbdffflulrubrfludulfbubudbddf", solver._first_two_layers, "first two layers")
     def test_first_two_layers_unmet_requisite_2(self): # scrambled
@@ -208,7 +207,32 @@ class CFOP_solve_tests(solver_test_skeleton):
     
     def solve_first_two_layers_test(self, cube_string):
         self.solve_successful_test(cube_string, solver._first_two_layers, "...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd")
-    """
+
+    def test_first_two_layers_easy_case(self): # can solve from a single easy case
+        self.solve_first_two_layers_test("rruffufffbrrbrrurrbllbbbbbbffdlllllluuuuuufflddrdddddd")
+    def test_first_two_layers_mild_case(self): # can solve from a single secondary case (reduce to easy -> solve easy)
+        self.solve_first_two_layers_test("uffffufffruubrrrrrlrrbbbbbbbfllllllluufuulbruddddddddd")
+    def test_first_Two_layers_multiple_mild_cases(self): # can solve multiple secondary cases
+        self.solve_first_two_layers_test("lffffufffruubrrrrrbubbbubbudburllblllfllulfruddddddrdd")
+    def test_first_Two_layers_complex_case(self): # corner piece and edge piece are in different pillars
+        self.solve_first_two_layers_test("fuffflfffrrrurfrrrbbbrbbbbblfllllllluruuuuubuddddddddd")
+    def test_first_Two_layers_multiple_complex_cases(self): # two pillars have edge pieces swapped
+        self.solve_first_two_layers_test("flfrflfffrbrfrrrrrbubbbbbbblulllflllufuruuuuuddddddddd")
+    
+    def test_first_two_layers_barrage(self):
+        for cube in ["rllbflrffuflurbrrubrllbufbrdubblrflbfudfurdfbudddddudl",
+                     "uluffrdfrbbbbrrbrdulffblfbduurblublflfrruufulldddddldr",
+                     "fbfffudfdrrrbrlfrrbrlfbrbbufudululllufulubllubdrdddbdd",
+                     "ffdlfflffflrrrrrrrdurubfublurlllbdlufbbbuuuulbdddddbdb",
+                     "rrrufbuffbrllrrdrdbflbbfrbuubdlllflfbuduuuffurdldddldb",
+                     "uurffbffldlllrubrfbufrbblbdlubrlrflrdldbufrfbududddrdu",
+                     "dulfffufddfurrubrblbrlblubbfrrbllrlfdrfuuubbfrdldddudl",
+                     "uurrfubfduldfrfrrrrrflbbubllbflludlldffruulbfudbdddbdb",
+                     "rubufrufduudfrlbrurlfbbrrbllrbblfulbdffuuldbrldldddfdf",
+                     "ubflfflflubrlrffrdbrrrbbbbdduruluflubuufurfllbdddddrdl",
+                     "lffufuffllubfrudruubrlbflbrfrullbblrdlrburfrdudbdddddb",
+                     "bulffuufdbblbrffrudburburbrllurllblrflfuurlfdbdrdddddf"]:
+            self.solve_bottom_cross_test(cube)
 
 if __name__ == '__main__':
     unittest.main()
