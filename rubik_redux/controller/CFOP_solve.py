@@ -255,3 +255,6 @@ def _first_two_layers(cube: Cube):
         motions.append(_reduce_to_first_two_layers_easy_case(cube, target))
         motions.append(_first_two_layers_easy_cases(cube, target))
     return "".join(motions)
+
+def _orient_last_layer(cube: Cube):
+    pass

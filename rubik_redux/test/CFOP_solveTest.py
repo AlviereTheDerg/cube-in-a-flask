@@ -233,6 +233,163 @@ class CFOP_solve_tests(solver_test_skeleton):
                      "lffufuffllubfrudruubrlbflbrfrullbblrdlrburfrdudbdddddb",
                      "bulffuufdbblbrffrudburburbrllurllblrflfuurlfdbdrdddddf"]:
             self.solve_bottom_cross_test(cube)
+    
+
+    def test_OLL_unmet_requisite_scrambled_1(self): # scrambled
+        self.raise_unmet_requisite_stage_test("rbuffbllrlfldrbuurddrrbrdlbdffflulrubrfludulfbubudbddf", solver._orient_last_layer, "orient last layer")
+    def test_OLL_unmet_requisite_scrambled_2(self): # scrambled
+        self.raise_unmet_requisite_stage_test("burlfrlbufuudrbbdfblldbudffffdrlfudbubluubrlddrrldfrrl", solver._orient_last_layer, "orient last layer")
+    def test_OLL_unmet_requisite_bottom_cross_1(self): # bottom cross solved
+        self.raise_unmet_requisite_stage_test("urrffluffdbdbrrlrbrlubbflbdbubllrllfluffuurubrdudddfdd", solver._orient_last_layer, "orient last layer")
+    def test_OLL_unmet_requisite_bottom_cross_2(self): # bottom cross solved
+        self.raise_unmet_requisite_stage_test("bfbffbdfluudurburdbuulbblbbfuurllllrrfrrullrrfdfdddddf", solver._orient_last_layer, "orient last layer")
+
+    def test_OLL_change_nothing_OLL_solved_1(self):
+        self.change_nothing_test("fbbfffffflrfrrrrrrrlrbbbbbbbfllllllluuuuuuuuuddddddddd", solver._orient_last_layer)
+    def test_OLL_change_nothing_OLL_solved_2(self):
+        self.change_nothing_test("rbbffffffllrrrrrrrbflbbbbbbfrflllllluuuuuuuuuddddddddd", solver._orient_last_layer)
+    def test_OLL_change_nothing_solved(self):
+        self.change_nothing_test("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd", solver._orient_last_layer)
+    
+    def solve_OLL_test(self, cube_string):
+        self.solve_successful_test(cube_string, solver._orient_last_layer, "...ffffff...rrrrrr...bbbbbb...lllllluuuuuuuuuddddddddd")
+
+    def all_permutations_OLL(self, solve_algorithm: str):
+        cube = Cube("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+        cube.rotate(solve_algorithm[::-1].swapcase())
+        if not cube.match_pattern("...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd"): # sanity check
+            raise ValueError("Input breaks F2L")
+        for _ in range(4):
+            self.solve_OLL_test(str(cube))
+            cube.rotate("U")
+
+    def test_OLL_dot_A(self):
+        self.all_permutations_OLL("RUbRBRRurFRf") # R U B' l U l2' x' U' R' F R F'
+    def test_OLL_dot_B(self):
+        self.all_permutations_OLL("rFRfUUrFRFFUUF") # R' F R F' U2 R' F R y' R2 U2 R
+    def test_OLL_dot_C(self):
+        self.all_permutations_OLL("UlRRBrBLUUlBLr") # y L' R2 B R' B L U2' L' B M'
+    def test_OLL_dot_D(self):
+        self.all_permutations_OLL("rUUrFRfufuFuR") # R' U2 x R' U R U' y R' U' R' U R' F
+    def test_OLL_dot_E(self):
+        self.all_permutations_OLL("RUrUrFRfUUrFRf") # (R U R' U) R' F R F' U2 R' F R F'
+    def test_OLL_dot_F(self):
+        self.all_permutations_OLL("LrFFlRUULrFlRUULrFFlR") # M' U2 M U2 M' U M U2 M' U2 M
+    def test_OLL_dot_G(self):
+        self.all_permutations_OLL("rUUFRUruFFUUFR") # R' U2 F (R U R' U') y' R2 U2 x' R U
+    def test_OLL_dot_H(self):
+        self.all_permutations_OLL("FRUrUfUUfLFl") # F (R U R' U) y' R' U2 (R' F R F')
+
+    def test_OLL_line_A(self):
+        self.all_permutations_OLL("rufUfLFlFR") # R' U' y L' U L' y' L F L' F R
+    def test_OLL_line_B(self):
+        self.all_permutations_OLL("RuBBDbUUBdBBUr") # R U' y R2 D R' U2 R D' R2 d R'
+    def test_OLL_line_C(self):
+        self.all_permutations_OLL("FURurURurf") # F U R U' R' U R U' R' F'
+    def test_OLL_line_D(self):
+        self.all_permutations_OLL("lbLurURurURlBL") # L' B' L U' R' U R U' R' U R L' B L
+        
+    def test_OLL_cross_A(self):
+        self.all_permutations_OLL("LurUlURUrUR") # L U' R' U L' U (R U R' U) R
+    def test_OLL_cross_B(self):
+        self.all_permutations_OLL("RUrURurURUUr") # (R U R' U) R U' R' U R U2 R'
+    def test_OLL_cross_C(self):
+        self.all_permutations_OLL("lURuLUr") # L' U R U' L U R'
+    def test_OLL_cross_D(self):
+        self.all_permutations_OLL("rUURUrUR") # R' U2 (R U R' U) R
+    def test_OLL_cross_E(self):
+        self.all_permutations_OLL("rfLFRflF") # R' F' L F R F' L' F
+    def test_OLL_cross_F(self):
+        self.all_permutations_OLL("RRDrUURdrUUr") # R2 D R' U2 R D' R' U2 R'
+    def test_OLL_cross_G(self):
+        self.all_permutations_OLL("rflFRfLF") # R' F' L' F R F' L F
+        
+    def test_OLL_4_corners_A(self):
+        self.all_permutations_OLL("LrflRUULrflR") # M' U' M U2' M' U' M
+    def test_OLL_4_corners_B(self):
+        self.all_permutations_OLL("lRUruLrFRf") # L' (R U R' U') L R' F R F'
+        
+    def test_OLL_L_upleft_A(self):
+        self.all_permutations_OLL("LFrFRFFl") # L F R' F R F2 L'
+    def test_OLL_L_upleft_B(self):
+        self.all_permutations_OLL("FrfRURur") # F R' F' R U R U' R'
+    def test_OLL_L_upleft_C(self):
+        self.all_permutations_OLL("ruRFrfUFRf") # R' U' R y' x' R U' R' F R U R'
+    def test_OLL_L_upleft_D(self):
+        self.all_permutations_OLL("uRUUruRuRRfuFUR") # U' R U2' R' U' R U' R2 y' R' U' R U B
+    def test_OLL_L_upleft_E(self):
+        self.all_permutations_OLL("FRUruRUruf") # F (R U R' U') (R U R' U') F'
+    def test_OLL_L_upleft_F(self):
+        self.all_permutations_OLL("LflFUULLBLbL") # L F' L' F U2 L2 y' L F L' F
+        
+    def test_OLL_L_upright_A(self):
+        self.all_permutations_OLL("urUURUrURRBUbur") # U' R' U2 (R U R' U) R2 y (R U R' U') F'
+    def test_OLL_L_upright_B(self):
+        self.all_permutations_OLL("LFFrfRfl") # r U2 R' U' R U' r'
+    def test_OLL_L_upright_C(self):
+        self.all_permutations_OLL("rUURRbrBrUUR") # R' U2 l R U' R' U l' U2 R
+    def test_OLL_L_upright_D(self):
+        self.all_permutations_OLL("fluLUluLUF") # F' L' U' L U L' U' L U F
+    def test_OLL_L_upright_E(self):
+        self.all_permutations_OLL("rFrfRRUUbRBr") # R' F R' F' R2 U2 x' U' R U R'
+    def test_OLL_L_upright_F(self):
+        self.all_permutations_OLL("rFRfUURRbrBr") # R' F R F' U2 R2 y R' F' R F'
+        
+    def test_OLL_L_downleft_A(self):
+        self.all_permutations_OLL("RUrbRBubrB") # R U R' y R' F R U' R' F' R
+    def test_OLL_L_downleft_B(self):
+        self.all_permutations_OLL("lbLurURlBL") # L' B' L U' R' U R L' B L
+    def test_OLL_L_downleft_C(self):
+        self.all_permutations_OLL("UULRRfRfrFFRflR") # U2 r R2' U' R U' R' U2 R U' M
+    def test_OLL_L_downleft_D(self):
+        self.all_permutations_OLL("bRbRRURUruRBB") # x' U' R U' R2' F x (R U R' U') R B2
+        
+    def test_OLL_L_downright_A(self):
+        self.all_permutations_OLL("LufUUfUFuFUUFul") # L U' y' R' U2' R' U R U' R U2 R d' L'
+    def test_OLL_L_downright_B(self):
+        self.all_permutations_OLL("UUrLLFlFLFFlFlR") # U2 l' L2 U L' U L U2 L' U M
+    def test_OLL_L_downright_C(self):
+        self.all_permutations_OLL("RRUrbRuRRURBr") # R2' U R' B' R U' R2' U l U l'
+    def test_OLL_L_downright_D(self):
+        self.all_permutations_OLL("lBBRBrBL") # r' U2 (R U R' U) r
+        
+    def test_OLL_C_A(self):
+        self.all_permutations_OLL("RURbrBur") # R U x' R U' R' U x U' R'
+    def test_OLL_C_B(self):
+        self.all_permutations_OLL("RUrubrFRfB") # (R U R' U') x D' R' U R E'
+        
+    def test_OLL_L_A(self):
+        self.all_permutations_OLL("rFRUrfRFuf") # R' F R U R' F' R y L U' L'
+    def test_OLL_L_B(self):
+        self.all_permutations_OLL("LfluLFlfUF") # L F' L' U' L F L' y' R' U R
+    def test_OLL_L_C(self):
+        self.all_permutations_OLL("lbLruRUlBL") # L' B' L R' U' R U L' B L
+    def test_OLL_L_D(self):
+        self.all_permutations_OLL("RBrLUluRbr") # R B R' L U L' U' R B' R'
+        
+    def test_OLL_P_A(self):
+        self.all_permutations_OLL("FURurf") # F U R U' R' F'
+    def test_OLL_P_B(self):
+        self.all_permutations_OLL("ruFURurfR") # R' d' L d R U' R' F' R
+    def test_OLL_P_C(self):
+        self.all_permutations_OLL("LUfulULFl") # L d R' d' L' U L F L'
+    def test_OLL_P_D(self):
+        self.all_permutations_OLL("fulULF") # F' U' L' U L F
+        
+    def test_OLL_T_A(self):
+        self.all_permutations_OLL("FRUruf") # F (R U R' U') F'
+    def test_OLL_T_B(self):
+        self.all_permutations_OLL("RUrurFRf") # (R U R' U') R' F R F'
+        
+    def test_OLL_W_A(self):
+        self.all_permutations_OLL("LUlULululBLb") # L U L' U L U' L' U' y2' R' F R F'
+    def test_OLL_W_B(self):
+        self.all_permutations_OLL("ruRurURURbrB") # R' U' R U' R' U R U y F R' F' R
+        
+    def test_OLL_Z_A(self):
+        self.all_permutations_OLL("rFRUrufUR") # R' F (R U R' U') y L' d R
+    def test_OLL_Z_B(self):
+        self.all_permutations_OLL("LfluLUFul") # L F' L' U' L U y' R d' L'
 
 if __name__ == '__main__':
     unittest.main()
