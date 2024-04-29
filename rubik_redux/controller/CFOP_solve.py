@@ -349,3 +349,6 @@ def _orient_last_layer(cube: Cube):
     parity_strings = ["".join(str(parity) for parity in (parities[offset:] + parities[:offset])) for offset in base_offsets]
     parity_string = (OLL_solutions.keys() & set(parity_strings)).pop()
     return cube.move_algorithm(OLL_solutions[parity_string], "flbr"[parity_strings.index(parity_string)])
+
+def _permute_last_layer(cube: Cube):
+    return ""
