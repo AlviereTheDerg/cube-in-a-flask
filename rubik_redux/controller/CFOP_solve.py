@@ -256,5 +256,95 @@ def _first_two_layers(cube: Cube):
         motions.append(_first_two_layers_easy_cases(cube, target))
     return "".join(motions)
 
+OLL_solutions = {"11211121":"RUbRBRRurFRf", # DOTS
+                 "11212111":"rFRfUUrFRFFUUF",
+                 "21210121":"UlRRBrBLUUlBLr",
+                 "11011111":"rUUrFRfufuFuR",
+                 "01110121":"RUrUrFRfUUrFRf",
+                 "01010101":"LrFFlRUULrFlRUULrFFlR",
+                 "01011121":"rUUFRUruFFUUFR",
+                 "21110101":"FRUrUfUUfLFl",
+                 
+                 "20211011":"rufUfLFlFR", # LINES
+                 "10211021":"RuBBDbUUBdBBUr",
+                 "21201110":"FURurURurf",
+                 "11201120":"lbLurURurURlBL",
+                 
+                 "20201010":"LurUlURUrUR", # CROSSES
+                 "10201020":"RUrURurURUUr",
+                 "10100010":"lURuLUr",
+                 "20200020":"rUURUrUR",
+                 "00102000":"rfLFRflF",
+                 "00002010":"RRDrUURdrUUr",
+                 "00100020":"rflFRfLF",
+                 
+                 "01010000":"LrflRUULrflR", # 4 CORNERS 
+                 "01000100":"lRUruLrFRf",
+                 
+                 "20212100":"LFrFRFFl", # _|
+                 "00210110":"FrfRURur",
+                 "10110110":"ruRFrfUFRf",
+                 "20110100":"uRUUruRuRRfuFUR",
+                 "10112120":"FRUruRUruf",
+                 "20112110":"LflFUULLBLbL",
+                 "20100101":"urUURUrURRBUbur", # |_
+                 "10001111":"LFFrfRfl",
+                 "20001101":"rUURRbrBrUUR",
+                 "20201111":"fluLUluLUF",
+                 "10102121":"rFrfRRUUbRBr",
+                 "20102111":"rFRfUURRbrBr",
+                 "21012020":"RUrbRBubrB", # ¯|
+                 "01111010":"lbLurURlBL",
+                 "11110010":"UULRRfRfrFFRflR",
+                 "01011020":"bRbRRURUruRBB",
+                 "11102021":"LufUUfUFuFUUFul", # |¯
+                 "21202001":"UUrLLFlFLFFlFlR",
+                 "01001021":"RRUrbRuRRURBr",
+                 "21200021":"lBBRBrBL",
+                 
+                 "00211001":"RURbrBur", # C
+                 "11200100":"RUrubrFRfB",
+                 
+                 "11100110":"rFRUrfRFuf", # L
+                 "21202100":"LfluLFlfUF",
+                 "21200120":"lbLruRUlBL",
+                 "11101100":"RBrLUluRbr",
+                 
+                 "00211100":"FURurf", # P
+                 "20000111":"ruFURurfR",
+                 "00112100":"LUfulULFl",
+                 "10000121":"fulULF",
+                 
+                 "11000120":"FRUruf", # T
+                 "21000110":"RUrurFRf",
+                 
+                 "11002001":"LUlULululBLb", # W
+                 "01210010":"ruRurURURbrB",
+                 
+                 "01100120":"rFRUrufUR", # Z
+                 "21001100":"LfluLUFul"
+}
+
 def _orient_last_layer(cube: Cube):
-    pass
+    if not cube.match_pattern("...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd"):
+        raise ValueError("Error: Solving stage \"orient last layer\": missing prerequisite")
+    
+    # step 0: construct dict of all possible states -> associated algorithm to solve
+    # step 1: decompose top layer into circle of parity indicators (0|1|2)
+    #   step 1a: if all 0s, OLL already solved, do nothing
+    # step 2: create list of 4 possible orientations [abcdefgh, cdefghab, efghabcd, ghabcdef]
+    # step 3: union previous list with dict keys to extract case
+    # step 4: index case within orientations to determine face to perform algorithm
+
+    positions = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
+    position_lists = [([position] + list(constants.OTHER_SIDE_OF[position])) if position in constants.CORNERS else [position, constants.OTHER_SIDE_OF[position]] for position in positions]
+    colour_lists = [[cube.cube_data[piece] for piece in position_tuple] for position_tuple in position_lists]
+    parities = [colour_list.index(cube.colours['u']) for colour_list in colour_lists]
+    if all(parity == 0 for parity in parities):
+        return ""
+    
+    base_offsets = range(0, 8, 2)
+    offset_parities = [parities[offset:] + parities[:offset] for offset in base_offsets]
+    parity_strings = ["".join(str(parity) for parity in parity_list) for parity_list in offset_parities]
+    parity_string = (OLL_solutions.keys() & set(parity_strings)).pop()
+    return cube.move_algorithm(OLL_solutions[parity_string], "flbr"[parity_strings.index(parity_string)])
