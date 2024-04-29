@@ -175,22 +175,16 @@ def _reduce_4th_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_ta
             return [cube.move_algorithm("FUUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
     return []
 
+_6th_case_solutions = {(0, False):  "RUr",
+                       (0, True):   "RurUfUUF",
+                       (1, False):  "RuruRUr",
+                       (1, True):   "RurUfuF",
+                       (2, False):  "RurURUUr",
+                       (2, True):   "RUruRur"}
+
 def _reduce_6th_case_to_easy(cube: Cube, where_is_target_edge, corner_orientation, flattened_corner):
     flip = (where_is_target_edge % constants.PIECES_PER_FACE) == constants.FML
-
-    match corner_orientation, flip:
-        case 0, False:
-            return [cube.move_algorithm("RUr", constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
-        case 0, True:
-            return [cube.move_algorithm("RurUfUUF", constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
-        case 1, False:
-            return [cube.move_algorithm("RuruRUr", constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
-        case 1, True:
-            return [cube.move_algorithm("RurUfuF", constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
-        case 2, False:
-            return [cube.move_algorithm("RurURUUr", constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
-        case 2, True:
-            return [cube.move_algorithm("RUruRur", constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
+    return [cube.move_algorithm(_6th_case_solutions[(corner_orientation, flip)], constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
 
 def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
     target_corner = constants.OTHER_SIDE_OF[target][0] # target is on the bottom face, OTHER_SIDE_OF->[0] -> most-clockwise of the other faces
