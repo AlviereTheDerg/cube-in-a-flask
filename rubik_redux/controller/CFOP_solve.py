@@ -350,5 +350,52 @@ def _orient_last_layer(cube: Cube):
     parity_string = (OLL_solutions.keys() & set(parity_strings)).pop()
     return cube.move_algorithm(OLL_solutions[parity_string], "flbr"[parity_strings.index(parity_string)])
 
+PLL_solutions = {"01234567":"",
+                 "21430567":"rFrBBRfrBBRR",
+                 "01632547":"RbRFFrBRFFRR",
+                 "01254763":"RRURUrururUr",
+                 "01274365":"RuRURURuruRR",
+                 "05274163":"LLRRDLLRRUULLRRDLLRR",
+                 "01472563":"RUrurFRRuruRUrf",
+                 "27034561":"rUlUURurUURLu",
+                 "01452367":"RUrfRUrurFRRuru",
+                 "21034765":"LUUlUULfluLULFLLU",
+                 "21054367":"rUURUUrFRUrurfRRu",
+                 "43210567":"rUrubrBBubUbRBR",
+                 "27614503":"RRDbUbuBdRRfUF",
+                 "65230741":"ruRBBDlULuLdBB",
+                 "61250743":"RRdFuFUfDRRBub",
+                 "27634105":"RUrFFdLulUlDFF",
+                 "01276543":"rUUrubrBBubUbRBuR",
+                 "07254361":"LLRRDLLRRULrFFLLRRBBLrUU",
+                 "47230561":"FRuruRUrfRUrurFRf",
+                 "45230167":"LuRUUlUrLuRUUlUrU",
+                 "05634127":"rUlUURuLrUlUURuLu",
+                 "61432507":"RbrFRBrFFlBLFlbL"}
+
 def _permute_last_layer(cube: Cube):
-    return ""
+    if not cube.match_pattern("...ffffff...rrrrrr...bbbbbb...lllllluuuuuuuuuddddddddd"):
+        raise ValueError("Error: Solving stage \"permute last layer\": missing prerequisite")
+
+    # step 0: construct dict of primary (correctly aligned) states -> associated algorithm to solve
+    # step 1: identify where each top face piece wants to go
+    # step 2: for each possible top face rotation:
+    #      2a: translate step 1 into circle of values 0-7inc for given rotation
+    #      2b: determine if given orientation is present in solved states
+    #      2c: apply if so, otherwise check next state
+    # step 3: rotate top layer to solved state
+
+    piece_locations = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
+    wants_to_go = {piece:cube.where_does_piece_go(piece) for piece in piece_locations}
+
+    motions = []
+    for face,offset in zip("flbr", range(0,8,2)):
+        offset_locations = piece_locations[offset:] + piece_locations[:offset]
+        offset_destinations = [wants_to_go[piece] for piece in offset_locations]
+        flattened_list = [piece_locations.index(piece) for piece in offset_destinations]
+        flattened = "".join(str(piece) for piece in flattened_list)
+        if flattened in PLL_solutions:
+            motions.append(cube.move_algorithm(PLL_solutions[flattened], face))
+            break
+    motions.append(cube.align_edge(cube.where_is(constants.FTM), 'f', 1))
+    return "".join(motions)
