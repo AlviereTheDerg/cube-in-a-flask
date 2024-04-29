@@ -322,7 +322,9 @@ OLL_solutions = {"11211121":"RUbRBRRurFRf", # DOTS
                  "01210010":"ruRurURURbrB",
                  
                  "01100120":"rFRUrufUR", # Z
-                 "21001100":"LfluLUFul"
+                 "21001100":"LfluLUFul",
+
+                 "00000000":"" # solved
 }
 
 def _orient_last_layer(cube: Cube):
@@ -331,20 +333,19 @@ def _orient_last_layer(cube: Cube):
     
     # step 0: construct dict of all possible states -> associated algorithm to solve
     # step 1: decompose top layer into circle of parity indicators (0|1|2)
-    #   step 1a: if all 0s, OLL already solved, do nothing
     # step 2: create list of 4 possible orientations [abcdefgh, cdefghab, efghabcd, ghabcdef]
     # step 3: union previous list with dict keys to extract case
     # step 4: index case within orientations to determine face to perform algorithm
 
-    positions = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
-    position_lists = [([position] + list(constants.OTHER_SIDE_OF[position])) if position in constants.CORNERS else [position, constants.OTHER_SIDE_OF[position]] for position in positions]
-    colour_lists = [[cube.cube_data[piece] for piece in position_tuple] for position_tuple in position_lists]
-    parities = [colour_list.index(cube.colours['u']) for colour_list in colour_lists]
-    if all(parity == 0 for parity in parities):
-        return ""
+    position_lists = [([position] + list(constants.OTHER_SIDE_OF[position])) 
+                        if position in constants.CORNERS else 
+                      [position, constants.OTHER_SIDE_OF[position]] 
+
+                      for position_tuple in zip(constants.UP[0], constants.UP[1]) 
+                      for position in position_tuple]
+    parities = [[cube.cube_data[piece] for piece in position_tuple].index(cube.colours['u']) for position_tuple in position_lists]
     
     base_offsets = range(0, 8, 2)
-    offset_parities = [parities[offset:] + parities[:offset] for offset in base_offsets]
-    parity_strings = ["".join(str(parity) for parity in parity_list) for parity_list in offset_parities]
+    parity_strings = ["".join(str(parity) for parity in (parities[offset:] + parities[:offset])) for offset in base_offsets]
     parity_string = (OLL_solutions.keys() & set(parity_strings)).pop()
     return cube.move_algorithm(OLL_solutions[parity_string], "flbr"[parity_strings.index(parity_string)])
