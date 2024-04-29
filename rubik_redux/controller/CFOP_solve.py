@@ -357,20 +357,20 @@ PLL_solutions = {"01234567":"",
                  "01274365":"RuRURURuruRR",
                  "05274163":"LLRRDLLRRUULLRRDLLRR",
                  "01472563":"RUrurFRRuruRUrf",
-                 "27034561":"rUlUURurUURLu",
-                 "01452367":"RUrfRUrurFRRuru",
-                 "21034765":"LUUlUULfluLULFLLU",
-                 "21054367":"rUURUUrFRUrurfRRu",
+                 "27034561":"rUlUURurUURL",
+                 "01452367":"RUrfRUrurFRRur",
+                 "21034765":"LUUlUULfluLULFLL",
+                 "21054367":"rUURUUrFRUrurfRR",
                  "43210567":"rUrubrBBubUbRBR",
                  "27614503":"RRDbUbuBdRRfUF",
                  "65230741":"ruRBBDlULuLdBB",
                  "61250743":"RRdFuFUfDRRBub",
                  "27634105":"RUrFFdLulUlDFF",
                  "01276543":"rUUrubrBBubUbRBuR",
-                 "07254361":"LLRRDLLRRULrFFLLRRBBLrUU",
+                 "07254361":"LLRRDLLRRULrFFLLRRBBLr",
                  "47230561":"FRuruRUrfRUrurFRf",
-                 "45230167":"LuRUUlUrLuRUUlUrU",
-                 "05634127":"rUlUURuLrUlUURuLu",
+                 "45230167":"LuRUUlUrLuRUUlUr",
+                 "05634127":"rUlUURuLrUlUURuL",
                  "61432507":"RbrFRBrFFlBLFlbL"}
 
 def _permute_last_layer(cube: Cube):
@@ -390,10 +390,8 @@ def _permute_last_layer(cube: Cube):
 
     motions = []
     for face,offset in zip("flbr", range(0,8,2)):
-        offset_locations = piece_locations[offset:] + piece_locations[:offset]
-        offset_destinations = [wants_to_go[piece] for piece in offset_locations]
-        flattened_list = [piece_locations.index(piece) for piece in offset_destinations]
-        flattened = "".join(str(piece) for piece in flattened_list)
+        flattened = "".join(str(piece_locations.index(wants_to_go[piece])) 
+                            for piece in (piece_locations[offset:] + piece_locations[:offset]))
         if flattened in PLL_solutions:
             motions.append(cube.move_algorithm(PLL_solutions[flattened], face))
             break
