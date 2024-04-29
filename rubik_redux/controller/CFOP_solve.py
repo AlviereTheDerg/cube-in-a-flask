@@ -258,7 +258,7 @@ def _first_two_layers(cube: Cube):
 
 OLL_solutions = {"11211121":"RUbRBRRurFRf", # DOTS
                  "11212111":"rFRfUUrFRFFUUF",
-                 "21210121":"UlRRBrBLUUlBLr",
+                 "21212101":"lRRBrBLUUlBLr",
                  "11011111":"rUUrFRfufuFuR",
                  "01110121":"RUrUrFRfUUrFRf",
                  "01010101":"LrFFlRUULrFlRUULrFFlR",
@@ -284,10 +284,10 @@ OLL_solutions = {"11211121":"RUbRBRRurFRf", # DOTS
                  "20212100":"LFrFRFFl", # _|
                  "00210110":"FrfRURur",
                  "10110110":"ruRFrfUFRf",
-                 "20110100":"uRUUruRuRRfuFUR",
+                 "11010020":"RUUruRuRRfuFUR",
                  "10112120":"FRUruRUruf",
                  "20112110":"LflFUULLBLbL",
-                 "20100101":"urUURUrURRBUbur", # |_
+                 "10010120":"rUURUrURRBUbur", # |_
                  "10001111":"LFFrfRfl",
                  "20001101":"rUURRbrBrUUR",
                  "20201111":"fluLUluLUF",
@@ -295,10 +295,10 @@ OLL_solutions = {"11211121":"RUbRBRRurFRf", # DOTS
                  "20102111":"rFRfUURRbrBr",
                  "21012020":"RUrbRBubrB", # ¯|
                  "01111010":"lbLurURlBL",
-                 "11110010":"UULRRfRfrFFRflR",
+                 "00101111":"LRRfRfrFFRflR",
                  "01011020":"bRbRRURUruRBB",
                  "11102021":"LufUUfUFuFUUFul", # |¯
-                 "21202001":"UUrLLFlFLFFlFlR",
+                 "20012120":"rLLFlFLFFlFlR",
                  "01001021":"RRUrbRuRRURBr",
                  "21200021":"lBBRBrBL",
                  
