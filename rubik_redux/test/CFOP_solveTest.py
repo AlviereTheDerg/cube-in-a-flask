@@ -228,11 +228,11 @@ class CFOP_solve_tests(solver_test_skeleton):
         self.solve_first_two_layers_test("rruffufffbrrbrrurrbllbbbbbbffdlllllluuuuuufflddrdddddd")
     def test_first_two_layers_mild_case(self): # can solve from a single secondary case (reduce to easy -> solve easy)
         self.solve_first_two_layers_test("uffffufffruubrrrrrlrrbbbbbbbfllllllluufuulbruddddddddd")
-    def test_first_Two_layers_multiple_mild_cases(self): # can solve multiple secondary cases
+    def test_first_two_layers_multiple_mild_cases(self): # can solve multiple secondary cases
         self.solve_first_two_layers_test("lffffufffruubrrrrrbubbbubbudburllblllfllulfruddddddrdd")
-    def test_first_Two_layers_complex_case(self): # corner piece and edge piece are in different pillars
+    def test_first_two_layers_complex_case(self): # corner piece and edge piece are in different pillars
         self.solve_first_two_layers_test("fuffflfffrrrurfrrrbbbrbbbbblfllllllluruuuuubuddddddddd")
-    def test_first_Two_layers_multiple_complex_cases(self): # two pillars have edge pieces swapped
+    def test_first_two_layers_multiple_complex_cases(self): # two pillars have edge pieces swapped
         self.solve_first_two_layers_test("flfrflfffrbrfrrrrrbubbbbbbblulllflllufuruuuuuddddddddd")
     
     def test_first_two_layers_barrage(self):
