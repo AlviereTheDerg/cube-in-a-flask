@@ -13,6 +13,9 @@ def solve(cube: Cube):
 from rubik_redux.controller.classic_solve import _bottom_cross
 # TODO: IDENTIFY OPTIMIZATIONS TO REDUCE AVERAGE NUMBER OF MOVES TO SOLVE BOTTOM CROSS
 
+# construct list of positions around top face of cube
+TOP_RING = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
+
 def _first_two_layers_easy_cases(cube: Cube, target: int):
     target_corner = constants.OTHER_SIDE_OF[target][0] # target is on the bottom face, OTHER_SIDE_OF->[0] -> most-clockwise of the other faces
     target_edge = constants.CYCLE_OF_FACE_OF[target_corner][1][1] # [1] -> face edges, [1] -> MR of same face as target corner piece
@@ -26,7 +29,7 @@ def _first_two_layers_easy_cases(cube: Cube, target: int):
     # determine if the corner and edge are together or not
     targets = constants.ALL_SIDES_OF[where_is_target_corner] | constants.ALL_SIDES_OF[where_is_target_edge] # positions of our target pieces
     # clockwise around up face from TL to ML, zip the up face corners and edges then flatten, add TL again to simplify adjacency check (ML->TL)
-    positions = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple] + [constants.UP[0][0]]
+    positions = TOP_RING + [constants.UP[0][0]]
     # identify the positions occupied by the target pieces and determine if they are consecutive values (together)
     together_flag = any(x+1==y for x,y in itertools.pairwise(index for index,position in enumerate(positions) if position in targets))
     
@@ -138,11 +141,9 @@ _4th_5th_case_solutions = {(0,1,False): "fUUF", # corner up
                            (2,5,True):  "FUf"}
 
 def _reduce_4th_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
-    # construct list of positions around top face of cube
-    positions = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
     # reorient positions list around corner position = 0
-    corner_index = next(index for index,position in enumerate(positions) if position in constants.ALL_SIDES_OF[where_is_target_corner])
-    positions = positions[corner_index:] + positions[:corner_index]
+    corner_index = next(index for index,position in enumerate(TOP_RING) if position in constants.ALL_SIDES_OF[where_is_target_corner])
+    positions = TOP_RING[corner_index:] + TOP_RING[:corner_index]
     # identify edge index
     edge_index = next(index for index,position in enumerate(positions) if position in constants.ALL_SIDES_OF[where_is_target_edge])
 
@@ -311,8 +312,7 @@ def _orient_last_layer(cube: Cube):
                         if position in constants.CORNERS else 
                       [position, constants.OTHER_SIDE_OF[position]] 
 
-                      for position_tuple in zip(constants.UP[0], constants.UP[1]) 
-                      for position in position_tuple]
+                      for position in TOP_RING]
     parities = [[cube.cube_data[piece] for piece in position_tuple].index(cube.colours['u']) for position_tuple in position_lists]
     
     base_offsets = range(0, 8, 2)
@@ -355,13 +355,12 @@ def _permute_last_layer(cube: Cube):
     #      2c: apply if so, otherwise check next state
     # step 3: rotate top layer to solved state
 
-    piece_locations = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
-    wants_to_go = {piece:cube.where_does_piece_go(piece) for piece in piece_locations}
+    wants_to_go = {piece:cube.where_does_piece_go(piece) for piece in TOP_RING}
 
     motions = []
     for face,offset in zip("flbr", range(0,8,2)):
-        flattened = "".join(str(piece_locations.index(wants_to_go[piece])) 
-                            for piece in (piece_locations[offset:] + piece_locations[:offset]))
+        flattened = "".join(str(TOP_RING.index(wants_to_go[piece])) 
+                            for piece in (TOP_RING[offset:] + TOP_RING[:offset]))
         if flattened in PLL_solutions:
             motions.append(cube.move_algorithm(PLL_solutions[flattened], face))
             break
