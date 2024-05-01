@@ -116,6 +116,27 @@ def _reduce_3rd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target
     motions.append(cube.move_algorithm(placement, (constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_edge]] if flip else constants.FACE_OF[where_is_target_edge])))
     return motions
 
+_4th_5th_case_solutions = {(0,1,False): "fUUF", # corner up
+                           (0,3,False): "lUUL",
+                           (0,5,False): "buB",
+                           (0,7,False): "fuFUUfuF",
+                           (0,1,True):  "RUruuRUr",
+                           (0,3,True):  "LUl",
+                           (0,5,True):  "BUUb",
+                           (0,7,True):  "RUUr",
+                           (1,3,False): "fuF", # corner right
+                           (1,5,False): "fUUF",
+                           (1,7,False): "Fuf",
+                           (1,1,True):  "fUUF",
+                           (1,3,True):  "LUl",
+                           (1,7,True):  "Lul",
+                           (2,1,False): "rUR", # corner left
+                           (2,5,False): "ruR",
+                           (2,7,False): "FUUf",
+                           (2,1,True):  "fUF",
+                           (2,3,True):  "FUUf",
+                           (2,5,True):  "FUf"}
+
 def _reduce_4th_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
     # construct list of positions around top face of cube
     positions = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
@@ -127,53 +148,8 @@ def _reduce_4th_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_ta
 
     front_up = where_is_target_edge in constants.UP[1]
 
-    match corner_orientation, edge_index, front_up:
-        # corner facing up
-        case 0, 1, False:
-            return [cube.move_algorithm("fUUF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
-        case 0, 3, False:
-            return [cube.move_algorithm("lUUL", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
-        case 0, 5, False:
-            return [cube.move_algorithm("buB", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
-        case 0, 7, False:
-            return [cube.move_algorithm("fuFUUfuF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
-        case 0, 1, True:
-            return [cube.move_algorithm("RUruuRUr", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
-        case 0, 3, True:
-            return [cube.move_algorithm("LUl", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
-        case 0, 5, True:
-            return [cube.move_algorithm("BUUb", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
-        case 0, 7, True:
-            return [cube.move_algorithm("RUUr", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0]])]
-        
-        # corner facing right
-        case 1, 1, True:
-            return [cube.move_algorithm("fUUF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 1, 3, True:
-            return [cube.move_algorithm("LUl", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 1, 7, True:
-            return [cube.move_algorithm("Lul", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 1, 3, False:
-            return [cube.move_algorithm("fuF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 1, 5, False:
-            return [cube.move_algorithm("fUUF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 1, 7, False:
-            return [cube.move_algorithm("Fuf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        
-        # corner facing left
-        case 2, 1, True:
-            return [cube.move_algorithm("fUF", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 2, 3, True:
-            return [cube.move_algorithm("FUUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 2, 5, True:
-            return [cube.move_algorithm("FUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 2, 1, False:
-            return [cube.move_algorithm("rUR", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 2, 5, False:
-            return [cube.move_algorithm("ruR", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-        case 2, 7, False:
-            return [cube.move_algorithm("FUUf", constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][1]])]
-    return []
+    placement = _4th_5th_case_solutions.get((corner_orientation, edge_index, front_up), "")
+    return [cube.move_algorithm(placement, constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0 if corner_orientation==0 else 1]])]
 
 _6th_case_solutions = {(0, False):  "RUr",
                        (0, True):   "RurUfUUF",
