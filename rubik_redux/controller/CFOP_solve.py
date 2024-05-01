@@ -16,7 +16,7 @@ from rubik_redux.controller.classic_solve import _bottom_cross
 # construct list of positions around top face of cube
 TOP_RING = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
 
-def _first_two_layers_easy_cases(cube: Cube, target_corner):
+def _first_two_layers_easy_cases(cube: Cube, target_corner: int):
     target_edge = constants.CYCLE_OF_FACE_OF[target_corner][1][1]
 
     where_is_target_corner = cube.where_is(target_corner)
@@ -40,7 +40,7 @@ def _first_two_layers_easy_cases(cube: Cube, target_corner):
     motions.append(cube.move_algorithm(solves[edge_index], constants.FACE_OF[target_corner]))
     return "".join(motions)
 
-def _reduce_2nd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
+def _reduce_2nd_case_to_easy(cube: Cube, where_is_target_corner: int, where_is_target_edge: int, corner_orientation: int):
     motions = []
     flattened_corner = (constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.DOWN[0])).pop()
     face_of_flattened = constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]]
@@ -71,7 +71,7 @@ def _reduce_2nd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target
     motions.append(cube.move_algorithm(placement, face_of_flattened))
     return motions
 
-def _reduce_3rd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
+def _reduce_3rd_case_to_easy(cube: Cube, where_is_target_corner: int, where_is_target_edge: int, corner_orientation: int):
     flip = (where_is_target_edge % constants.PIECES_PER_FACE) == constants.FML
 
     # identify which corner to slot the target corner into
@@ -128,7 +128,7 @@ _4th_5th_case_solutions = {(0,1,False): "fUUF", # corner up
                            (2,3,True):  "FUUf",
                            (2,5,True):  "FUf"}
 
-def _reduce_4th_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
+def _reduce_4th_5th_case_to_easy(cube: Cube, where_is_target_corner: int, where_is_target_edge: int, corner_orientation: int):
     # reorient positions list around corner position = 0
     corner_index = next(index for index,position in enumerate(TOP_RING) if position in constants.ALL_SIDES_OF[where_is_target_corner])
     positions = TOP_RING[corner_index:] + TOP_RING[:corner_index]
@@ -147,7 +147,7 @@ _6th_case_solutions = {(0, False):  "RUr",
                        (2, False):  "RurURUUr",
                        (2, True):   "RUruRur"}
 
-def _reduce_6th_case_to_easy(cube: Cube, where_is_target_edge, corner_orientation, flattened_corner):
+def _reduce_6th_case_to_easy(cube: Cube, where_is_target_edge: int, corner_orientation: int, flattened_corner: int):
     flip = (where_is_target_edge % constants.PIECES_PER_FACE) == constants.FML
     return [cube.move_algorithm(_6th_case_solutions[(corner_orientation, flip)], constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
 
