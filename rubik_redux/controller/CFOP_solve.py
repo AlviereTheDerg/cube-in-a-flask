@@ -163,13 +163,7 @@ def _reduce_6th_case_to_easy(cube: Cube, where_is_target_edge, corner_orientatio
     flip = (where_is_target_edge % constants.PIECES_PER_FACE) == constants.FML
     return [cube.move_algorithm(_6th_case_solutions[(corner_orientation, flip)], constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
 
-def _reduce_to_first_two_layers_easy_case(cube: Cube, target: int):
-    target_corner = constants.OTHER_SIDE_OF[target][0] # target is on the bottom face, OTHER_SIDE_OF->[0] -> most-clockwise of the other faces
-    target_edge = constants.CYCLE_OF_FACE_OF[target_corner][1][1] # [1] -> face edges, [1] -> MR of same face as target corner piece
-
-    where_is_target_corner = cube.where_is(target_corner)
-    where_is_target_edge = cube.where_is(target_edge)
-
+def _reduce_to_first_two_layers_easy_case(cube: Cube, where_is_target_corner: int, where_is_target_edge: int):
     corner_in_top = len(constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.UP[0])) != 0
     edge_in_top = len(constants.ALL_SIDES_OF[where_is_target_edge] & set(constants.UP[1])) != 0
 
@@ -222,8 +216,10 @@ def _first_two_layers(cube: Cube):
 
             if constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]] != constants.FACE_OF[where_is_target_edge]:
                 motions.append(cube.move_algorithm("RUr", constants.FACE_OF[where_is_target_edge]))
+                where_is_target_corner = cube.where_is(target_corner)
+                where_is_target_edge = cube.where_is(target_edge)
         
-        motions.append(_reduce_to_first_two_layers_easy_case(cube, target))
+        motions.append(_reduce_to_first_two_layers_easy_case(cube, where_is_target_corner, where_is_target_edge))
         motions.append(_first_two_layers_easy_cases(cube, target))
     return "".join(motions)
 

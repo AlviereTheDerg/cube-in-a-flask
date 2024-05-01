@@ -84,9 +84,9 @@ class CFOP_solve_tests(solver_test_skeleton):
 
     
     @symbol_scramble_decorator
-    def reduce_to_first_two_layers_easy_case_test(self, cube_string, target):
+    def reduce_to_first_two_layers_easy_case_test(self, cube_string, target, where_is_target_corner, where_is_target_edge):
         cube = Cube(cube_string)
-        result = [solver._reduce_to_first_two_layers_easy_case(cube, target)] # reduce the target to an easy case
+        result = [solver._reduce_to_first_two_layers_easy_case(cube, where_is_target_corner, where_is_target_edge)] # reduce the target to an easy case
         result.append(solver._first_two_layers_easy_cases(cube, target)) # previous tests confirm this functioning
         result = "".join(result) # combine motions to a single string
 
@@ -102,9 +102,12 @@ class CFOP_solve_tests(solver_test_skeleton):
     def all_permutations_reduce_to_first_two_layers_easy_case(self, solve_algorithm: str):
         for faces, dest_target in zip(["frbl", "rblf", "blfr", "lfrb"], [constants.DTR, constants.DBR, constants.DBL, constants.DTL]):
             cube = Cube("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
+            target_corner = constants.OTHER_SIDE_OF[dest_target][0]
+            target_edge = constants.CYCLE_OF_FACE_OF[target_corner][1][1]
+
             for face in faces:
                 cube.move_algorithm(solve_algorithm[::-1].swapcase(), face)
-                self.reduce_to_first_two_layers_easy_case_test(str(cube), dest_target)
+                self.reduce_to_first_two_layers_easy_case_test(str(cube), dest_target, cube.where_is(target_corner), cube.where_is(target_edge))
                 cube.move_algorithm(solve_algorithm, face)
                 cube.move_algorithm("RUrBuub", face)
 
