@@ -22,34 +22,23 @@ def _first_two_layers_easy_cases(cube: Cube, target: int):
 
     where_is_target_corner = cube.where_is(target_corner)
     where_is_target_edge = cube.where_is(target_edge)
-    
-    # if the target edge is on the up face, it is a RHS solve
-    RHS_flag = constants.FACE_OF[where_is_target_edge] == 'u'
 
-    # determine if the corner and edge are together or not
-    targets = constants.ALL_SIDES_OF[where_is_target_corner] | constants.ALL_SIDES_OF[where_is_target_edge] # positions of our target pieces
-    # clockwise around up face from TL to ML, zip the up face corners and edges then flatten, add TL again to simplify adjacency check (ML->TL)
-    positions = TOP_RING + [constants.UP[0][0]]
-    # identify the positions occupied by the target pieces and determine if they are consecutive values (together)
-    together_flag = any(x+1==y for x,y in itertools.pairwise(index for index,position in enumerate(positions) if position in targets))
+    # reorient positions list around corner position = 0
+    corner_index = next(index for index,position in enumerate(TOP_RING) if position in constants.ALL_SIDES_OF[where_is_target_corner])
+    # identify edge index
+    edge_index = next(index for index,position in enumerate(TOP_RING[corner_index:] + TOP_RING[:corner_index]) 
+                      if position in constants.ALL_SIDES_OF[where_is_target_edge])
     
     motions = []
-
     alignment = constants.UP[2][ # selecting from UP face's corners
         (constants.UP[2].index(constants.CYCLE_OF_FACE_OF[target_corner][0][1]) # [0] -> face corners, [1] -> TR of same face as target corner piece
-         + (0 if not together_flag else 1 if RHS_flag else -1) # relative top face offset (quarter turns) between pillar and corner to solve
+         + {1:-1,3:0,5:0,7:1}[edge_index] # relative top face offset (quarter turns) between pillar and corner to solve
          ) % len(constants.UP[2])] # wrap to within bounds
     motions.append(cube.align_corner(where_is_target_corner, alignment, 'u'))
     
-    match RHS_flag, together_flag:
-        case True, True:    # RHS together
-            motions.append(cube.move_algorithm("Rur", constants.FACE_OF[target_corner]))
-        case True, False:   # RHS apart
-            motions.append(cube.move_algorithm("RUr", constants.FACE_OF[target_corner]))
-        case False, True:   # LHS together
-            motions.append(cube.move_algorithm("fUF", constants.FACE_OF[target_corner]))
-        case False, False:  # LHS apart
-            motions.append(cube.move_algorithm("fuF", constants.FACE_OF[target_corner]))
+    # solve pillar into place
+    solves = {1:"fUF",3:"fuF",5:"RUr",7:"Rur"}
+    motions.append(cube.move_algorithm(solves[edge_index], constants.FACE_OF[target_corner]))
     return "".join(motions)
 
 def _reduce_2nd_case_to_easy(cube: Cube, where_is_target_corner, where_is_target_edge, corner_orientation):
@@ -147,7 +136,7 @@ def _reduce_4th_5th_case_to_easy(cube: Cube, where_is_target_corner, where_is_ta
     # identify edge index
     edge_index = next(index for index,position in enumerate(positions) if position in constants.ALL_SIDES_OF[where_is_target_edge])
 
-    front_up = where_is_target_edge in constants.UP[1]
+    front_up = constants.FACE_OF[where_is_target_edge] == 'u'
 
     placement = _4th_5th_case_solutions.get((corner_orientation, edge_index, front_up), "")
     return [cube.move_algorithm(placement, constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0 if corner_orientation==0 else 1]])]
