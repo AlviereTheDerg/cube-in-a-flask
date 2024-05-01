@@ -87,12 +87,24 @@ class CFOP_solve_tests(solver_test_skeleton):
     @symbol_scramble_decorator
     def reduce_to_first_two_layers_easy_case_test(self, cube_string, target, target_corner, where_is_target_corner, where_is_target_edge):
         cube = Cube(cube_string)
-        result = [solver._reduce_to_first_two_layers_easy_case(cube, where_is_target_corner, where_is_target_edge)] # reduce the target to an easy case
+        
+        targets = [constants.OTHER_SIDE_OF[target][0]]
+        targets.append(constants.CYCLE_OF_FACE_OF[targets[0]][1][1]) # get the piece IDs of the target pillar pieces
+
+        # store current pieces of pillars that should not be touched
+        anti_targets = [constants.FMR, constants.FBR, constants.RMR, constants.RBR, constants.BMR, constants.BBR, constants.LMR, constants.LBR] # blank
+        if len(shared := (constants.ALL_SIDES_OF[where_is_target_corner] | constants.ALL_SIDES_OF[where_is_target_edge]) & set(anti_targets)) != 0:
+            pillar_id = anti_targets.index(shared.pop()) // 2
+            pillar_contents = {anti_targets[2*pillar_id], anti_targets[2*pillar_id+1]}
+            anti_targets = [piece for piece in anti_targets if piece not in pillar_contents] # remove pillars containing target pieces
+        anti_targets = [piece for piece in anti_targets if piece not in targets] # remove target pillar
+        anti_target_data = [cube.cube_data[piece] for piece in anti_targets] # store current pieces
+        
+        result = [solver._reduce_to_first_two_layers_easy_case(cube, target_corner, where_is_target_corner, where_is_target_edge)] # reduce the target to an easy case
+        self.assertEqual(anti_target_data, [cube.cube_data[piece] for piece in anti_targets]) # determine current pieces unmoved
         result.append(solver._first_two_layers_easy_cases(cube, target_corner)) # previous tests confirm this functioning
         result = "".join(result) # combine motions to a single string
 
-        targets = [constants.OTHER_SIDE_OF[target][0]]
-        targets.append(constants.CYCLE_OF_FACE_OF[targets[0]][1][1]) # get the piece IDs of the target pillar pieces
         actuals = [cube.where_is(piece) for piece in targets] # find where they are on the cube
         self.assertEqual(targets, actuals, f"While solving target {target}") # check that they were moved into place correctly
 

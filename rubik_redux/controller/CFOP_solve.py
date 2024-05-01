@@ -128,7 +128,7 @@ _4th_5th_case_solutions = {(0,1,False): "fUUF", # corner up
                            (2,3,True):  "FUUf",
                            (2,5,True):  "FUf"}
 
-def _reduce_4th_5th_case_to_easy(cube: Cube, where_is_target_corner: int, where_is_target_edge: int, corner_orientation: int):
+def _reduce_4th_5th_case_to_easy(cube: Cube, target_corner, where_is_target_corner: int, where_is_target_edge: int, corner_orientation: int):
     # reorient positions list around corner position = 0
     corner_index = next(index for index,position in enumerate(TOP_RING) if position in constants.ALL_SIDES_OF[where_is_target_corner])
     positions = TOP_RING[corner_index:] + TOP_RING[:corner_index]
@@ -151,7 +151,7 @@ def _reduce_6th_case_to_easy(cube: Cube, where_is_target_edge: int, corner_orien
     flip = (where_is_target_edge % constants.PIECES_PER_FACE) == constants.FML
     return [cube.move_algorithm(_6th_case_solutions[(corner_orientation, flip)], constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]])]
 
-def _reduce_to_first_two_layers_easy_case(cube: Cube, where_is_target_corner: int, where_is_target_edge: int):
+def _reduce_to_first_two_layers_easy_case(cube: Cube, target_corner, where_is_target_corner: int, where_is_target_edge: int):
     corner_in_top = len(constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.UP[0])) != 0
     edge_in_top = len(constants.ALL_SIDES_OF[where_is_target_edge] & set(constants.UP[1])) != 0
 
@@ -165,7 +165,7 @@ def _reduce_to_first_two_layers_easy_case(cube: Cube, where_is_target_corner: in
         case True, False: # 3rd: corner in top, edge in middle
             motions = _reduce_3rd_case_to_easy(cube, where_is_target_corner, where_is_target_edge, corner_orientation)
         case True, True: # 4th and 5th cases: both corner and edge in top
-            motions = _reduce_4th_5th_case_to_easy(cube, where_is_target_corner, where_is_target_edge, corner_orientation)
+            motions = _reduce_4th_5th_case_to_easy(cube, target_corner, where_is_target_corner, where_is_target_edge, corner_orientation)
         case False, False: # 6th: corner in bottom, edge in middle (includes pillar solved but in incorrect corner)
             motions = _reduce_6th_case_to_easy(cube, where_is_target_edge, corner_orientation, flattened_corner)
     return "".join(motions)
@@ -207,7 +207,7 @@ def _first_two_layers(cube: Cube):
                 where_is_target_corner = cube.where_is(target_corner)
                 where_is_target_edge = cube.where_is(target_edge)
         
-        motions.append(_reduce_to_first_two_layers_easy_case(cube, where_is_target_corner, where_is_target_edge))
+        motions.append(_reduce_to_first_two_layers_easy_case(cube, target_corner, where_is_target_corner, where_is_target_edge))
         motions.append(_first_two_layers_easy_cases(cube, target_corner))
     return "".join(motions)
 
