@@ -51,10 +51,11 @@ class CFOP_solve_tests(solver_test_skeleton):
     @symbol_scramble_decorator
     def solve_first_two_layers_easy_cases_test(self, cube_string, target):
         cube = Cube(cube_string)
+        target_corner = constants.OTHER_SIDE_OF[target][0]
         for _ in range(4):
             cube.rotate("U")
             secondary_cube = Cube(str(cube))
-            result = solver._first_two_layers_easy_cases(secondary_cube, target)
+            result = solver._first_two_layers_easy_cases(secondary_cube, target_corner)
             self.assertTrue(secondary_cube.match_pattern("...ffffff...rrrrrr...bbbbbb...llllll....u....ddddddddd"), f"While solving target {target}") # solves stage
             confirm_cube = Cube(str(cube))
             confirm_cube.rotate(result)
@@ -84,10 +85,10 @@ class CFOP_solve_tests(solver_test_skeleton):
 
     
     @symbol_scramble_decorator
-    def reduce_to_first_two_layers_easy_case_test(self, cube_string, target, where_is_target_corner, where_is_target_edge):
+    def reduce_to_first_two_layers_easy_case_test(self, cube_string, target, target_corner, where_is_target_corner, where_is_target_edge):
         cube = Cube(cube_string)
         result = [solver._reduce_to_first_two_layers_easy_case(cube, where_is_target_corner, where_is_target_edge)] # reduce the target to an easy case
-        result.append(solver._first_two_layers_easy_cases(cube, target)) # previous tests confirm this functioning
+        result.append(solver._first_two_layers_easy_cases(cube, target_corner)) # previous tests confirm this functioning
         result = "".join(result) # combine motions to a single string
 
         targets = [constants.OTHER_SIDE_OF[target][0]]
@@ -107,7 +108,7 @@ class CFOP_solve_tests(solver_test_skeleton):
 
             for face in faces:
                 cube.move_algorithm(solve_algorithm[::-1].swapcase(), face)
-                self.reduce_to_first_two_layers_easy_case_test(str(cube), dest_target, cube.where_is(target_corner), cube.where_is(target_edge))
+                self.reduce_to_first_two_layers_easy_case_test(str(cube), dest_target, target_corner, cube.where_is(target_corner), cube.where_is(target_edge))
                 cube.move_algorithm(solve_algorithm, face)
                 cube.move_algorithm("RUrBuub", face)
 

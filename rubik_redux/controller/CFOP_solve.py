@@ -16,9 +16,8 @@ from rubik_redux.controller.classic_solve import _bottom_cross
 # construct list of positions around top face of cube
 TOP_RING = [position for position_tuple in zip(constants.UP[0], constants.UP[1]) for position in position_tuple]
 
-def _first_two_layers_easy_cases(cube: Cube, target: int):
-    target_corner = constants.OTHER_SIDE_OF[target][0] # target is on the bottom face, OTHER_SIDE_OF->[0] -> most-clockwise of the other faces
-    target_edge = constants.CYCLE_OF_FACE_OF[target_corner][1][1] # [1] -> face edges, [1] -> MR of same face as target corner piece
+def _first_two_layers_easy_cases(cube: Cube, target_corner):
+    target_edge = constants.CYCLE_OF_FACE_OF[target_corner][1][1]
 
     where_is_target_corner = cube.where_is(target_corner)
     where_is_target_edge = cube.where_is(target_edge)
@@ -209,7 +208,7 @@ def _first_two_layers(cube: Cube):
                 where_is_target_edge = cube.where_is(target_edge)
         
         motions.append(_reduce_to_first_two_layers_easy_case(cube, where_is_target_corner, where_is_target_edge))
-        motions.append(_first_two_layers_easy_cases(cube, target))
+        motions.append(_first_two_layers_easy_cases(cube, target_corner))
     return "".join(motions)
 
 OLL_solutions = {"11211121":"RUbRBRRurFRf", # DOTS
