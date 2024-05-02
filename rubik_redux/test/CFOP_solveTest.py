@@ -12,7 +12,7 @@ class CFOP_solve_tests(solver_test_skeleton):
 
     def solve_full_cube_test(self, cube_string):
         self.solve_successful_test(cube_string, solver.solve, "fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd")
-    """
+    
     def test_solve_full_cube_top_layer_unsolved(self):
         self.solve_full_cube_test("bfufffffffrlrrrrrrublbbbbbbflrlllllluubuuuuurddddddddd")
     def test_solve_full_cube_top_cross_unsolved(self):
@@ -142,7 +142,6 @@ class CFOP_solve_tests(solver_test_skeleton):
                      "ffuffffffrrbrrrrrrlbrbbbbbbullllllllfuuuuuuubddddddddd"]:
             self.assertTrue(Cube(cube).match_pattern(".f.ffffff.r.rrrrrr.b.bbbbbb.l.llllll.u.uuu.u.ddddddddd")) # sanity check
             self.solve_full_cube_test(cube)
-    """
 
     
     def test_bottom_cross_change_nothing_cross_solved(self):
