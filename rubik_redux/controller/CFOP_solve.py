@@ -351,20 +351,25 @@ def _permute_last_layer(cube: Cube):
 
     # step 0: construct dict of primary (correctly aligned) states -> associated algorithm to solve
     # step 1: identify where each top face piece wants to go
-    # step 2: for each possible top face rotation:
-    #      2a: translate step 1 into circle of values 0-7inc for given rotation
-    #      2b: determine if given orientation is present in solved states
-    #      2c: apply if so, otherwise check next state
+    # step 2: for each possible 'anchor direction':
+    #      2.1: for each possible top face rotation:
+    #      2.1a: translate step 1 into circle of values 0-7inc for given rotation
+    #      2.1b: determine if given orientation is present in solved states
+    #      2.1c: apply if so, otherwise check next state
     # step 3: rotate top layer to solved state
 
     wants_to_go = {piece:cube.where_does_piece_go(piece) for piece in TOP_RING}
 
     motions = []
-    for face,offset in zip("flbr", range(0,8,2)):
-        flattened = "".join(str(TOP_RING.index(wants_to_go[piece])) 
-                            for piece in (TOP_RING[offset:] + TOP_RING[:offset]))
-        if flattened in PLL_solutions:
-            motions.append(cube.move_algorithm(PLL_solutions[flattened], face))
+    for faces,ext_offset in [("flbr",0), ("lbrf",2), ("brfl",4), ("rflb",6)]:
+        offset_ring = TOP_RING[ext_offset:] + TOP_RING[:ext_offset]
+        for face,offset in zip(faces, range(0,8,2)):
+            flattened = "".join(str(offset_ring.index(wants_to_go[piece])) 
+                                for piece in (offset_ring[offset:] + offset_ring[:offset]))
+            if flattened in PLL_solutions:
+                motions.append(cube.move_algorithm(PLL_solutions[flattened], face))
+                break
+        if motions:
             break
     motions.append(cube.align_edge(cube.where_is(constants.FTM), 'f', 1))
     return "".join(motions)
