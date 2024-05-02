@@ -8,7 +8,12 @@ from rubik_redux.model.cube import Cube
 import itertools
 
 def solve(cube: Cube):
-    pass
+    motions = []
+    motions.append(_bottom_cross(cube))
+    motions.append(_first_two_layers(cube))
+    motions.append(_orient_last_layer(cube))
+    motions.append(_permute_last_layer(cube))
+    return "".join(motions)
 
 from rubik_redux.controller.classic_solve import _bottom_cross
 # TODO: IDENTIFY OPTIMIZATIONS TO REDUCE AVERAGE NUMBER OF MOVES TO SOLVE BOTTOM CROSS
@@ -213,10 +218,10 @@ def _first_two_layers(cube: Cube):
 
         if not (corner_in_top or edge_in_top):
             flattened_corner = (constants.ALL_SIDES_OF[where_is_target_corner] & set(constants.DOWN[0])).pop()
-            where_is_target_edge = where_is_target_edge if (where_is_target_edge % constants.PIECES_PER_FACE) == constants.FMR else constants.OTHER_SIDE_OF[where_is_target_edge]
+            flagged_edge = where_is_target_edge if (where_is_target_edge % constants.PIECES_PER_FACE) == constants.FMR else constants.OTHER_SIDE_OF[where_is_target_edge]
 
-            if constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]] != constants.FACE_OF[where_is_target_edge]:
-                motions.append(cube.move_algorithm("RUr", constants.FACE_OF[where_is_target_edge]))
+            if constants.FACE_OF[constants.OTHER_SIDE_OF[flattened_corner][0]] != constants.FACE_OF[flagged_edge]:
+                motions.append(cube.move_algorithm("RUr", constants.FACE_OF[flagged_edge]))
                 where_is_target_corner = cube.where_is(target_corner)
                 where_is_target_edge = cube.where_is(target_edge)
         
