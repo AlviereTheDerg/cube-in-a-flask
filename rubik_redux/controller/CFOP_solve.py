@@ -107,38 +107,51 @@ def _reduce_3rd_case_to_easy(cube: Cube, where_is_target_corner: int, where_is_t
     motions.append(cube.move_algorithm(placement, (constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_edge]] if flip else constants.FACE_OF[where_is_target_edge])))
     return motions
 
-_4th_5th_case_solutions = {(0,1,False): "fUUF", # corner up
-                           (0,3,False): "lUUL",
-                           (0,5,False): "buB",
-                           (0,7,False): "fuFUUfuF",
-                           (0,1,True):  "RUruuRUr",
-                           (0,3,True):  "LUl",
-                           (0,5,True):  "BUUb",
-                           (0,7,True):  "RUUr",
-                           (1,3,False): "fuF", # corner right
-                           (1,5,False): "fUUF",
-                           (1,7,False): "Fuf",
-                           (1,1,True):  "fUUF",
-                           (1,3,True):  "LUl",
-                           (1,7,True):  "Lul",
-                           (2,1,False): "rUR", # corner left
-                           (2,5,False): "ruR",
-                           (2,7,False): "FUUf",
-                           (2,1,True):  "fUF",
-                           (2,3,True):  "FUUf",
-                           (2,5,True):  "FUf"}
+_4th_5th_case_solutions = {(0,1,False): ( 0, "fUUF"), # corner up
+                           (0,3,False): (-1, "fUUF"),
+                           (0,5,False): ( 2, "fuF"),
+                           (0,7,False): ( 0, "fuFUUfuF"),
+                           (0,1,True):  ( 0, "RUruuRUr"),
+                           (0,3,True):  ( 2, "RUr"),
+                           (0,5,True):  ( 1, "RUUr"),
+                           (0,7,True):  ( 0, "RUUr"),
+                           (1,3,False): ( 1, "fuF"), # corner right
+                           (1,5,False): ( 1, "fUUF"),
+                           (1,7,False): ( 0, "Rur"),
+                           (1,1,True):  ( 1, "fUUF"),
+                           (1,3,True):  (-1, "RUr"),
+                           (1,7,True):  (-1, "Rur"),
+                           (2,1,False): ( 1, "fUF"), # corner left
+                           (2,5,False): ( 1, "fuF"),
+                           (2,7,False): (-1, "RUUr"),
+                           (2,1,True):  ( 0, "fUF"),
+                           (2,3,True):  (-1, "RUUr"),
+                           (2,5,True):  (-1, "RUr")}
 
 def _reduce_4th_5th_case_to_easy(cube: Cube, target_corner, where_is_target_corner: int, where_is_target_edge: int, corner_orientation: int):
     # reorient positions list around corner position = 0
     corner_index = next(index for index,position in enumerate(TOP_RING) if position in constants.ALL_SIDES_OF[where_is_target_corner])
-    positions = TOP_RING[corner_index:] + TOP_RING[:corner_index]
     # identify edge index
-    edge_index = next(index for index,position in enumerate(positions) if position in constants.ALL_SIDES_OF[where_is_target_edge])
+    edge_index = next(index for index,position in enumerate(TOP_RING[corner_index:] + TOP_RING[:corner_index]) 
+                      if position in constants.ALL_SIDES_OF[where_is_target_edge])
+    # identify edge flip
+    flip = constants.FACE_OF[where_is_target_edge] == 'u'
+    # extract solving algorithm and relative orientation
+    key = (corner_orientation, edge_index, flip)
+    if key not in _4th_5th_case_solutions:
+        return ""
+    offset, algorithm = _4th_5th_case_solutions.get(key)
 
-    front_up = constants.FACE_OF[where_is_target_edge] == 'u'
-
-    placement = _4th_5th_case_solutions.get((corner_orientation, edge_index, front_up), "")
-    return [cube.move_algorithm(placement, constants.FACE_OF[constants.OTHER_SIDE_OF[where_is_target_corner][0 if corner_orientation==0 else 1]])]
+    motions = []
+    # align the corner
+    alignment = constants.UP[2][ # selecting from UP face's corners
+        (constants.UP[2].index(constants.CYCLE_OF_FACE_OF[target_corner][0][1]) # [0] -> face corners, [1] -> TR of same face as target corner piece
+         + offset # relative top face offset (quarter turns) between pillar and corner to solve
+         ) % len(constants.UP[2])] # wrap to within bounds
+    motions.append(cube.align_corner(where_is_target_corner, alignment, 'u'))
+    # perform algorithm
+    motions.append(cube.move_algorithm(algorithm, constants.FACE_OF[target_corner]))
+    return "".join(motions)
 
 _6th_case_solutions = {(0, False):  "RUr",
                        (0, True):   "RurUfUUF",
