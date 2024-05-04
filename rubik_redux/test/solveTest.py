@@ -279,6 +279,17 @@ class SolveTest(unittest.TestCase):
         self.solve_from_middle_layer_test("classic")
     def test_classic_solve_from_top_cross(self):
         self.solve_from_top_cross_test("classic")
+    
+    def test_classic_solve_from_scrambled(self):
+        self.solve_from_scrambled_test("CFOP")
+    def test_classic_solve_from_bottom_cross(self):
+        self.solve_from_bottom_cross_test("CFOP")
+    def test_classic_solve_from_bottom_layer(self):
+        self.solve_from_bottom_layer_test("CFOP")
+    def test_classic_solve_from_middle_layer(self):
+        self.solve_from_middle_layer_test("CFOP")
+    def test_classic_solve_from_top_cross(self):
+        self.solve_from_top_cross_test("CFOP")
 
 if __name__ == '__main__':
     unittest.main()
