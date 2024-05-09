@@ -22,6 +22,7 @@ When app.py is run, Flask binds to port 8080 and ties multiple paths to differen
     - style defaults to 'classic'
     - all styles will result in a solved cube, and are differentiated by the 'method'
       - 'classic': a 'traditional' solve performed in 5 stages: bottom cross, bottom layer, middle layer, top cross, top layer
+      - 'CFOP': a speedcubing solve performed in 4 stages: bottom Cross, First two layers, Orient last layer, Permute last layer
 
 'cube' specification:
 - 54 character long string
