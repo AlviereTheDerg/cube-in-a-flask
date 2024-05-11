@@ -234,21 +234,21 @@
     <!-- Yellow Isometric Face -->
     <rect x="530" y="450" width="140" height="120.4868" fill="black" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
     <rect x="535" y="454.3031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="522.1351318359375" y="483.42198181152344">53</text>
+    <text fill="black" x="522.1416702270508" y="483.4250030517578">51</text>
     <rect x="580" y="454.3031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="561.1062622070312" y="505.92198181152344">52</text>
+    <text fill="black" x="561.1083145141602" y="505.9250030517578">48</text>
     <rect x="625" y="454.3031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="600.0774230957031" y="528.4219818115234">51</text>
+    <text fill="black" x="600.0749893188477" y="528.4250030517578">45</text>
     <rect x="535" y="493.031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="483.4072265625" y="505.7815399169922">50</text>
+    <text fill="black" x="483.40833282470703" y="505.78331756591797">52</text>
     <rect x="580" y="493.031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="522.3783569335938" y="528.2815399169922">49</text>
+    <text fill="black" x="522.3749847412109" y="528.283317565918">49</text>
     <rect x="625" y="493.031" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="561.3495178222656" y="550.7815246582031">48</text>
+    <text fill="black" x="561.3416519165039" y="550.783317565918">46</text>
     <rect x="535" y="531.7589" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="444.6793212890625" y="528.1410980224609">47</text>
+    <text fill="black" x="444.6749954223633" y="528.1416778564453">53</text>
     <rect x="580" y="531.7589" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="483.65045166015625" y="550.64111328125">46</text>
+    <text fill="black" x="483.65833282470703" y="550.6416778564453">50</text>
     <rect x="625" y="531.7589" width="40" height="34.424800000000005" fill="yellow" transform-origin="530 450" transform="rotate(390) skewX(-30)" />
-    <text fill="black" x="522.6216125488281" y="573.14111328125">45</text>
+    <text fill="black" x="522.6249847412109" y="573.1416778564453">47</text>
 </svg>
