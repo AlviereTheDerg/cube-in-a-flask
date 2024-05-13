@@ -27,7 +27,7 @@
         </style>
     </head>
     <body style="margin:0px">
-        <div style="margin:10px" id="rotations_display"><span class="rotations_highlight">t</span>est</div>
+        <div style="margin:10px; font-family:monospace,monospace;" id="rotations_display"><span class="rotations_highlight">t</span>est</div>
         <script type="text/javascript">
             var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             svg.setAttribute("width", "700");
@@ -124,16 +124,20 @@
 
             cubes = [
                 "fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd",
-                "ffdffdffdrrrrrrrrrubbubbubbllllllllluufuufuufddbddbddb"
+                "ffdffdffdrrrrrrrrrubbubbubbllllllllluufuufuufddbddbddb",
+                "fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd"
             ];
-            rotations = ["R"];
+            rotations = ["R", "r"];
             rotations_display = document.getElementById("rotations_display");
             rotations_preface = "<span class='rotations_highlight'>";
             rotations_end = "</span>";
             current_position = 0;
             function display_rotations() {
-                data = [rotations_preface] + rotations.slice(0, current_position) + [rotations_end] + rotations.slice(current_position);
-                rotations_display.innerHTML = data
+                rotations_display.innerHTML = 
+                    rotations_preface + 
+                    rotations.slice(0, current_position).join('') + 
+                    rotations_end + 
+                    rotations.slice(current_position).join('');
             }
             display_rotations();
 
