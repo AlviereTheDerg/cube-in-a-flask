@@ -120,14 +120,9 @@
                     iso_piece_array[index].setAttribute("class", face);
                 }
             }
-            //load_cube("fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd");
 
-            cubes = [
-                "fffffffffrrrrrrrrrbbbbbbbbbllllllllluuuuuuuuuddddddddd",
-                "ffdffdffdrrrrrrrrrubbubbubbllllllllluufuufuufddbddbddb",
-                "dddffffffbrrdrrdrrubbubbubbllfllulluuufuufrrrlllddbddb"
-            ];
-            rotations = ["R", "f"];
+            cubes = {{ cube_strings|safe }};
+            rotations = {{ dirs|safe }};
             rotations_display = document.getElementById("rotations_display");
             rotations_preface = "<span class='rotations_highlight'>";
             rotations_end = "</span>";

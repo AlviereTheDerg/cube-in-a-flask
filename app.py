@@ -6,12 +6,14 @@ needed to transform the input cube to a solved state.
 '''
 import os
 import json
-from flask import Flask, request
+from flask import Flask, request, render_template
+
 from rubik.view.solve import solve
 from rubik.view.rotate import rotate
 
 from rubik_redux.view.rotate import rotate as rotate_redux
 from rubik_redux.view.solve import solve as solve_redux
+from rubik_redux.view.display_preprocess import rotate_display_preprocess
 
 app = Flask(__name__)
 
@@ -90,6 +92,46 @@ def rotateServerRedux():
         result = rotate_redux(**userParms)
         print("Response -->", str(result))
         return str(result)
+    except Exception as anyException:
+        return str(anyException)
+    
+def _internal_rotate_display(rotate_parameters):
+    try:
+        cube_strings_array, dir_array = rotate_display_preprocess(**rotate_parameters)
+        return render_template('cube_display.html', cube_strings=json.dumps(cube_strings_array), dirs=json.dumps(dir_array))
+    except Exception as anyException:
+        return str(anyException)
+
+#-----------------------------------
+#  The following code is invoked when the path portion of the URL matches
+#         /display/rotate
+#
+#  The cube and the face rotation(s) are passed as a URL query:
+#        /display/rotate?cube=<value>&dir=<value>
+#
+@app.route('/display/rotate')
+def rotateDisplay():
+    ''''''
+    try:
+        userParms = _parseParms(request.args)
+        return _internal_rotate_display(userParms)
+    except Exception as anyException:
+        return str(anyException)
+
+#-----------------------------------
+#  The following code is invoked when the path portion of the URL matches
+#         /display/solve
+#
+#  The cube and the solving style are passed as a URL query:
+#        /display/solve?cube=<value>&style=<value>
+#
+@app.route('/display/solve')
+def solveDisplay():
+    ''''''
+    try:
+        userParms = _parseParms(request.args)
+        rotateParms = solve_redux(**userParms)
+        return _internal_rotate_display(rotateParms)
     except Exception as anyException:
         return str(anyException)
 
